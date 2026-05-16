@@ -1,0 +1,130 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "project1",
+    "type": "application",
+    "title": "project1",
+    "description": "Customer login app",
+    "applicationVersion": {
+      "version": "0.0.1"
+    }
+  },
+
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+
+  "sap.ui5": {
+
+    "rootView": {
+      "viewName": "project1.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "appView"
+    },
+
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+
+    "routing": {
+
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "project1.view",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "clearControlAggregation": false
+      },
+
+      "routes": [
+
+        {
+          "pattern": "",
+          "name": "login",
+          "target": "login"
+        },
+
+        {
+          "pattern": "register",
+          "name": "register",
+          "target": "register"
+        },
+
+        {
+          "pattern": "home",
+          "name": "home",
+          "target": "home"
+        },
+
+        {
+          "pattern": "movieDetails",
+          "name": "movieDetails",
+          "target": "movieDetails"
+        },
+
+        {
+          "pattern": "theatreList",
+          "name": "theatreList",
+          "target": "theatreList"
+        },
+
+        {
+          "pattern": "seatSelection/{theatreName}",
+          "name": "seatSelection",
+          "target": "seatSelection"
+        }
+
+      ],
+
+      "targets": {
+
+        "login": {
+          "viewName": "Login",
+          "viewLevel": 1
+        },
+
+        "register": {
+          "viewName": "Register",
+          "viewLevel": 2
+        },
+
+        "home": {
+          "viewName": "Home",
+          "viewLevel": 3
+        },
+
+        "movieDetails": {
+          "viewName": "MovieDetails",
+          "viewLevel": 4
+        },
+
+        "theatreList": {
+          "viewName": "TheatreList",
+          "viewLevel": 5
+        },
+
+        "seatSelection": {
+          "viewName": "SeatSelection",
+          "viewLevel": 6
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+<mvc:View
+  controllerName="project1.controller.Login"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  displayBlock="true">
+
+  <Page showHeader="false" class="loginPage">
+    <content>
+      <VBox class="loginBox" alignItems="Center" justifyContent="Center">
+        <Text text="MOVIE TICKET APP" class="appTitle" />
+        <Text text="Customer Login" class="appSubTitle" />
+
+        <Input
+          placeholder="Email"
+          value="{/email}"
+          width="100%"
+          type="Email" />
+
+        <Input
+          placeholder="Password"
+          type="Password"
+          value="{/password}"
+          width="100%" />
+
+        <Button
+          text="Login"
+          type="Emphasized"
+          width="100%"
+          press="onLogin" />
+
+        <Link text="Forgot Password?" press="onForgotPassword" class="smallLink" />
+
+        <HBox justifyContent="Center" class="signupRow">
+          <Text text="Don't have an account?" />
+          <Link text=" Create Account" press="onCreateAccount" />
+        </HBox>
+
+        <Text text="{/message}" class="messageText" />
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

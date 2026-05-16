@@ -1,0 +1,200 @@
+<mvc:View
+    controllerName="project1.controller.TheatreList"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page
+        title="Select Theatre"
+        showNavButton="true"
+        navButtonPress="onBack">
+
+        <content>
+
+            <VBox class="sapUiSmallMargin">
+
+                <!-- Movie Details -->
+
+                <VBox class="sapUiMediumMarginBottom sapUiContentPadding">
+
+                    <Title
+                        text="{app>/selectedMovie/title}"
+                        level="H1"
+                        class="theatreMovieTitle" />
+
+                    <HBox
+                        class="sapUiSmallMarginTop"
+                        alignItems="Center"
+                        wrap="Wrap">
+
+                        <Text
+                            text="{= 'Runtime: ' + ${app>/selectedMovie/duration} }"
+                            class="sapUiTinyMarginEnd" />
+
+                        <Text
+                            text="{= 'Genre: ' + ${app>/selectedMovie/genre} }"
+                            class="sapUiTinyMarginEnd" />
+
+                        <Text
+                            text="Telugu"
+                            class="sapUiTinyMarginEnd" />
+
+                        <Text text="2D" />
+
+                    </HBox>
+
+                </VBox>
+
+                <!-- Date Selection -->
+
+                <ScrollContainer
+                    horizontal="true"
+                    vertical="false"
+                    height="120px">
+
+                    <FlexBox
+                        items="{/dates}"
+                        wrap="NoWrap">
+
+                        <items>
+
+                            <Button
+                                text="{label}"
+                                width="110px"
+                                height="95px"
+                                press="onDatePress"
+                                type="{= ${selected} ? 'Emphasized' : 'Default' }"
+                                class="sapUiTinyMarginEnd" />
+
+                        </items>
+
+                    </FlexBox>
+
+                </ScrollContainer>
+
+                <!-- Theatre Header -->
+
+                <Toolbar class="sapUiTinyMarginTop">
+
+                    <Title
+                        text="Tirupati Theatres"
+                        level="H3" />
+
+                    <ToolbarSpacer />
+
+                    <Text text="{/selectedDateLabel}" />
+
+                </Toolbar>
+
+                <!-- Theatre List -->
+
+                <List items="{/selectedTheatres}">
+
+                    <CustomListItem>
+
+                        <VBox class="sapUiSmallMargin theatreCard">
+
+                            <HBox
+                                width="100%"
+                                justifyContent="SpaceBetween"
+                                alignItems="Start">
+
+                                <!-- Left -->
+
+                                <HBox
+                                    alignItems="Start"
+                                    class="theatreLeft">
+
+                                    <core:Icon
+                                        src="sap-icon://heart"
+                                        active="true"
+                                        press="onFavoritePress"
+                                        color="{= ${favorite} ? '#d84c63' : '#bdbdbd' }"
+                                        class="favIcon" />
+
+                                    <VBox class="sapUiTinyMarginBegin">
+
+                                        <Text
+                                            text="{name}"
+                                            class="theatreName" />
+
+                                        <Text
+                                            text="{area}"
+                                            class="theatreArea" />
+
+                                        <Text
+                                            text="{format}"
+                                            class="theatreFormat" />
+
+                                    </VBox>
+
+                                </HBox>
+
+                                <!-- Right -->
+
+                                <VBox
+                                    class="theatreRight"
+                                    alignItems="End">
+
+                                    <FlexBox
+                                        wrap="Wrap"
+                                        justifyContent="End"
+                                        items="{timings}">
+
+                                        <items>
+
+                                            <Button
+                                                text="{time}"
+                                                press="onTimePress"
+                                                type="{= ${time} === ${/selectedTime} ? 'Emphasized' : 'Default' }"
+                                                class="showTimeBtn sapUiTinyMarginBegin sapUiTinyMarginBottom">
+
+                                                <customData>
+
+                                                    <core:CustomData
+                                                        key="theatreName"
+                                                        value="{../name}" />
+
+                                                    <core:CustomData
+                                                        key="movieTitle"
+                                                        value="{app>/selectedMovie/title}" />
+
+                                                    <core:CustomData
+                                                        key="showTime"
+                                                        value="{time}" />
+
+                                                </customData>
+
+                                            </Button>
+
+                                        </items>
+
+                                    </FlexBox>
+
+                                    <Text
+                                        text="Non-cancellable"
+                                        class="nonCancelableText" />
+
+                                    <Button
+                                        text="Book Tickets"
+                                        type="Emphasized"
+                                        press="onBookTickets"
+                                        class="bookTicketsBtn sapUiTinyMarginTop" />
+
+                                </VBox>
+
+                            </HBox>
+
+                        </VBox>
+
+                    </CustomListItem>
+
+                </List>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>

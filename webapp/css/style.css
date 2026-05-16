@@ -1,0 +1,396 @@
+.homePage {
+    background: #f5f5f5;
+}
+
+/* TOOLBAR */
+
+.homeToolbar {
+    background: #f5f5f5;
+    border-bottom: 1px solid #e5e7eb;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+/* MOVIE WRAPPER */
+
+.movieWrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden !important;
+    padding-left: 4.5rem;
+    padding-right: 4.5rem;
+    box-sizing: border-box;
+}
+
+/* SCROLLER */
+
+.movieScroll {
+    width: 100%;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+.movieScroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* MOVIE ROW */
+
+.movieRow {
+    display: flex !important;
+    gap: 2.2rem !important;
+    align-items: flex-start;
+    width: max-content;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+}
+
+/* CARD */
+
+.movieCard {
+    width: 250px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+/* POSTER */
+
+.moviePoster {
+    border-radius: 18px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #ffffff;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
+    transition: all 0.25s ease;
+}
+
+.moviePoster:hover {
+    transform: scale(1.02);
+}
+
+.moviePoster img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    display: block;
+}
+
+/* INFO */
+
+.movieInfo {
+    padding-top: 0.9rem;
+}
+
+.movieTitle {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.movieGenre {
+    font-size: 0.92rem;
+    color: #6b7280;
+    margin-top: 0.35rem;
+    line-height: 1.3rem;
+}
+
+/* ROUND ARROWS */
+
+.scrollArrow {
+    position: absolute !important;
+    top: 12.8rem;
+    transform: translateY(-50%);
+    z-index: 99999 !important;
+    width: 58px !important;
+    height: 58px !important;
+    min-width: 58px !important;
+    border-radius: 50% !important;
+    background: rgba(0, 0, 0, 0.72) !important;
+    border: none !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* LEFT */
+
+.leftArrow {
+    left: 12px;
+}
+
+/* RIGHT */
+
+.rightArrow {
+    right: 12px;
+}
+
+/* BUTTON INNER */
+
+.scrollArrow .sapMBtnInner {
+    border: none !important;
+    background: transparent !important;
+    border-radius: 50% !important;
+}
+
+/* ICON */
+
+.scrollArrow .sapUiIcon {
+    color: #ffffff !important;
+    font-size: 1.4rem !important;
+}
+
+/* ============================= */
+/* SEAT POPUP FIX                */
+/* ============================= */
+
+.seatDialog {
+    width: 760px !important;
+    max-width: 96vw !important;
+}
+
+.seatDialog .sapMDialogSection,
+.seatDialog .sapMDialogScrollCont,
+.seatDialog .sapMDialogScroll {
+    overflow: visible !important;
+}
+
+.seatDialog .sapMDialogScrollCont {
+    padding: 24px 28px 30px 28px !important;
+    box-sizing: border-box;
+}
+
+.seatDialogContent {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.seatCarIcon {
+    margin: 18px auto 34px auto;
+    display: block;
+}
+
+.seatCategoryRow {
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 38px;
+    gap: 12px;
+    box-sizing: border-box;
+}
+
+.seatCategory {
+    min-width: 0 !important;
+    flex: 1 1 0 !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    padding: 0 4px;
+}
+
+.seatType,
+.seatPrice,
+.seatAvail {
+    display: block;
+    text-align: center;
+    white-space: nowrap;
+    overflow: visible;
+    line-height: 1.2;
+}
+
+.seatType {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.seatPrice {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 4px;
+}
+
+.seatAvail {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.02em;
+}
+
+.seatSelectBtn {
+    margin-top: 10px;
+    min-width: 170px;
+}
+
+/* ============================= */
+/* SEAT SELECTION STYLE          */
+/* ============================= */
+
+.seatLayoutMain {
+    width: 100%;
+    padding: 1rem 1rem 7rem 1rem;
+    box-sizing: border-box;
+}
+
+.seatSection {
+    margin-bottom: 2rem;
+}
+
+.sectionTitle {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 1rem 0 1.1rem 0;
+}
+
+.seatRow {
+    width: 100%;
+    margin-bottom: 0.8rem;
+}
+
+.rowLabel {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    opacity: 0.95;
+}
+
+.rowBlocks {
+    width: auto;
+}
+
+.blockGap {
+    width: 1.2rem;
+}
+
+.seatBlock {
+    gap: 0.45rem;
+}
+
+.seatBtn {
+    min-width: 2.55rem !important;
+    width: 2.55rem !important;
+    height: 2.55rem !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* normal seat = grey box */
+.seatBtn .sapMBtnInner {
+    min-width: 2.55rem !important;
+    width: 2.55rem !important;
+    height: 2.55rem !important;
+    border-radius: 0.55rem !important;
+    background: #2f343c !important;
+    border: 1px solid #6f7682 !important;
+    box-shadow: none !important;
+}
+
+.seatBtn .sapMBtnContent {
+    line-height: 2.55rem !important;
+    font-size: 0.92rem !important;
+    font-weight: 600 !important;
+    color: #cfd5df !important;
+}
+
+/* hover */
+.seatBtn:hover .sapMBtnInner {
+    background: #3a4049 !important;
+    border-color: #8a909b !important;
+}
+
+/* selected seat = blue box */
+.seatSelected .sapMBtnInner {
+    background: #1677ff !important;
+    border-color: #1677ff !important;
+    color: #ffffff !important;
+}
+
+.seatSelected .sapMBtnContent {
+    color: #ffffff !important;
+}
+
+/* unavailable / booked seat */
+.seatSold .sapMBtnInner {
+    background: #1f2329 !important;
+    border-color: #444a55 !important;
+    color: #7d8591 !important;
+    opacity: 0.75;
+}
+
+.seatSold .sapMBtnContent {
+    color: #7d8591 !important;
+}
+
+/* legend */
+.legendRow {
+    margin-top: 1.5rem;
+    gap: 1.2rem;
+}
+
+.legendItem {
+    gap: 0.45rem;
+    margin: 0 0.6rem;
+}
+
+.legendBox {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid transparent;
+}
+
+.legendAvailable {
+    background: #2f343c;
+    border-color: #6f7682;
+}
+
+.legendSelected {
+    background: #1677ff;
+    border-color: #1677ff;
+}
+
+.legendSold {
+    background: #1f2329;
+    border-color: #444a55;
+}
+
+.legendText {
+    color: #ffffff;
+    font-size: 0.9rem;
+}
+
+.screenWrap {
+    margin-top: 1.8rem;
+    text-align: center;
+}
+
+.screenShape {
+    width: 45%;
+    height: 0.6rem;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.18);
+    filter: blur(1px);
+}
+
+.screenCaption {
+    margin-top: 0.7rem;
+    color: #cfd5df;
+    font-size: 0.85rem;
+}
+
+/* ============================= */
+/* THEATRE MOVIE TITLE           */
+/* ============================= */
+
+.theatreMovieTitle {
+    font-size: 2.3rem !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    letter-spacing: 0.02rem;
+}

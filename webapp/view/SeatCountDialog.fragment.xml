@@ -1,0 +1,91 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        id="seatCountDialog"
+        title="How many seats?"
+        contentWidth="42rem"
+        contentHeight="30rem"
+        horizontalScrolling="false"
+        verticalScrolling="false"
+        stretchOnPhone="true"
+        draggable="true"
+        resizable="false"
+        class="seatDialogDark seatDialog">
+
+        <content>
+            <VBox
+                width="100%"
+                alignItems="Center"
+                justifyContent="Center"
+                class="seatDialogContent sapUiMediumMargin">
+
+                <Image
+                    src="{app>/seatImage}"
+                    width="8.5rem"
+                    height="8.5rem"
+                    densityAware="false"
+                    decorative="false"
+                    backgroundDesign="Transparent"
+                    class="sapUiSmallMarginBottom seatCarIcon" />
+
+                <HBox
+                    width="100%"
+                    justifyContent="Center"
+                    alignItems="Center"
+                    wrap="NoWrap"
+                    class="seatCountRow sapUiSmallMarginBottom">
+
+                    <Button text="1" press="onSeatCountPress" type="Transparent" class="seatBtn" />
+                    <Button text="2" press="onSeatCountPress" type="Transparent" class="seatBtn" />
+                    <Button text="3" press="onSeatCountPress" type="Transparent" class="seatBtn" />
+                    <Button text="4" press="onSeatCountPress" type="Transparent" class="seatBtn" />
+                    <Button text="5" press="onSeatCountPress" type="Transparent" class="seatBtn" />
+                    <Button text="6" press="onSeatCountPress" type="Transparent" class="seatBtn" />
+                </HBox>
+
+                <HBox
+                    width="100%"
+                    justifyContent="SpaceBetween"
+                    alignItems="Start"
+                    wrap="NoWrap"
+                    class="priceRow sapUiSmallMarginTop sapUiSmallMarginBottom">
+
+                    <VBox width="33.33%" alignItems="Center" class="seatInfoBox">
+                        <Text text="SILVER" textAlign="Center" width="100%" class="seatTypeText" />
+                        <Text text="₹80" textAlign="Center" width="100%" class="seatPriceText" />
+                        <Text text="AVAILABLE" textAlign="Center" width="100%" class="seatAvailText" />
+                    </VBox>
+
+                    <VBox width="33.33%" alignItems="Center" class="seatInfoBox">
+                        <Text text="DIAMOND" textAlign="Center" width="100%" class="seatTypeText" />
+                        <Text text="₹145" textAlign="Center" width="100%" class="seatPriceText" />
+                        <Text text="AVAILABLE" textAlign="Center" width="100%" class="seatAvailText" />
+                    </VBox>
+
+                    <VBox width="33.33%" alignItems="Center" class="seatInfoBox">
+                        <Text text="GOLD" textAlign="Center" width="100%" class="seatTypeText" />
+                        <Text text="₹100" textAlign="Center" width="100%" class="seatPriceText" />
+                        <Text text="AVAILABLE" textAlign="Center" width="100%" class="seatAvailText" />
+                    </VBox>
+
+                </HBox>
+
+                <HBox
+                    width="100%"
+                    justifyContent="Center"
+                    class="sapUiMediumMarginTop">
+
+                    <Button
+                        text="Select Seats"
+                        type="Emphasized"
+                        press="onSelectSeats"
+                        width="11rem" />
+                </HBox>
+
+            </VBox>
+        </content>
+
+    </Dialog>
+</core:FragmentDefinition>

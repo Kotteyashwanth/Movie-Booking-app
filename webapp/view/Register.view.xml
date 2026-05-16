@@ -1,0 +1,48 @@
+<mvc:View
+  controllerName="project1.controller.Register"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns="sap.m"
+  displayBlock="true">
+
+  <Page title="Create Account" class="loginPage">
+    <content>
+      <VBox class="loginBox" alignItems="Center" justifyContent="Center">
+        <Text text="CREATE ACCOUNT" class="appTitle" />
+        <Text text="Register as a customer" class="appSubTitle" />
+
+        <Input
+          placeholder="Full Name"
+          value="{/name}"
+          width="100%" />
+
+        <Input
+          placeholder="Email"
+          value="{/email}"
+          width="100%"
+          type="Email" />
+
+        <Input
+          placeholder="Password"
+          type="Password"
+          value="{/password}"
+          width="100%" />
+
+        <Input
+          placeholder="Confirm Password"
+          type="Password"
+          value="{/confirmPassword}"
+          width="100%" />
+
+        <Button
+          text="Sign Up"
+          type="Emphasized"
+          width="100%"
+          press="onSignUp" />
+
+        <Link text="Back to Login" press="onBack" class="smallLink" />
+
+        <Text text="{/message}" class="messageText" />
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

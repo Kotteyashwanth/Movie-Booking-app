@@ -1,0 +1,98 @@
+<mvc:View
+    controllerName="project1.controller.Home"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+
+    <Page title="Movie Ticket App" class="homePage">
+
+        <subHeader>
+            <Toolbar class="homeToolbar">
+
+                <Title
+                    text="Recommended Movies"
+                    level="H2" />
+
+                <ToolbarSpacer />
+
+                <SearchField
+                    width="18rem"
+                    placeholder="Search movie"
+                    liveChange="onSearch" />
+
+            </Toolbar>
+        </subHeader>
+
+        <content>
+
+            <VBox class="movieWrapper">
+
+                <Button
+                    icon="sap-icon://slim-arrow-left"
+                    press="onScrollLeft"
+                    class="scrollArrow leftArrow" />
+
+                <Button
+                    icon="sap-icon://slim-arrow-right"
+                    press="onScrollRight"
+                    class="scrollArrow rightArrow" />
+
+                <ScrollContainer
+                    id="movieScroller"
+                    horizontal="true"
+                    vertical="false"
+                    width="100%"
+                    height="100%"
+                    focusable="false"
+                    class="movieScroll">
+
+                    <HBox
+                        id="movieStrip"
+                        items="{/movies}"
+                        wrap="NoWrap"
+                        class="movieRow">
+
+                        <items>
+
+                            <VBox class="movieCard">
+
+                                <Image
+                                    src="{poster}"
+                                    width="250px"
+                                    height="360px"
+                                    decorative="false"
+                                    densityAware="false"
+                                    active="true"
+                                    press="onMoviePress"
+                                    class="moviePoster" />
+
+                                <VBox class="movieInfo">
+
+                                    <Title
+                                        text="{title}"
+                                        level="H4"
+                                        class="movieTitle" />
+
+                                    <Text
+                                        text="{genre}"
+                                        class="movieGenre"
+                                        wrapping="true" />
+
+                                </VBox>
+
+                            </VBox>
+
+                        </items>
+
+                    </HBox>
+
+                </ScrollContainer>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>
