@@ -17,69 +17,75 @@ sap.ui.define([
                 .attachPatternMatched(this._onRouteMatched, this);
         },
 
-        _onRouteMatched: function () {
-            var oAppModel = this.getOwnerComponent().getModel("app");
-            var oMovie = oAppModel ? oAppModel.getProperty("/selectedMovie") : null;
+      _onRouteMatched: function () {
+    var oAppModel = this.getOwnerComponent().getModel("app");
+    var oMovie = oAppModel ? oAppModel.getProperty("/selectedMovie") : null;
 
-            if (!oMovie || !oMovie.title) {
-                this.getOwnerComponent().getRouter().navTo("home");
-                return;
-            }
+    if (!oMovie || !oMovie.title) {
+        this.getOwnerComponent().getRouter().navTo("home");
+        return;
+    }
 
-            var oReleaseDate = this._parseReleaseDate(oMovie.release);
-            if (!oReleaseDate) {
-                oReleaseDate = new Date();
-                oReleaseDate.setHours(0, 0, 0, 0);
-            }
+    var oReleaseDate = this._parseReleaseDate(oMovie.release);
+    if (!oReleaseDate) {
+        oReleaseDate = new Date();
+        oReleaseDate.setHours(0, 0, 0, 0);
+    }
 
-            var oEndDate = new Date(oReleaseDate);
-            oEndDate.setDate(oEndDate.getDate() + 6);
+    var oEndDate = new Date(oReleaseDate);
+    oEndDate.setDate(oEndDate.getDate() + 6);
 
-            var aDates = this._generateDatesBetween(oReleaseDate, oEndDate);
-            if (aDates.length > 0) {
-                aDates[0].selected = true;
-            }
+    var aDates = this._generateDatesBetween(oReleaseDate, oEndDate);
+    if (aDates.length > 0) {
+        aDates[0].selected = true;
+    }
 
-            var sInitialDateISO = aDates.length ? aDates[0].dateISO : "";
+    var sInitialDateISO = aDates.length ? aDates[0].dateISO : "";
+    var sMovieTitle = oMovie.title || oMovie.movieTitle || "";
+    var sLanguage = "Telugu";
 
-            var oData = {
-                movieTitle: oMovie.title,
-                movieDuration: oMovie.duration,
-                selectedDateLabel: aDates.length ? aDates[0].label : "",
-                selectedDateISO: sInitialDateISO,
-                selectedTime: "",
-                selectedTheatreName: "",
-                selectedTheatreArea: "",
-                selectedSeatCount: 1,
-                seatImage: sap.ui.require.toUrl("project1/images/bicycle.png"),
-                seatIcon: sap.ui.require.toUrl("project1/images/bicycle.png"),
-                dates: aDates,
-                selectedTheatres: this._getTheatresByMovieRuntime(oMovie, sInitialDateISO)
-            };
+    var oData = {
+        movieTitle: sMovieTitle,
+        movieDuration: oMovie.duration,
+        selectedDateLabel: aDates.length ? aDates[0].label : "",
+        selectedDateISO: sInitialDateISO,
+        selectedTime: "",
+        selectedTheatreName: "",
+        selectedTheatreArea: "",
+        selectedSeatCount: 1,
+        seatImage: sap.ui.require.toUrl("project1/images/bicycle.png"),
+        seatIcon: sap.ui.require.toUrl("project1/images/bicycle.png"),
+        dates: aDates,
+        selectedTheatres: this._getTheatresByMovieRuntime(oMovie, sInitialDateISO)
+    };
 
-            if (this.oModel) {
-                this.oModel.setData(oData);
-            } else {
-                this.oModel = new JSONModel(oData);
-                this.getView().setModel(this.oModel);
-            }
+    if (this.oModel) {
+        this.oModel.setData(oData);
+    } else {
+        this.oModel = new JSONModel(oData);
+        this.getView().setModel(this.oModel);
+    }
 
-            this.getView().setModel(oAppModel, "app");
+    this.getView().setModel(oAppModel, "app");
 
-            if (oAppModel) {
-                oAppModel.setProperty("/selectedMovie/bookingStartDate", this._formatDisplayDate(oReleaseDate));
-                oAppModel.setProperty("/selectedMovie/bookingEndDate", this._formatDisplayDate(oEndDate));
-                oAppModel.setProperty("/selectedMovie/selectedDate", oData.selectedDateLabel);
-                oAppModel.setProperty("/selectedMovie/selectedDateISO", sInitialDateISO);
-                oAppModel.setProperty("/selectedMovie/selectedTime", "");
-                oAppModel.setProperty("/selectedMovie/selectedTheatre", "");
-                oAppModel.setProperty("/selectedMovie/selectedArea", "");
-                oAppModel.setProperty("/selectedMovie/selectedSeatCount", 1);
-                oAppModel.setProperty("/seatImage", sap.ui.require.toUrl("project1/images/bicycle.png"));
-                oAppModel.setProperty("/seatIcon", sap.ui.require.toUrl("project1/images/bicycle.png"));
-                oAppModel.setProperty("/selectedTheatres", oData.selectedTheatres);
-            }
-        },
+    if (oAppModel) {
+        oAppModel.setProperty("/selectedMovie/title", sMovieTitle);
+        oAppModel.setProperty("/selectedMovie/movieTitle", sMovieTitle);
+        oAppModel.setProperty("/selectedMovie/language", sLanguage);
+
+        oAppModel.setProperty("/selectedMovie/bookingStartDate", this._formatDisplayDate(oReleaseDate));
+        oAppModel.setProperty("/selectedMovie/bookingEndDate", this._formatDisplayDate(oEndDate));
+        oAppModel.setProperty("/selectedMovie/selectedDate", oData.selectedDateLabel);
+        oAppModel.setProperty("/selectedMovie/selectedDateISO", sInitialDateISO);
+        oAppModel.setProperty("/selectedMovie/selectedTime", "");
+        oAppModel.setProperty("/selectedMovie/selectedTheatre", "");
+        oAppModel.setProperty("/selectedMovie/selectedArea", "");
+        oAppModel.setProperty("/selectedMovie/selectedSeatCount", 1);
+        oAppModel.setProperty("/seatImage", sap.ui.require.toUrl("project1/images/bicycle.png"));
+        oAppModel.setProperty("/seatIcon", sap.ui.require.toUrl("project1/images/bicycle.png"));
+        oAppModel.setProperty("/selectedTheatres", oData.selectedTheatres);
+    }
+},
 
         onFavoritePress: function (oEvent) {
             var oIcon = oEvent.getSource();
@@ -135,72 +141,120 @@ sap.ui.define([
             }
         },
 
-        onTimePress: function (oEvent) {
-            var oButton = oEvent.getSource();
-            var oTimeObj = oButton.getBindingContext().getObject();
+      onTimePress: function (oEvent) {
+    var oButton = oEvent.getSource();
+    var oTimeObj = oButton.getBindingContext().getObject();
 
-            if (!oTimeObj || !oTimeObj.time) {
-                MessageToast.show("Time not available");
-                return;
-            }
+    if (!oTimeObj || !oTimeObj.time) {
+        MessageToast.show("Time not available");
+        return;
+    }
 
-            this.oModel.setProperty("/selectedTime", oTimeObj.time);
-            this.oModel.setProperty("/selectedTheatreName", oTimeObj.theatreName);
-            this.oModel.setProperty("/selectedTheatreArea", oTimeObj.theatreArea);
+    this.oModel.setProperty("/selectedTime", oTimeObj.time);
+    this.oModel.setProperty("/selectedTheatreName", oTimeObj.theatreName);
+    this.oModel.setProperty("/selectedTheatreArea", oTimeObj.theatreArea);
 
-            var oAppModel = this.getOwnerComponent().getModel("app");
-            if (oAppModel) {
-                oAppModel.setProperty("/selectedMovie/selectedTime", oTimeObj.time);
-                oAppModel.setProperty("/selectedMovie/selectedTheatre", oTimeObj.theatreName);
-                oAppModel.setProperty("/selectedMovie/selectedArea", oTimeObj.theatreArea);
-            }
+    var oAppModel = this.getOwnerComponent().getModel("app");
+    if (oAppModel) {
+        var sMovieTitle =
+            oAppModel.getProperty("/selectedMovie/title") ||
+            oAppModel.getProperty("/selectedMovie/movieTitle") ||
+            "";
 
-            MessageToast.show(oTimeObj.theatreName + " - " + oTimeObj.time);
-        },
+        var sLanguage =
+            oAppModel.getProperty("/selectedMovie/language") ||
+            "Telugu";
 
-        onBookTickets: function (oEvent) {
-            var oButton = oEvent.getSource();
-            var oTheatre = this._getTheatreObjectFromControl(oButton);
+        var sDate =
+            oAppModel.getProperty("/selectedMovie/selectedDate") ||
+            this.oModel.getProperty("/selectedDateLabel") ||
+            "";
 
-            if (!oTheatre) {
-                MessageToast.show("Theatre not found");
-                return;
-            }
+        var sDateISO =
+            oAppModel.getProperty("/selectedMovie/selectedDateISO") ||
+            this.oModel.getProperty("/selectedDateISO") ||
+            "";
 
-            var sDate = this.oModel.getProperty("/selectedDateLabel");
-            var sTime = this.oModel.getProperty("/selectedTime");
+        oAppModel.setProperty("/selectedMovie/title", sMovieTitle);
+        oAppModel.setProperty("/selectedMovie/movieTitle", sMovieTitle);
+        oAppModel.setProperty("/selectedMovie/language", sLanguage);
 
-            if (!sDate) {
-                MessageToast.show("Please select a date");
-                return;
-            }
+        oAppModel.setProperty("/selectedMovie/selectedTime", oTimeObj.time);
+        oAppModel.setProperty("/selectedMovie/selectedTheatre", oTimeObj.theatreName);
+        oAppModel.setProperty("/selectedMovie/selectedArea", oTimeObj.theatreArea);
+        oAppModel.setProperty("/selectedMovie/selectedDate", sDate);
+        oAppModel.setProperty("/selectedMovie/selectedDateISO", sDateISO);
 
-            if (!sTime && oTheatre.timings && oTheatre.timings.length > 0) {
-                sTime = oTheatre.timings[0].time;
-                this.oModel.setProperty("/selectedTime", sTime);
-            }
+        oAppModel.setProperty("/booking/movieTitle", sMovieTitle);
+        oAppModel.setProperty("/booking/theatreName", oTimeObj.theatreName);
+        oAppModel.setProperty("/booking/showTime", oTimeObj.time);
+        oAppModel.setProperty("/booking/selectedDate", sDate);
+        oAppModel.setProperty("/booking/selectedDateISO", sDateISO);
+    }
 
-            if (!sTime) {
-                MessageToast.show("Please select a show time");
-                return;
-            }
+    MessageToast.show(oTimeObj.theatreName + " - " + oTimeObj.time);
+},
+     onBookTickets: function (oEvent) {
+    var oButton = oEvent.getSource();
+    var oTheatre = this._getTheatreObjectFromControl(oButton);
 
-            this.oModel.setProperty("/selectedTheatreName", oTheatre.name);
-            this.oModel.setProperty("/selectedTheatreArea", oTheatre.area);
+    if (!oTheatre) {
+        MessageToast.show("Theatre not found");
+        return;
+    }
 
-            var oAppModel = this.getOwnerComponent().getModel("app");
-            if (oAppModel) {
-                oAppModel.setProperty("/selectedMovie/selectedTheatre", oTheatre.name);
-                oAppModel.setProperty("/selectedMovie/selectedArea", oTheatre.area);
-                oAppModel.setProperty("/selectedMovie/selectedTime", sTime);
-                oAppModel.setProperty("/selectedMovie/selectedDate", sDate);
-                oAppModel.setProperty("/seatImage", sap.ui.require.toUrl("project1/images/bicycle.png"));
-                oAppModel.setProperty("/seatIcon", sap.ui.require.toUrl("project1/images/bicycle.png"));
-                oAppModel.setProperty("/selectedSeatCount", 1);
-            }
+    var sDate = this.oModel.getProperty("/selectedDateLabel");
+    var sDateISO = this.oModel.getProperty("/selectedDateISO");
+    var sTime = this.oModel.getProperty("/selectedTime");
 
-            this._openSeatCountDialog();
-        },
+    if (!sDate) {
+        MessageToast.show("Please select a date");
+        return;
+    }
+
+    if (!sTime && oTheatre.timings && oTheatre.timings.length > 0) {
+        sTime = oTheatre.timings[0].time;
+        this.oModel.setProperty("/selectedTime", sTime);
+    }
+
+    if (!sTime) {
+        MessageToast.show("Please select a show time");
+        return;
+    }
+
+    this.oModel.setProperty("/selectedTheatreName", oTheatre.name);
+    this.oModel.setProperty("/selectedTheatreArea", oTheatre.area);
+
+    var oAppModel = this.getOwnerComponent().getModel("app");
+    if (oAppModel) {
+        var sMovieTitle =
+            oAppModel.getProperty("/selectedMovie/title") ||
+            oAppModel.getProperty("/selectedMovie/movieTitle") ||
+            "";
+
+        oAppModel.setProperty("/selectedMovie/title", sMovieTitle);
+        oAppModel.setProperty("/selectedMovie/movieTitle", sMovieTitle);
+        oAppModel.setProperty("/selectedMovie/language", "Telugu");
+
+        oAppModel.setProperty("/selectedMovie/selectedTheatre", oTheatre.name);
+        oAppModel.setProperty("/selectedMovie/selectedArea", oTheatre.area);
+        oAppModel.setProperty("/selectedMovie/selectedTime", sTime);
+        oAppModel.setProperty("/selectedMovie/selectedDate", sDate);
+        oAppModel.setProperty("/selectedMovie/selectedDateISO", sDateISO);
+
+        oAppModel.setProperty("/booking/movieTitle", sMovieTitle);
+        oAppModel.setProperty("/booking/theatreName", oTheatre.name);
+        oAppModel.setProperty("/booking/showTime", sTime);
+        oAppModel.setProperty("/booking/selectedDate", sDate);
+        oAppModel.setProperty("/booking/selectedDateISO", sDateISO);
+
+        oAppModel.setProperty("/seatImage", sap.ui.require.toUrl("project1/images/bicycle.png"));
+        oAppModel.setProperty("/seatIcon", sap.ui.require.toUrl("project1/images/bicycle.png"));
+        oAppModel.setProperty("/selectedSeatCount", 1);
+    }
+
+    this._openSeatCountDialog();
+},
 
         _openSeatCountDialog: function () {
             var oView = this.getView();
@@ -263,41 +317,40 @@ sap.ui.define([
             MessageToast.show("Selected Seats: " + iCount);
         },
 
-        onSelectSeats: function () {
-            var oAppModel = this.getOwnerComponent().getModel("app");
+       onSelectSeats: function () {
+    var oAppModel = this.getOwnerComponent().getModel("app");
 
-            var iCount = 1;
-            var sTheatreName = "";
-            var sMovieTitle = "";
-            var sShowTime = "";
-            var sSelectedDate = "";
+    var iCount = 1;
+    var sTheatreName = "";
+    var sMovieTitle = "";
+    var sShowTime = "";
+    var sSelectedDate = "";
 
-            if (oAppModel) {
-                iCount = oAppModel.getProperty("/selectedSeatCount") || 1;
-                sTheatreName = oAppModel.getProperty("/selectedMovie/selectedTheatre") || "";
-                sMovieTitle = oAppModel.getProperty("/selectedMovie/title") || "";
-                sShowTime = oAppModel.getProperty("/selectedMovie/selectedTime") || "";
-                sSelectedDate = oAppModel.getProperty("/selectedMovie/selectedDate") || "";
+    if (oAppModel) {
+        iCount = oAppModel.getProperty("/selectedSeatCount") || 1;
+        sTheatreName = oAppModel.getProperty("/booking/theatreName") || oAppModel.getProperty("/selectedMovie/selectedTheatre") || "";
+        sMovieTitle = oAppModel.getProperty("/booking/movieTitle") || oAppModel.getProperty("/selectedMovie/title") || oAppModel.getProperty("/selectedMovie/movieTitle") || "";
+        sShowTime = oAppModel.getProperty("/booking/showTime") || oAppModel.getProperty("/selectedMovie/selectedTime") || "";
+        sSelectedDate = oAppModel.getProperty("/booking/selectedDate") || oAppModel.getProperty("/selectedMovie/selectedDate") || "";
 
-                oAppModel.setProperty("/booking/seatCount", iCount);
-                oAppModel.setProperty("/booking/theatreName", sTheatreName);
-                oAppModel.setProperty("/booking/movieTitle", sMovieTitle);
-                oAppModel.setProperty("/booking/showTime", sShowTime);
-                oAppModel.setProperty("/booking/selectedDate", sSelectedDate);
-            }
+        oAppModel.setProperty("/booking/seatCount", iCount);
+        oAppModel.setProperty("/booking/theatreName", sTheatreName);
+        oAppModel.setProperty("/booking/movieTitle", sMovieTitle);
+        oAppModel.setProperty("/booking/showTime", sShowTime);
+        oAppModel.setProperty("/booking/selectedDate", sSelectedDate);
+    }
 
-            if (this._oSeatCountDialog) {
-                this._oSeatCountDialog.close();
-            }
+    if (this._oSeatCountDialog) {
+        this._oSeatCountDialog.close();
+    }
 
-            this.getOwnerComponent()
-                .getRouter()
-                .navTo("seatSelection", {
-                    theatreName: this._getTheatreKey(sTheatreName),
-                    seats: iCount
-                });
-        },
-
+    this.getOwnerComponent()
+        .getRouter()
+        .navTo("seatSelection", {
+            theatreName: this._getTheatreKey(sTheatreName),
+            seats: iCount
+        });
+},
         _getTheatreKey: function (sTheatreName) {
             var s = String(sTheatreName || "").toLowerCase();
 
@@ -361,14 +414,21 @@ sap.ui.define([
             var iDuration = this._parseDurationToMinutes(oMovie.duration);
 
             var aTheatres = [
-                { name: "PGR Cinemas", area: "Tata Nagar", format: "4K Dolby Atmos", offset: 0 },
-                { name: "NVR Jayasyam", area: "Tata Nagar", format: "4K Dolby Atmos", offset: 5 },
-                { name: "NVR Sandhya", area: "Jayasyam Road", format: "4K Dolby Atmos", offset: 10 },
-                { name: "SV Cineplex", area: "Dr. Mahal Road", format: "4K Dolby Atmos", offset: 20 },
-                { name: "CS Cinemas (Devendra)", area: "Leela Mahal Road", format: "4K Dolby Atmos", offset: 25 },
-                { name: "Palani Cinemas", area: "Royal Nagar", format: "2K, 7.1 Dolby Digital", offset: 0 },
-                { name: "Krishna Teja", area: "Tata Nagar", format: "4K Dolby (Newly Renovated)", offset: 5 },
-                { name: "Pratap Theater", area: "Jayasyam Road", format: "4K Dolby Atmos", offset: 10 }
+               { name: "PGR Cinemas", area: "Tata Nagar, Tirupati", format: "4K Dolby Atmos", offset: 0 },
+
+{ name: "NVR Jayasyam", area: "Tata Nagar, Tirupati", format: "4K Dolby Atmos", offset: 5 },
+
+{ name: "NVR Sandhya", area: "Jayasyam Road, Tirupati", format: "4K Dolby Atmos", offset: 10 },
+
+{ name: "SV Cineplex", area: "Dr. Mahal Road, Tirupati", format: "4K Dolby Atmos", offset: 20 },
+
+{ name: "CS Cinemas (Devendra)", area: "Leela Mahal Road, Tirupati", format: "4K Dolby Atmos", offset: 25 },
+
+{ name: "Palani Cinemas", area: "Royal Nagar, Tirupati", format: "2K, 7.1 Dolby Digital", offset: 0 },
+
+{ name: "Krishna Teja", area: "Tata Nagar, Tirupati", format: "4K Dolby (Newly Renovated)", offset: 5 },
+
+{ name: "Pratap Theater", area: "Jayasyam Road, Tirupati", format: "4K Dolby Atmos", offset: 10 }
             ];
 
             var sMovieTitle = (oMovie.title || "").toLowerCase();

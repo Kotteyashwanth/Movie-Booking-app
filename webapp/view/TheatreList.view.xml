@@ -112,19 +112,27 @@
                                         color="{= ${favorite} ? '#d84c63' : '#bdbdbd' }"
                                         class="favIcon" />
 
+                                    <!-- UPDATED SECTION -->
+
                                     <VBox class="sapUiTinyMarginBegin">
+
+                                        <!-- Theatre Name -->
 
                                         <Text
                                             text="{name}"
                                             class="theatreName" />
 
-                                        <Text
-                                            text="{area}"
-                                            class="theatreArea" />
+                                        <!-- Format -->
 
                                         <Text
                                             text="{format}"
                                             class="theatreFormat" />
+
+                                        <!-- Area -->
+
+                                        <Text
+                                            text="{area}"
+                                            class="theatreArea" />
 
                                     </VBox>
 

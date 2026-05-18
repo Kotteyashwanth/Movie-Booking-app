@@ -4,18 +4,78 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core">
 
-    <Page
-        title="Seat Selection"
-        showNavButton="true"
-        navButtonPress="onBack">
+    <Page class="seatPage">
+
+        <customHeader>
+            <Bar class="seatHeaderBar">
+
+                <contentLeft>
+                    <HBox alignItems="Center" class="seatHeaderLeft">
+                        <Button
+                            icon="sap-icon://nav-back"
+                            type="Transparent"
+                            press="onBack"
+                            class="backBtn" />
+
+                        <VBox class="seatHeaderTextWrap">
+                            <Text
+                                text="{= ${seat>/movieTitle} + ' (' + ${seat>/language} + '-2D)' }"
+                                class="seatMovieTitle" />
+
+                            <Text
+                                text="{seat>/theatreLine}"
+                                class="seatSubText" />
+
+                            <Text
+                                text="{seat>/dateLine}"
+                                class="seatSubText" />
+                        </VBox>
+                    </HBox>
+                </contentLeft>
+
+                <contentRight>
+                    <Button
+                        text="Change Tickets"
+                        type="Transparent"
+                        press="onMoreTicketsPress"
+                        class="ticketButton" />
+                </contentRight>
+
+            </Bar>
+        </customHeader>
 
         <content>
-            <ScrollContainer
-                height="100%"
-                vertical="true"
-                horizontal="true">
-                <VBox id="seatLayoutHost" width="100%" />
-            </ScrollContainer>
+            <VBox class="seatPageContent">
+
+                <HBox
+                    class="showTimingStrip"
+                    items="{seat>/showTimes}"
+                    wrap="Wrap"
+                    justifyContent="Start">
+
+                    <items>
+                        <Button
+                            text="{seat>time}"
+                            type="{= ${seat>selected} ? 'Emphasized' : 'Transparent' }"
+                            class="showTimeBtn"
+                            press="onShowTimePress" />
+                    </items>
+                </HBox>
+
+                <ScrollContainer
+                    height="100%"
+                    vertical="true"
+                    horizontal="true"
+                    class="seatScroll">
+
+                    <VBox
+                        id="seatLayoutHost"
+                        width="100%" />
+
+                </ScrollContainer>
+
+            </VBox>
         </content>
+
     </Page>
 </mvc:View>

@@ -86,7 +86,7 @@
         },
 
         {
-          "pattern": "seatSelection/{theatreName}",
+          "pattern": "seatSelection/{theatreName}/{seats}",
           "name": "seatSelection",
           "target": "seatSelection"
         }

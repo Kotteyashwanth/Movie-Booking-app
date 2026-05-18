@@ -1,3 +1,7 @@
+/* =========================================================
+   HOME PAGE
+========================================================= */
+
 .homePage {
     background: #f5f5f5;
 }
@@ -142,13 +146,27 @@
     font-size: 1.4rem !important;
 }
 
-/* ============================= */
-/* SEAT POPUP FIX                */
-/* ============================= */
+/* =========================================================
+   SEAT PAGE
+========================================================= */
+
+.seatPage {
+    background: linear-gradient(to bottom, #081221, #101826) !important;
+}
+
+/* =========================================================
+   DIALOG
+========================================================= */
 
 .seatDialog {
     width: 760px !important;
     max-width: 96vw !important;
+    border-radius: 1.2rem !important;
+    overflow: hidden !important;
+}
+
+.seatDialogDark {
+    background: #1f2329 !important;
 }
 
 .seatDialog .sapMDialogSection,
@@ -160,6 +178,7 @@
 .seatDialog .sapMDialogScrollCont {
     padding: 24px 28px 30px 28px !important;
     box-sizing: border-box;
+    background: #1f2329 !important;
 }
 
 .seatDialogContent {
@@ -168,229 +187,438 @@
     box-sizing: border-box;
 }
 
-.seatCarIcon {
-    margin: 18px auto 34px auto;
-    display: block;
+/* =========================================================
+   DIALOG HEADER
+========================================================= */
+
+.seatDialogHeader {
+    background: #1f2329 !important;
+    border-bottom: 1px solid #313743 !important;
 }
 
-.seatCategoryRow {
+.seatDialogHeader .sapMBarMiddle {
+    justify-content: center !important;
+}
+
+.seatDialogHeader .sapMTitle,
+.seatDialogTitle {
     width: 100%;
-    margin-top: 10px;
-    margin-bottom: 38px;
-    gap: 12px;
-    box-sizing: border-box;
-}
-
-.seatCategory {
-    min-width: 0 !important;
-    flex: 1 1 0 !important;
     text-align: center !important;
-    box-sizing: border-box !important;
-    padding: 0 4px;
+    color: #ffffff !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
 }
 
-.seatType,
-.seatPrice,
-.seatAvail {
-    display: block;
+/* =========================================================
+   TICKET BUTTONS
+========================================================= */
+
+.seatCountRow,
+.ticketNumberRow {
+    gap: 0.7rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    justify-content: center;
+}
+
+.seatBtn,
+.ticketCountBtn {
+    min-width: 3rem !important;
+    width: 3rem !important;
+    height: 3rem !important;
+    padding: 0 !important;
+}
+
+.seatBtn .sapMBtnInner,
+.ticketCountBtn .sapMBtnInner {
+    min-width: 3rem !important;
+    width: 3rem !important;
+    height: 3rem !important;
+    border-radius: 0.8rem !important;
+    background: #2b313a !important;
+    border: 1px solid #646d79 !important;
+    transition: all 0.2s ease;
+    background-image: none !important;
+}
+
+.seatBtn .sapMBtnContent,
+.ticketCountBtn .sapMBtnContent {
+    line-height: 3rem !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #d8dee8 !important;
+}
+
+.seatBtn:hover .sapMBtnInner,
+.ticketCountBtn:hover .sapMBtnInner {
+    background: #39414c !important;
+    border-color: #8da2c0 !important;
+}
+
+/* =========================================================
+   SELECTED BUTTON
+========================================================= */
+
+.seatBtnSelected .sapMBtnInner,
+.ticketBtnSelected .sapMBtnInner {
+    background: #4f6df5 !important;
+    border-color: #a8bbff !important;
+}
+
+.seatBtnSelected .sapMBtnContent,
+.ticketBtnSelected .sapMBtnContent {
+    color: #ffffff !important;
+}
+
+/* =========================================================
+   PRICE SECTION
+========================================================= */
+
+.priceRow,
+.ticketPriceRow {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.seatInfoBox {
+    padding: 0.5rem;
+}
+
+.ticketPriceBlock {
+    gap: 0.2rem;
     text-align: center;
-    white-space: nowrap;
-    overflow: visible;
-    line-height: 1.2;
 }
 
-.seatType {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 4px;
+.seatTypeText {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
 }
 
-.seatPrice {
-    font-size: 0.98rem;
-    font-weight: 600;
-    color: #ffffff;
-    margin-bottom: 4px;
+.seatPriceText {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
 }
 
-.seatAvail {
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: #ffffff;
-    letter-spacing: 0.02em;
+.seatAvailText {
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    color: #d0d7e2 !important;
 }
 
-.seatSelectBtn {
-    margin-top: 10px;
-    min-width: 170px;
+/* =========================================================
+   SELECT SEATS BUTTON
+========================================================= */
+
+.seatDialog .sapMBtnEmphasized {
+    background: #4f6df5 !important;
+    border-color: #4f6df5 !important;
+    border-radius: 0.8rem !important;
+    height: 3rem !important;
 }
 
-/* ============================= */
-/* SEAT SELECTION STYLE          */
-/* ============================= */
+.seatDialog .sapMBtnEmphasized .sapMBtnContent {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+}
+
+/* =========================================================
+   SEAT LAYOUT
+========================================================= */
 
 .seatLayoutMain {
     width: 100%;
-    padding: 1rem 1rem 7rem 1rem;
+    padding: 2rem 2rem 7rem 2rem;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
+/* SECTION */
 
 .seatSection {
-    margin-bottom: 2rem;
+    margin-bottom: 2.8rem;
+    width: 100%;
 }
 
+/* TITLE */
+
 .sectionTitle {
-    font-size: 1rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 800;
     color: #ffffff;
-    margin: 1rem 0 1.1rem 0;
+    margin: 1rem 0 2rem 0;
+    text-align: center;
 }
+
+/* ROW */
 
 .seatRow {
     width: 100%;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+/* ROW LABEL */
 
 .rowLabel {
     font-size: 1rem;
     font-weight: 700;
     color: #ffffff;
-    opacity: 0.95;
+    width: 3rem;
+    text-align: center;
+    margin-right: 0.9rem;
 }
+
+/* BLOCKS */
 
 .rowBlocks {
-    width: auto;
+    display: flex;
+    align-items: center;
 }
+
+/* CENTER GAP */
 
 .blockGap {
-    width: 1.2rem;
+    width: 2rem;
 }
+
+/* SEAT BLOCK */
 
 .seatBlock {
-    gap: 0.45rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
 }
 
-.seatBtn {
-    min-width: 2.55rem !important;
-    width: 2.55rem !important;
-    height: 2.55rem !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
+/* =========================================================
+   COMMON SEAT SIZE
+========================================================= */
 
-/* normal seat = grey box */
-.seatBtn .sapMBtnInner {
-    min-width: 2.55rem !important;
-    width: 2.55rem !important;
-    height: 2.55rem !important;
-    border-radius: 0.55rem !important;
-    background: #2f343c !important;
-    border: 1px solid #6f7682 !important;
-    box-shadow: none !important;
-}
-
-.seatBtn .sapMBtnContent {
-    line-height: 2.55rem !important;
-    font-size: 0.92rem !important;
-    font-weight: 600 !important;
-    color: #cfd5df !important;
-}
-
-/* hover */
-.seatBtn:hover .sapMBtnInner {
-    background: #3a4049 !important;
-    border-color: #8a909b !important;
-}
-
-/* selected seat = blue box */
+.seatAvailable .sapMBtnInner,
+.selectedSeat .sapMBtnInner,
+.seatSold .sapMBtnInner,
 .seatSelected .sapMBtnInner {
-    background: #1677ff !important;
-    border-color: #1677ff !important;
-    color: #ffffff !important;
+
+    width: 3.2rem !important;
+    min-width: 3.2rem !important;
+    height: 3.2rem !important;
+
+    border-radius: 0.75rem !important;
 }
 
+/* =========================================================
+   AVAILABLE SEAT
+========================================================= */
+
+.seatAvailable .sapMBtnInner {
+    background: #222c39 !important;
+    border: 1px solid #4b5a70 !important;
+    background-image: none !important;
+
+    box-shadow:
+        0 2px 6px rgba(0,0,0,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+
+    transition: all 0.22s ease;
+}
+
+.seatAvailable .sapMBtnContent {
+    color: #e5edf8 !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    line-height: 3.2rem !important;
+}
+
+.seatAvailable:hover .sapMBtnInner {
+    background: #2f3a4b !important;
+    border-color: #7ea7ff !important;
+    transform: translateY(-2px);
+}
+
+/* =========================================================
+   SELECTED SEAT
+========================================================= */
+
+.selectedSeat .sapMBtnInner,
+.seatSelected .sapMBtnInner {
+
+    background: #4f6df5 !important;
+
+    border: 2px solid #a8bbff !important;
+
+    border-radius: 0.75rem !important;
+
+    box-shadow:
+        0 0 10px rgba(120, 150, 255, 0.35);
+
+    background-image: none !important;
+
+    transform: scale(1.02);
+}
+
+.selectedSeat .sapMBtnContent,
 .seatSelected .sapMBtnContent {
+
     color: #ffffff !important;
+
+    font-weight: 800 !important;
+
+    font-size: 1rem !important;
+
+    line-height: 3.2rem !important;
 }
 
-/* unavailable / booked seat */
+/* =========================================================
+   SOLD SEAT
+========================================================= */
+
 .seatSold .sapMBtnInner {
-    background: #1f2329 !important;
-    border-color: #444a55 !important;
-    color: #7d8591 !important;
-    opacity: 0.75;
+    background: #141b24 !important;
+    border: 1px solid #313c4d !important;
+    opacity: 0.55 !important;
+    background-image: none !important;
 }
 
 .seatSold .sapMBtnContent {
-    color: #7d8591 !important;
+    color: #7d8795 !important;
+    line-height: 3.2rem !important;
 }
 
-/* legend */
+/* =========================================================
+   LEGEND
+========================================================= */
+
 .legendRow {
-    margin-top: 1.5rem;
-    gap: 1.2rem;
+    margin-top: 2rem;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .legendItem {
-    gap: 0.45rem;
-    margin: 0 0.6rem;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
 }
 
 .legendBox {
     display: inline-block;
     width: 1rem;
     height: 1rem;
-    border-radius: 0.25rem;
-    border: 1px solid transparent;
+    border-radius: 0.3rem;
 }
 
 .legendAvailable {
-    background: #2f343c;
-    border-color: #6f7682;
+    background: #222c39;
+    border: 1px solid #4b5a70;
 }
 
 .legendSelected {
-    background: #1677ff;
-    border-color: #1677ff;
+    background: #4f6df5;
+    border: 2px solid #a8bbff;
 }
 
 .legendSold {
-    background: #1f2329;
-    border-color: #444a55;
+    background: #141b24;
+    border: 1px solid #313c4d;
 }
 
 .legendText {
     color: #ffffff;
-    font-size: 0.9rem;
+    font-size: 0.92rem;
+    font-weight: 600;
 }
 
+/* =========================================================
+   SCREEN
+========================================================= */
+
 .screenWrap {
-    margin-top: 1.8rem;
+    margin-top: 3rem;
     text-align: center;
 }
 
 .screenShape {
-    width: 45%;
-    height: 0.6rem;
+    width: 55%;
+    height: 0.8rem;
     margin: 0 auto;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.18);
-    filter: blur(1px);
+    border-radius: 100%;
+
+    background: linear-gradient(
+        to right,
+        rgba(255,255,255,0.1),
+        rgba(255,255,255,0.95),
+        rgba(255,255,255,0.1)
+    );
+
+    box-shadow:
+        0 0 35px rgba(255,255,255,0.18);
+
+    filter: blur(0.4px);
 }
 
 .screenCaption {
-    margin-top: 0.7rem;
-    color: #cfd5df;
-    font-size: 0.85rem;
+    margin-top: 0.9rem;
+    color: #dce3ee;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.08rem;
 }
 
-/* ============================= */
-/* THEATRE MOVIE TITLE           */
-/* ============================= */
+/* =========================================================
+   TITLE
+========================================================= */
 
 .theatreMovieTitle {
-    font-size: 2.3rem !important;
-    font-weight: 900 !important;
+    font-size: 1.9rem !important;
+    font-weight: 800 !important;
     color: #ffffff !important;
-    letter-spacing: 0.02rem;
+    letter-spacing: 0.03rem;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media screen and (max-width: 768px) {
+
+    .seatLayoutMain {
+        padding: 1rem 0.6rem 6rem 0.6rem;
+    }
+
+    .seatBlock {
+        gap: 0.35rem;
+    }
+
+    .blockGap {
+        width: 1rem;
+    }
+
+    .seatAvailable .sapMBtnInner,
+    .selectedSeat .sapMBtnInner,
+    .seatSold .sapMBtnInner,
+    .seatSelected .sapMBtnInner {
+
+        width: 2.5rem !important;
+        min-width: 2.5rem !important;
+        height: 2.5rem !important;
+        border-radius: 0.55rem !important;
+    }
+
+    .seatAvailable .sapMBtnContent,
+    .selectedSeat .sapMBtnContent,
+    .seatSold .sapMBtnContent,
+    .seatSelected .sapMBtnContent {
+
+        line-height: 2.5rem !important;
+        font-size: 0.82rem !important;
+    }
 }

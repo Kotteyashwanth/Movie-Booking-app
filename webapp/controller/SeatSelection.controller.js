@@ -7,7 +7,8 @@ sap.ui.define([
     "sap/ui/core/HTML",
     "sap/m/FlexAlignItems",
     "sap/m/FlexJustifyContent",
-    "sap/m/FlexWrap"
+    "sap/m/FlexWrap",
+    "sap/ui/model/json/JSONModel"
 ], function (
     Controller,
     VBox,
@@ -17,7 +18,8 @@ sap.ui.define([
     HTML,
     FlexAlignItems,
     FlexJustifyContent,
-    FlexWrap
+    FlexWrap,
+    JSONModel
 ) {
     "use strict";
 
@@ -30,30 +32,224 @@ sap.ui.define([
             var oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("seatSelection").attachPatternMatched(this._onRouteMatched, this);
         },
+    _onRouteMatched: function (oEvent) {
 
-        _onRouteMatched: function (oEvent) {
-            var oArgs = oEvent.getParameter("arguments") || {};
-            var sTheatreName = "";
+    var oArgs = oEvent.getParameter("arguments") || {};
+    var sTheatreKey = "";
 
-            if (oArgs.theatreName) {
-                try {
-                    sTheatreName = decodeURIComponent(oArgs.theatreName);
-                } catch (e) {
-                    sTheatreName = oArgs.theatreName;
-                }
-            }
+    if (oArgs.theatreName) {
+        try {
+            sTheatreKey = decodeURIComponent(oArgs.theatreName);
+        } catch (e) {
+            sTheatreKey = oArgs.theatreName;
+        }
+    }
 
-            this._sTheatreKey = this._normalizeKey(sTheatreName) || "krishnaTeja";
-            this._bBuilt = false;
+    this._sTheatreKey = this._normalizeKey(sTheatreKey);
 
-            var oHost = this.byId("seatLayoutHost");
-            if (oHost) {
-                oHost.removeAllItems();
-            }
+    var oAppModel = this.getOwnerComponent().getModel("app");
+    var oBooking = oAppModel ? oAppModel.getProperty("/booking") : null;
+    var oMovie = oAppModel ? oAppModel.getProperty("/selectedMovie") : null;
+    var aTheatres = oAppModel ? (oAppModel.getProperty("/selectedTheatres") || []) : [];
 
-            this._buildSeatLayout();
-        },
+    var oMatchedTheatre = null;
 
+    // Match using route key
+    for (var i = 0; i < aTheatres.length; i++) {
+
+        var sName = aTheatres[i].name || "";
+
+        if (this._normalizeKey(sName) === this._sTheatreKey) {
+            oMatchedTheatre = aTheatres[i];
+            break;
+        }
+    }
+
+    // Fallback theatre names
+    if (!oMatchedTheatre) {
+
+      var oFallbackMap = {
+
+    sandhya: {
+        name: "NVR Sandhya",
+        format: "4K Dolby Atmos",
+        timings: [
+            { time: "11:10 AM" },
+            { time: "02:20 PM" },
+            { time: "06:40 PM" },
+            { time: "09:50 PM" }
+        ]
+    },
+
+    pgr: {
+        name: "PGR Cinemas",
+        format: "4K Dolby Atmos",
+        timings: [
+            { time: "11:00 AM" },
+            { time: "02:00 PM" },
+            { time: "06:30 PM" },
+            { time: "09:30 PM" }
+        ]
+    },
+
+    pratap: {
+        name: "Pratap Theatre",
+        format: "Dolby Atmos",
+        timings: [
+            { time: "10:45 AM" },
+            { time: "02:15 PM" },
+            { time: "06:15 PM" },
+            { time: "09:45 PM" }
+        ]
+    },
+
+    svCineplex: {
+        name: "SV Cineplex",
+        format: "4K Dolby Atmos",
+        timings: [
+            { time: "11:00 AM" },
+            { time: "02:30 PM" },
+            { time: "06:30 PM" },
+            { time: "10:00 PM" }
+        ]
+    },
+
+    krishnaTeja: {
+        name: "Krishna Teja",
+        format: "Dolby Atmos",
+        timings: [
+            { time: "11:15 AM" },
+            { time: "02:45 PM" },
+            { time: "06:45 PM" },
+            { time: "10:15 PM" }
+        ]
+    },
+
+    palani: {
+        name: "Palani Theatre",
+        format: "Dolby Atmos",
+        timings: [
+            { time: "11:30 AM" },
+            { time: "03:00 PM" },
+            { time: "07:00 PM" },
+            { time: "10:30 PM" }
+        ]
+    },
+
+    devendra: {
+        name: "CS Cinemas Devendra",
+        format: "4K Dolby",
+        timings: [
+            { time: "10:30 AM" },
+            { time: "01:45 PM" },
+            { time: "05:45 PM" },
+            { time: "09:15 PM" }
+        ]
+    },
+
+    jaysyam: {
+        name: "Jaysyam Theatre",
+        format: "Dolby Atmos",
+        timings: [
+            { time: "11:20 AM" },
+            { time: "02:50 PM" },
+            { time: "06:50 PM" },
+            { time: "10:20 PM" }
+        ]
+    }
+};
+        oMatchedTheatre = oFallbackMap[this._sTheatreKey];
+    }
+
+    var sSelectedTime =
+        (oBooking && oBooking.showTime) ||
+        (oMovie && oMovie.selectedTime) ||
+        "";
+
+    var aShowTimes = [];
+
+    if (oMatchedTheatre && Array.isArray(oMatchedTheatre.timings)) {
+
+        aShowTimes = oMatchedTheatre.timings.map(function (oItem) {
+            return {
+                time: oItem.time,
+                selected: oItem.time === sSelectedTime
+            };
+        });
+    }
+
+    var sCity = "Tirupati";
+
+    var sTheatreLine =
+        oMatchedTheatre.name +
+        " | " +
+        (oMatchedTheatre.format || "") +
+        " | " +
+        sCity;
+
+    var sMovieTitle =
+        (oBooking && oBooking.movieTitle) ||
+        (oMovie && (oMovie.movieTitle || oMovie.title)) ||
+        "";
+
+    var sLanguage =
+        (oMovie && oMovie.language) ||
+        "Telugu";
+
+    var sSelectedDate =
+        (oBooking && oBooking.selectedDate) ||
+        (oMovie && oMovie.selectedDate) ||
+        "";
+
+    var sSelectedDateISO =
+        (oBooking && oBooking.selectedDateISO) ||
+        (oMovie && oMovie.selectedDateISO) ||
+        "";
+
+   var iSeats = parseInt(oArgs.seats, 10);
+
+if (isNaN(iSeats) || iSeats < 1) {
+    iSeats = parseInt(oBooking && oBooking.seatCount, 10);
+}
+
+if (isNaN(iSeats) || iSeats < 1) {
+    iSeats = parseInt(oMovie && oMovie.selectedSeatCount, 10);
+}
+
+if (isNaN(iSeats) || iSeats < 1) {
+    iSeats = 1;
+}
+
+this._iSelectedTicketCount = iSeats;
+this.selectedSeats = [];
+
+var sDateLine = this._formatHeaderDateLine(
+        sSelectedDateISO,
+        sSelectedDate,
+        sSelectedTime
+    );
+
+    var oSeatModel = new JSONModel({
+        movieTitle: sMovieTitle,
+        language: sLanguage,
+        theatreLine: sTheatreLine,
+        dateLine: sDateLine,
+        baseDateLine: sDateLine,
+        selectedShowTime: sSelectedTime,
+        tickets: iSeats + " Tickets",
+        showTimes: aShowTimes
+    });
+
+    this.getView().setModel(oSeatModel, "seat");
+
+    var oHost = this.byId("seatLayoutHost");
+
+    if (oHost) {
+        oHost.removeAllItems();
+    }
+
+    this._buildSeatLayout();
+},
         _normalizeKey: function (sText) {
             var s = String(sText || "").toLowerCase();
 
@@ -646,7 +842,7 @@ sap.ui.define([
             return oRowBox;
         },
 
-        _createSeatButton: function (iSeatNo, bSold, sDisplayText) {
+             _createSeatButton: function (iSeatNo, bSold, sDisplayText) {
             var sSeat = sDisplayText || (bSold ? "x" : String(iSeatNo));
 
             var oBtn = new Button({
@@ -656,6 +852,7 @@ sap.ui.define([
             });
 
             oBtn.addStyleClass("seatBtn");
+            oBtn.setFieldGroupIds(["seatBtns"]);
 
             if (bSold) {
                 oBtn.addStyleClass("seatSold");
@@ -668,21 +865,52 @@ sap.ui.define([
         },
 
         onSeatPress: function (oEvent) {
-            var oBtn = oEvent.getSource();
 
-            if (oBtn.hasStyleClass("seatSold")) {
-                return;
-            }
+    var oButton = oEvent.getSource();
 
-            if (oBtn.hasStyleClass("seatSelected")) {
-                oBtn.removeStyleClass("seatSelected");
-                oBtn.addStyleClass("seatAvailable");
-            } else {
-                oBtn.removeStyleClass("seatAvailable");
-                oBtn.addStyleClass("seatSelected");
-            }
-        },
+    if (!this.selectedSeats) {
+        this.selectedSeats = [];
+    }
 
+    var sSeatId = oButton.getText();
+
+    // REMOVE SELECTION
+    if (oButton.data("selected")) {
+
+        oButton.data("selected", false);
+
+        oButton.removeStyleClass("selectedSeat");
+
+        this.selectedSeats =
+            this.selectedSeats.filter(function (s) {
+                return s !== sSeatId;
+            });
+
+    } else {
+
+        var iLimit = this._iSelectedTicketCount || 1;
+
+        // LIMIT CHECK
+        if (this.selectedSeats.length >= iLimit) {
+
+            sap.m.MessageToast.show(
+                "You can select only " + iLimit + " seats"
+            );
+
+            return;
+        }
+
+        // ADD BLUE CLASS
+        oButton.data("selected", true);
+
+        oButton.addStyleClass("selectedSeat");
+
+        this.selectedSeats.push(sSeatId);
+    }
+
+    // FORCE UI REFRESH
+    oButton.rerender();
+},
         _createLegend: function () {
             var oLegend = new HBox({
                 justifyContent: FlexJustifyContent.Center,
@@ -714,14 +942,314 @@ sap.ui.define([
         },
 
         _createScreen: function () {
-            return new HTML({
-                content:
-                    '<div class="screenWrap">' +
-                        '<div class="screenShape"></div>' +
-                        '<div class="screenCaption">All eyes this way please</div>' +
-                    '</div>'
-            });
+    return new HTML({
+        content:
+            '<div class="screenWrap">' +
+                '<div class="screenShape"></div>' +
+                '<div class="screenCaption">All eyes this way please</div>' +
+            '</div>'
+    });
+},
+
+_buildShowTimes: function (aTimings, sSelectedTime) {
+    return (aTimings || []).map(function (oItem) {
+        return {
+            time: oItem.time,
+            selected: oItem.time === sSelectedTime
+        };
+    });
+},
+
+onShowTimePress: function (oEvent) {
+    var sTime = oEvent.getSource().getText();
+    var oSeatModel = this.getView().getModel("seat");
+    var oAppModel = this.getOwnerComponent().getModel("app");
+
+    if (!oSeatModel) {
+        return;
+    }
+
+    var aShowTimes = oSeatModel.getProperty("/showTimes") || [];
+    aShowTimes = aShowTimes.map(function (oItem) {
+        return {
+            time: oItem.time,
+            selected: oItem.time === sTime
+        };
+    });
+
+    oSeatModel.setProperty("/showTimes", aShowTimes);
+    oSeatModel.setProperty("/selectedShowTime", sTime);
+
+    var sBaseDate = oSeatModel.getProperty("/baseDateLine") || "";
+    oSeatModel.setProperty("/dateLine", sBaseDate + " | " + sTime);
+
+    if (oAppModel) {
+        oAppModel.setProperty("/booking/showTime", sTime);
+        oAppModel.setProperty("/selectedMovie/selectedTime", sTime);
+    }
+},
+onMoreTicketsPress: function () {
+    var oSeatModel = this.getView().getModel("seat");
+    var iCurrentTickets = this._getCurrentTicketCount(oSeatModel);
+
+    if (!this._oTicketDialog) {
+        this._oTicketImage = new sap.m.Image({
+            width: "70px",
+            height: "70px",
+            densityAware: false,
+            src: this._getTicketImageSrc(1)
+        }).addStyleClass("ticketBikeImage");
+
+        this._aTicketButtons = [];
+
+        var oButtonRow = new sap.m.HBox({
+            justifyContent: FlexJustifyContent.Center,
+            alignItems: FlexAlignItems.Center,
+            wrap: FlexWrap.NoWrap
+        }).addStyleClass("ticketNumberRow");
+
+        for (var i = 1; i <= 6; i++) {
+            var oBtn = this._createTicketButton(i);
+            this._aTicketButtons.push(oBtn);
+            oButtonRow.addItem(oBtn);
         }
 
+        var oPriceRow = new sap.m.HBox({
+            justifyContent: FlexJustifyContent.SpaceAround,
+            width: "100%",
+            alignItems: FlexAlignItems.Center
+        }).addStyleClass("ticketPriceRow");
+
+        oPriceRow.addItem(this._createPriceBlock("SILVER", "₹80", "AVAILABLE"));
+        oPriceRow.addItem(this._createPriceBlock("DIAMOND", "₹145", "AVAILABLE"));
+        oPriceRow.addItem(this._createPriceBlock("GOLD", "₹100", "AVAILABLE"));
+
+        var oContent = new sap.m.VBox({
+            width: "100%",
+            alignItems: FlexAlignItems.Center,
+            justifyContent: FlexJustifyContent.Center
+        }).addStyleClass("seatDialogContent");
+
+        oContent.addItem(this._oTicketImage);
+        oContent.addItem(oButtonRow);
+        oContent.addItem(oPriceRow);
+
+        this._oTicketDialog = new sap.m.Dialog({
+            contentWidth: "36rem",
+            contentHeight: "28rem",
+            horizontalScrolling: false,
+            verticalScrolling: false,
+            stretchOnPhone: true,
+            draggable: true,
+            resizable: false,
+            customHeader: new sap.m.Bar({
+    contentMiddle: [
+        new sap.m.HBox({
+            width: "100%",
+            justifyContent: "Center",
+            alignItems: "Center",
+            items: [
+                new sap.m.Title({
+                    text: "How many seats?"
+                }).addStyleClass("seatDialogTitle")
+            ]
+        })
+    ]
+}),
+            content: [oContent],
+            beginButton: new sap.m.Button({
+                text: "Select Seats",
+                type: "Emphasized",
+                press: function () {
+                    this._oTicketDialog.close();
+                }.bind(this)
+            }),
+            endButton: new sap.m.Button({
+                text: "Close",
+                press: function () {
+                    this._oTicketDialog.close();
+                }.bind(this)
+            }),
+            class: "seatDialog seatDialogDark"
+        });
+
+        this.getView().addDependent(this._oTicketDialog);
+    }
+
+    this._setSelectedTicketCount(iCurrentTickets);
+    this._oTicketDialog.open();
+},
+_createTicketButton: function (iNumber) {
+    return new sap.m.Button({
+        text: String(iNumber),
+        type: "Transparent",
+        press: function () {
+            this._setSelectedTicketCount(iNumber);
+        }.bind(this)
+    }).addStyleClass("ticketCountBtn");
+},
+onSeatCountPress: function (oEvent) {
+
+    var iSelected = parseInt(
+        oEvent.getSource().getText(),
+        10
+    );
+
+    this._setSelectedTicketCount(iSelected);
+},
+
+_setSelectedTicketCount: function (iSelected) {
+
+    this._iSelectedTicketCount = iSelected;
+
+    // clear old selected seats
+    this.selectedSeats = [];
+
+    // remove blue selected seats UI
+    sap.ui.getCore().byFieldGroupId("seatBtns").forEach(function(oBtn){
+        oBtn.removeStyleClass("selectedSeat");
+    });
+
+    var oSeatModel = this.getView().getModel("seat");
+
+    if (oSeatModel) {
+        oSeatModel.setProperty("/tickets", iSelected + " Tickets");
+    }
+
+    var oAppModel = this.getOwnerComponent().getModel("app");
+
+    if (oAppModel) {
+        oAppModel.setProperty("/booking/seatCount", iSelected);
+        oAppModel.setProperty("/selectedMovie/selectedSeatCount", iSelected);
+    }
+
+    if (this._aTicketButtons && this._aTicketButtons.length) {
+
+        this._aTicketButtons.forEach(function (oBtn) {
+
+            var iBtnVal = parseInt(oBtn.getText(), 10);
+
+            if (iBtnVal === iSelected) {
+                oBtn.addStyleClass("ticketBtnSelected");
+            } else {
+                oBtn.removeStyleClass("ticketBtnSelected");
+            }
+        });
+    }
+
+    if (this._oTicketImage) {
+        this._oTicketImage.setSrc(this._getTicketImageSrc(iSelected));
+    }
+},
+_getCurrentTicketCount: function (oSeatModel) {
+    var iCount = 1;
+
+    if (oSeatModel) {
+        var sTickets = oSeatModel.getProperty("/tickets") || "1 Tickets";
+        iCount = parseInt(sTickets, 10);
+        if (isNaN(iCount)) {
+            iCount = 1;
+        }
+    }
+
+    if (iCount < 1) {
+        iCount = 1;
+    }
+
+    if (iCount > 6) {
+        iCount = 6;
+    }
+
+    return iCount;
+},
+
+_getTicketImageSrc: function (iSelected) {
+
+    var sBase = sap.ui.require.toUrl("project1/images/");
+
+    var mImages = {
+        1: sBase + "bicycle.png",
+        2: sBase + "scooter.png",
+        3: sBase + "auto.png",
+        4: sBase + "car1.png",
+        5: sBase + "car2.png",
+        6: sBase + "car3.png"
+    };
+
+    return mImages[iSelected] || mImages[1];
+},
+
+_createPriceBlock: function (sTitle, sPrice, sStatus) {
+    return new sap.m.VBox({
+        alignItems: FlexAlignItems.Center,
+        justifyContent: FlexJustifyContent.Center,
+        items: [
+            new sap.m.Text({ text: sTitle }),
+            new sap.m.Text({ text: sPrice }),
+            new sap.m.Text({ text: sStatus })
+        ]
+    }).addStyleClass("ticketPriceBlock");
+},
+
+_formatHeaderDateLine: function (sDateISO, sFallbackDate, sTime) {
+
+    var oDate = null;
+
+    if (sDateISO) {
+        oDate = new Date(sDateISO + "T00:00:00");
+    } else if (sFallbackDate) {
+        oDate = new Date(sFallbackDate);
+    }
+
+    var sDay = "";
+    var sDateText = "";
+
+    if (oDate && !isNaN(oDate.getTime())) {
+
+        var aDays = [
+            "SUN",
+            "MON",
+            "TUE",
+            "WED",
+            "THU",
+            "FRI",
+            "SAT"
+        ];
+
+        var aMonths = [
+            "JAN",
+            "FEB",
+            "MAR",
+            "APR",
+            "MAY",
+            "JUN",
+            "JUL",
+            "AUG",
+            "SEP",
+            "OCT",
+            "NOV",
+            "DEC"
+        ];
+
+        sDay = aDays[oDate.getDay()];
+
+        sDateText =
+            oDate.getDate() +
+            " " +
+            aMonths[oDate.getMonth()] +
+            " " +
+            oDate.getFullYear();
+
+    } else {
+
+        sDateText = sFallbackDate || "";
+    }
+
+    return [
+        sDay,
+        sDateText,
+        sTime
+    ].filter(Boolean).join(" | ");
+}
     });
 });

@@ -4,15 +4,22 @@
 
     <Dialog
         id="seatCountDialog"
-        title="How many seats?"
         contentWidth="42rem"
-        contentHeight="30rem"
+        contentHeight="34rem"
         horizontalScrolling="false"
         verticalScrolling="false"
         stretchOnPhone="true"
         draggable="true"
         resizable="false"
         class="seatDialogDark seatDialog">
+
+        <customHeader>
+            <Bar class="seatDialogHeader">
+                <contentMiddle>
+                    <Title text="How many seats?" level="H4" />
+                </contentMiddle>
+            </Bar>
+        </customHeader>
 
         <content>
             <VBox
@@ -75,13 +82,13 @@
                 <HBox
                     width="100%"
                     justifyContent="Center"
-                    class="sapUiMediumMarginTop">
+                    class="seatBottomBtnRow sapUiMediumMarginTop sapUiMediumMarginBottom">
 
                     <Button
                         text="Select Seats"
                         type="Emphasized"
                         press="onSelectSeats"
-                        width="11rem" />
+                        class="seatSelectBtn" />
                 </HBox>
 
             </VBox>
