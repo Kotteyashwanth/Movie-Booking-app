@@ -1,0 +1,59 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Dialog
+        id="termsDialog"
+        title="Terms &amp; Conditions"
+        contentWidth="42rem"
+        contentHeight="34rem"
+        stretchOnPhone="true"
+        verticalScrolling="false"
+        horizontalScrolling="false"
+        class="termsDialog">
+
+        <content>
+            <ScrollContainer
+                height="24rem"
+                vertical="true"
+                horizontal="false">
+
+                <VBox class="sapUiSmallMargin termsContent">
+
+                    <Text
+                        text="Cinema reserves the right to cancel or modify showtimes without prior notice due to low occupancy, technical issues, or other operational reasons."
+                        wrapping="true" />
+
+                    <Text text="1. Right of admission reserved." wrapping="true" />
+                    <Text text="2. Ticket is compulsory for Children of 3 Years age &amp; Above." wrapping="true" />
+                    <Text text="3. Please Carry ID Proof for movies Certified with ``A`` Certificate." wrapping="true" />
+                    <Text text="4. Once Ticket Purchased cannot be Cancelled or refunded." wrapping="true" />
+                    <Text text="5. Outside food and beverages are not allowed into the theatre premises." wrapping="true" />
+                    <Text text="6. Items like Laptops, Cameras, Lighters, Matchboxes, Cigarettes or any Inflammable objects are not allowed into the theatre premises." wrapping="true" />
+                    <Text text="7. Helmets, carry bags, eatables or handbags are not allowed into the theatres, please deposit at the Baggage counter provided." wrapping="true" />
+                    <Text text="8. Only Online booking partner server messages are allowed." wrapping="true" />
+                    <Text text="9. Printout &amp; forwarded messages are not allowed for both F&amp;B as well as for movie tickets." wrapping="true" />
+                    <Text text="10. Customers under the influence of alcohol will not be allowed inside the theater." wrapping="true" />
+                    <Text text="11. Children under the age of 18 years will not be permitted in the cinema for A rated movies." wrapping="true" />
+                    <Text text="12. For 3D movies, ticket price includes charges towards usage of 3D glasses." wrapping="true" />
+
+                </VBox>
+            </ScrollContainer>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Cancel"
+                type="Transparent"
+                press=".onCloseTermsDialog" />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Accept"
+                type="Emphasized"
+                press=".onAcceptTerms" />
+        </endButton>
+
+    </Dialog>
+</core:FragmentDefinition>

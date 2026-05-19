@@ -77,5 +77,23 @@
             </VBox>
         </content>
 
+        <footer>
+            <Toolbar class="seatFooterBar" visible="{seat>/footerVisible}">
+                <content>
+                    <Text
+                        text="{= 'Tickets: ' + ${seat>/tickets} }"
+                        class="seatFooterText" />
+
+                    <ToolbarSpacer />
+
+                    <Button
+                        text="{= 'Pay ₹ ' + ${seat>/totalAmount} }"
+                        type="Emphasized"
+                        press="onPayPress"
+                        class="payBtnBlue" />
+                </content>
+            </Toolbar>
+        </footer>
+
     </Page>
 </mvc:View>

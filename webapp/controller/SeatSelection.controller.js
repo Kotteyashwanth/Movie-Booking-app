@@ -1,5 +1,6 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
+    "sap/ui/core/Fragment",
     "sap/m/VBox",
     "sap/m/HBox",
     "sap/m/Text",
@@ -11,6 +12,7 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel"
 ], function (
     Controller,
+    Fragment,
     VBox,
     HBox,
     Text,
@@ -25,13 +27,24 @@ sap.ui.define([
 
     return Controller.extend("project1.controller.SeatSelection", {
 
-        onInit: function () {
-            this._bBuilt = false;
-            this._sTheatreKey = "";
+       onInit: function () {
 
-            var oRouter = this.getOwnerComponent().getRouter();
-            oRouter.getRoute("seatSelection").attachPatternMatched(this._onRouteMatched, this);
-        },
+    this._bBuilt = false;
+    this._sTheatreKey = "";
+
+    // TICKET PRICES
+    this._mRates = {
+        silver: 80,
+        gold: 100,
+        platinum: 145
+    };
+
+    var oRouter = this.getOwnerComponent().getRouter();
+
+    oRouter
+        .getRoute("seatSelection")
+        .attachPatternMatched(this._onRouteMatched, this);
+},
     _onRouteMatched: function (oEvent) {
 
     var oArgs = oEvent.getParameter("arguments") || {};
@@ -229,17 +242,20 @@ var sDateLine = this._formatHeaderDateLine(
         sSelectedTime
     );
 
-    var oSeatModel = new JSONModel({
-        movieTitle: sMovieTitle,
-        language: sLanguage,
-        theatreLine: sTheatreLine,
-        dateLine: sDateLine,
-        baseDateLine: sDateLine,
-        selectedShowTime: sSelectedTime,
-        tickets: iSeats + " Tickets",
-        showTimes: aShowTimes
-    });
-
+  var oSeatModel = new JSONModel({
+    movieTitle: sMovieTitle,
+    language: sLanguage,
+    theatreLine: sTheatreLine,
+    dateLine: sDateLine,
+    baseDateLine: sDateLine,
+    selectedShowTime: sSelectedTime,
+    tickets: iSeats + " Tickets",
+    selectedCategory: "platinum",
+    selectedRate: 145,
+    totalAmount: 0,
+    footerVisible: false,
+    showTimes: aShowTimes
+});
     this.getView().setModel(oSeatModel, "seat");
 
     var oHost = this.byId("seatLayoutHost");
@@ -748,123 +764,122 @@ var sDateLine = this._formatHeaderDateLine(
         },
 
         _createSection: function (oSection) {
-            var oSectionBox = new VBox({ width: "100%" });
-            oSectionBox.addStyleClass("seatSection");
+    var oSectionBox = new VBox({ width: "100%" });
+    oSectionBox.addStyleClass("seatSection");
 
-            oSectionBox.addItem(new Text({
-                text: oSection.title,
-                width: "100%",
-                textAlign: "Center"
-            }).addStyleClass("sectionTitle"));
+    oSectionBox.addItem(new Text({
+        text: oSection.title,
+        width: "100%",
+        textAlign: "Center"
+    }).addStyleClass("sectionTitle"));
 
-            oSection.rows.forEach(function (oRow) {
-                oSectionBox.addItem(this._createRow(oRow));
-                if (oRow.spacerAfter) {
-                    oSectionBox.addItem(new VBox({ height: "1.2rem" }));
+    oSection.rows.forEach(function (oRow) {
+        oSectionBox.addItem(this._createRow(oSection, oRow));
+        if (oRow.spacerAfter) {
+            oSectionBox.addItem(new VBox({ height: "1.2rem" }));
+        }
+    }.bind(this));
+
+    return oSectionBox;
+},
+
+      _createRow: function (oSection, oRow) {
+    var oRowBox = new HBox({
+        width: "100%",
+        alignItems: FlexAlignItems.Center,
+        justifyContent: FlexJustifyContent.Center,
+        wrap: FlexWrap.NoWrap
+    });
+    oRowBox.addStyleClass("seatRow");
+
+    oRowBox.addItem(new Text({
+        text: oRow.label,
+        width: "2.7rem",
+        textAlign: "Center"
+    }).addStyleClass("rowLabel"));
+
+    var oBlocksBox = new HBox({
+        alignItems: FlexAlignItems.Center,
+        justifyContent: FlexJustifyContent.Center,
+        wrap: FlexWrap.NoWrap
+    });
+    oBlocksBox.addStyleClass("rowBlocks");
+
+    (oRow.blocks || []).forEach(function (vBlock, iIndex) {
+        var oBlock = new HBox({
+            alignItems: FlexAlignItems.Center,
+            justifyContent: FlexJustifyContent.Center,
+            wrap: FlexWrap.NoWrap
+        });
+        oBlock.addStyleClass("seatBlock");
+
+        if (Array.isArray(vBlock) && vBlock.length >= 2 && typeof vBlock[0] === "number" && typeof vBlock[1] === "number") {
+            var iStart = vBlock[0];
+            var iEnd = vBlock[1];
+
+            if (iStart <= iEnd) {
+                for (var i = iStart; i <= iEnd; i++) {
+                    oBlock.addItem(this._createSeatButton(i, false, null, oSection.title));
                 }
-            }.bind(this));
-
-            return oSectionBox;
-        },
-
-        _createRow: function (oRow) {
-            var oRowBox = new HBox({
-                width: "100%",
-                alignItems: FlexAlignItems.Center,
-                justifyContent: FlexJustifyContent.Center,
-                wrap: FlexWrap.NoWrap
-            });
-            oRowBox.addStyleClass("seatRow");
-
-            oRowBox.addItem(new Text({
-                text: oRow.label,
-                width: "2.7rem",
-                textAlign: "Center"
-            }).addStyleClass("rowLabel"));
-
-            var oBlocksBox = new HBox({
-                alignItems: FlexAlignItems.Center,
-                justifyContent: FlexJustifyContent.Center,
-                wrap: FlexWrap.NoWrap
-            });
-            oBlocksBox.addStyleClass("rowBlocks");
-
-            (oRow.blocks || []).forEach(function (vBlock, iIndex) {
-                var oBlock = new HBox({
-                    alignItems: FlexAlignItems.Center,
-                    justifyContent: FlexJustifyContent.Center,
-                    wrap: FlexWrap.NoWrap
-                });
-                oBlock.addStyleClass("seatBlock");
-
-                if (Array.isArray(vBlock) && vBlock.length >= 2 && typeof vBlock[0] === "number" && typeof vBlock[1] === "number") {
-                    var iStart = vBlock[0];
-                    var iEnd = vBlock[1];
-
-                    if (iStart <= iEnd) {
-                        for (var i = iStart; i <= iEnd; i++) {
-                            oBlock.addItem(this._createSeatButton(i, false));
-                        }
-                    } else {
-                        for (var j = iStart; j >= iEnd; j--) {
-                            oBlock.addItem(this._createSeatButton(j, false));
-                        }
-                    }
-                } else if (vBlock && typeof vBlock === "object") {
-                    var iObjStart = vBlock.start;
-                    var iObjEnd = vBlock.end;
-                    var aSoldSeats = vBlock.soldSeats || [];
-                    var bSoldAll = !!vBlock.sold;
-
-                    if (typeof iObjStart === "number" && typeof iObjEnd === "number") {
-                        if (iObjStart <= iObjEnd) {
-                            for (var k = iObjStart; k <= iObjEnd; k++) {
-                                var bSeatSold = bSoldAll || this._isInArray(k, aSoldSeats);
-                                oBlock.addItem(this._createSeatButton(k, bSeatSold));
-                            }
-                        } else {
-                            for (var l = iObjStart; l >= iObjEnd; l--) {
-                                var bSeatSoldRev = bSoldAll || this._isInArray(l, aSoldSeats);
-                                oBlock.addItem(this._createSeatButton(l, bSeatSoldRev));
-                            }
-                        }
-                    }
-                }
-
-                oBlocksBox.addItem(oBlock);
-
-                if (iIndex < (oRow.blocks || []).length - 1) {
-                    oBlocksBox.addItem(new VBox({ width: "1.6rem" }).addStyleClass("blockGap"));
-                }
-            }.bind(this));
-
-            oRowBox.addItem(oBlocksBox);
-            return oRowBox;
-        },
-
-             _createSeatButton: function (iSeatNo, bSold, sDisplayText) {
-            var sSeat = sDisplayText || (bSold ? "x" : String(iSeatNo));
-
-            var oBtn = new Button({
-                text: sSeat,
-                type: "Transparent",
-                press: this.onSeatPress.bind(this)
-            });
-
-            oBtn.addStyleClass("seatBtn");
-            oBtn.setFieldGroupIds(["seatBtns"]);
-
-            if (bSold) {
-                oBtn.addStyleClass("seatSold");
-                oBtn.setEnabled(false);
             } else {
-                oBtn.addStyleClass("seatAvailable");
+                for (var j = iStart; j >= iEnd; j--) {
+                    oBlock.addItem(this._createSeatButton(j, false, null, oSection.title));
+                }
             }
+        } else if (vBlock && typeof vBlock === "object") {
+            var iObjStart = vBlock.start;
+            var iObjEnd = vBlock.end;
+            var aSoldSeats = vBlock.soldSeats || [];
+            var bSoldAll = !!vBlock.sold;
 
-            return oBtn;
-        },
+            if (typeof iObjStart === "number" && typeof iObjEnd === "number") {
+                if (iObjStart <= iObjEnd) {
+                    for (var k = iObjStart; k <= iObjEnd; k++) {
+                        var bSeatSold = bSoldAll || this._isInArray(k, aSoldSeats);
+                        oBlock.addItem(this._createSeatButton(k, bSeatSold, null, oSection.title));
+                    }
+                } else {
+                    for (var l = iObjStart; l >= iObjEnd; l--) {
+                        var bSeatSoldRev = bSoldAll || this._isInArray(l, aSoldSeats);
+                        oBlock.addItem(this._createSeatButton(l, bSeatSoldRev, null, oSection.title));
+                    }
+                }
+            }
+        }
 
-        onSeatPress: function (oEvent) {
+        oBlocksBox.addItem(oBlock);
+
+        if (iIndex < (oRow.blocks || []).length - 1) {
+            oBlocksBox.addItem(new VBox({ width: "1.6rem" }).addStyleClass("blockGap"));
+        }
+    }.bind(this));
+
+    oRowBox.addItem(oBlocksBox);
+    return oRowBox;
+},
+           _createSeatButton: function (iSeatNo, bSold, sDisplayText, sSectionTitle) {
+    var sSeat = sDisplayText || (bSold ? "x" : String(iSeatNo));
+
+    var oBtn = new Button({
+        text: sSeat,
+        type: "Transparent",
+        press: this.onSeatPress.bind(this)
+    });
+
+    oBtn.addStyleClass("seatBtn");
+    oBtn.setFieldGroupIds(["seatBtns"]);
+    oBtn.data("category", this._getCategoryFromSectionTitle(sSectionTitle));
+
+    if (bSold) {
+        oBtn.addStyleClass("seatSold");
+        oBtn.setEnabled(false);
+    } else {
+        oBtn.addStyleClass("seatAvailable");
+    }
+
+    return oBtn;
+},
+     onSeatPress: function (oEvent) {
 
     var oButton = oEvent.getSource();
 
@@ -874,44 +889,77 @@ var sDateLine = this._formatHeaderDateLine(
 
     var sSeatId = oButton.getText();
 
-    // REMOVE SELECTION
     if (oButton.data("selected")) {
 
         oButton.data("selected", false);
-
         oButton.removeStyleClass("selectedSeat");
 
-        this.selectedSeats =
-            this.selectedSeats.filter(function (s) {
-                return s !== sSeatId;
-            });
+        this.selectedSeats = this.selectedSeats.filter(function (s) {
+            return s !== sSeatId;
+        });
 
     } else {
 
         var iLimit = this._iSelectedTicketCount || 1;
 
-        // LIMIT CHECK
         if (this.selectedSeats.length >= iLimit) {
-
-            sap.m.MessageToast.show(
-                "You can select only " + iLimit + " seats"
-            );
-
+            sap.m.MessageToast.show("You can select only " + iLimit + " seats");
             return;
         }
 
-        // ADD BLUE CLASS
         oButton.data("selected", true);
-
         oButton.addStyleClass("selectedSeat");
-
         this.selectedSeats.push(sSeatId);
     }
 
-    // FORCE UI REFRESH
-    oButton.rerender();
+    var oSeatModel = this.getView().getModel("seat");
+    var iLimitSeats = this._iSelectedTicketCount || 1;
+    var iSelectedCount = this.selectedSeats.length;
+
+    if (oSeatModel) {
+        oSeatModel.setProperty("/footerVisible", iSelectedCount === iLimitSeats);
+    }
+
+    if (iSelectedCount === iLimitSeats) {
+        var sCategory = oButton.data("category") || "platinum";
+        this._updateTotalAmount(sCategory);
+    } else if (oSeatModel) {
+        oSeatModel.setProperty("/totalAmount", 0);
+    }
 },
-        _createLegend: function () {
+onPayPress: function () {
+    if (this._oTermsDialog) {
+        this._oTermsDialog.open();
+        return;
+    }
+
+    Fragment.load({
+        id: this.getView().getId(),
+        name: "project1.view.TermsDialog",
+        controller: this
+    }).then(function (oDialog) {
+        this._oTermsDialog = oDialog;
+        this.getView().addDependent(oDialog);
+        oDialog.open();
+    }.bind(this)).catch(function (oError) {
+        console.error("Terms dialog load failed:", oError);
+        sap.m.MessageToast.show("Unable to open Terms & Conditions");
+    });
+},
+onCloseTermsDialog: function () {
+    if (this._oTermsDialog) {
+        this._oTermsDialog.close();
+    }
+},
+
+onAcceptTerms: function () {
+    if (this._oTermsDialog) {
+        this._oTermsDialog.close();
+    }
+
+    sap.m.MessageToast.show("Terms Accepted");
+},
+    _createLegend: function () {
             var oLegend = new HBox({
                 justifyContent: FlexJustifyContent.Center,
                 alignItems: FlexAlignItems.Center,
@@ -1043,19 +1091,19 @@ onMoreTicketsPress: function () {
             draggable: true,
             resizable: false,
             customHeader: new sap.m.Bar({
-    contentMiddle: [
-        new sap.m.HBox({
-            width: "100%",
-            justifyContent: "Center",
-            alignItems: "Center",
-            items: [
-                new sap.m.Title({
-                    text: "How many seats?"
-                }).addStyleClass("seatDialogTitle")
-            ]
-        })
-    ]
-}),
+                contentMiddle: [
+                    new sap.m.HBox({
+                        width: "100%",
+                        justifyContent: "Center",
+                        alignItems: "Center",
+                        items: [
+                            new sap.m.Title({
+                                text: "How many seats?"
+                            }).addStyleClass("seatDialogTitle")
+                        ]
+                    })
+                ]
+            }),
             content: [oContent],
             beginButton: new sap.m.Button({
                 text: "Select Seats",
@@ -1112,9 +1160,10 @@ _setSelectedTicketCount: function (iSelected) {
 
     var oSeatModel = this.getView().getModel("seat");
 
-    if (oSeatModel) {
-        oSeatModel.setProperty("/tickets", iSelected + " Tickets");
-    }
+   if (oSeatModel) {
+    oSeatModel.setProperty("/footerVisible", false);
+    oSeatModel.setProperty("/totalAmount", 0);
+}
 
     var oAppModel = this.getOwnerComponent().getModel("app");
 
@@ -1137,9 +1186,14 @@ _setSelectedTicketCount: function (iSelected) {
         });
     }
 
-    if (this._oTicketImage) {
-        this._oTicketImage.setSrc(this._getTicketImageSrc(iSelected));
-    }
+  if (this._oTicketImage) {
+    this._oTicketImage.setSrc(this._getTicketImageSrc(iSelected));
+}
+
+if (oSeatModel) {
+    oSeatModel.setProperty("/footerVisible", false);
+    oSeatModel.setProperty("/totalAmount", 0);
+}
 },
 _getCurrentTicketCount: function (oSeatModel) {
     var iCount = 1;
@@ -1189,6 +1243,78 @@ _createPriceBlock: function (sTitle, sPrice, sStatus) {
             new sap.m.Text({ text: sStatus })
         ]
     }).addStyleClass("ticketPriceBlock");
+},
+_getCategoryFromSectionTitle: function (sTitle) {
+    sTitle = String(sTitle || "").toLowerCase();
+
+    if (sTitle.indexOf("80") > -1 || sTitle.indexOf("silver") > -1) {
+        return "silver";
+    }
+
+    if (sTitle.indexOf("100") > -1 || sTitle.indexOf("gold") > -1) {
+        return "gold";
+    }
+
+    return "platinum";
+},
+_getSeatCategory: function (sRowLabel) {
+
+    sRowLabel = String(sRowLabel || "").toUpperCase();
+
+    // SILVER
+    if (
+        sRowLabel === "V" ||
+        sRowLabel === "W" ||
+        sRowLabel === "X" ||
+        sRowLabel === "Y" ||
+        sRowLabel === "Z" ||
+        sRowLabel === "XX" ||
+        sRowLabel === "YY" ||
+        sRowLabel === "ZZ"
+    ) {
+        return "silver";
+    }
+
+    // GOLD
+    if (
+        sRowLabel === "P" ||
+        sRowLabel === "Q" ||
+        sRowLabel === "R" ||
+        sRowLabel === "S" ||
+        sRowLabel === "T" ||
+        sRowLabel === "U"
+    ) {
+        return "gold";
+    }
+
+    // DEFAULT
+    return "platinum";
+},
+
+_updateTotalAmount: function (sCategory) {
+
+    var oSeatModel = this.getView().getModel("seat");
+
+    if (!oSeatModel) {
+        return;
+    }
+
+    var iCount = parseInt(this._iSelectedTicketCount, 10);
+
+    if (isNaN(iCount) || iCount < 1) {
+        iCount = 1;
+    }
+
+    var sSelectedCategory =
+        sCategory ||
+        oSeatModel.getProperty("/selectedCategory") ||
+        "platinum";
+
+    var iRate = this._mRates[sSelectedCategory] || 145;
+
+    oSeatModel.setProperty("/selectedCategory", sSelectedCategory);
+    oSeatModel.setProperty("/selectedRate", iRate);
+    oSeatModel.setProperty("/totalAmount", iCount * iRate);
 },
 
 _formatHeaderDateLine: function (sDateISO, sFallbackDate, sTime) {

@@ -1,43 +1,104 @@
 <mvc:View
-  controllerName="project1.controller.Login"
-  xmlns:mvc="sap.ui.core.mvc"
-  xmlns="sap.m"
-  xmlns:core="sap.ui.core"
-  displayBlock="true">
+    controllerName="project1.controller.Login"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true">
 
-  <Page showHeader="false" class="loginPage">
-    <content>
-      <VBox class="loginBox" alignItems="Center" justifyContent="Center">
-        <Text text="MOVIE TICKET APP" class="appTitle" />
-        <Text text="Customer Login" class="appSubTitle" />
+    <Page
+        showHeader="false"
+        class="loginPage">
 
-        <Input
-          placeholder="Email"
-          value="{/email}"
-          width="100%"
-          type="Email" />
+        <content>
 
-        <Input
-          placeholder="Password"
-          type="Password"
-          value="{/password}"
-          width="100%" />
+            <VBox
+                class="loginOuter"
+                width="100%"
+                height="100%"
+                justifyContent="Center"
+                alignItems="Center">
 
-        <Button
-          text="Login"
-          type="Emphasized"
-          width="100%"
-          press="onLogin" />
+                <VBox
+                    class="loginBox"
+                    width="22rem"
+                    alignItems="Stretch">
 
-        <Link text="Forgot Password?" press="onForgotPassword" class="smallLink" />
+                    <!-- TITLE -->
+                    <Text
+                        text="MOVIE TICKET APP"
+                        class="appTitle"
+                        textAlign="Center" />
 
-        <HBox justifyContent="Center" class="signupRow">
-          <Text text="Don't have an account?" />
-          <Link text=" Create Account" press="onCreateAccount" />
-        </HBox>
+                    <Text
+                        text="Customer Login"
+                        class="appSubTitle"
+                        textAlign="Center" />
 
-        <Text text="{/message}" class="messageText" />
-      </VBox>
-    </content>
-  </Page>
+                    <!-- EMAIL / PHONE -->
+                    <Label
+                        text="Email / Phone Number"
+                        required="true"
+                        class="formLabel" />
+
+                    <Input
+                        id="identifierInput"
+                        value="{/identifier}"
+                        width="100%"
+                        placeholder="Enter email or 10-digit phone number" />
+
+                    <!-- PASSWORD -->
+                    <Label
+                        text="Password"
+                        required="true"
+                        class="formLabel" />
+
+                    <Input
+                        id="passwordInput"
+                        type="Password"
+                        value="{/password}"
+                        width="100%"
+                        placeholder="Enter your password"
+                        showValueHelp="true"
+                        valueHelpIconSrc="sap-icon://hide"
+                        valueHelpRequest="onTogglePassword" />
+
+                    <!-- LOGIN BUTTON -->
+                    <Button
+                        text="Login"
+                        type="Emphasized"
+                        width="100%"
+                        press="onLogin"
+                        class="signupButton" />
+
+                    <!-- FORGOT PASSWORD -->
+                    <Link
+                        text="Forgot Password?"
+                        press="onForgotPassword"
+                        class="smallLink" />
+
+                    <!-- CREATE ACCOUNT -->
+                    <HBox
+                        justifyContent="Center"
+                        class="signupRow">
+
+                        <Text text="Don't have an account?" />
+
+                        <Link
+                            text=" Create Account"
+                            press="onCreateAccount" />
+
+                    </HBox>
+
+                    <!-- MESSAGE -->
+                    <Text
+                        text="{/message}"
+                        class="messageText" />
+
+                </VBox>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
 </mvc:View>
