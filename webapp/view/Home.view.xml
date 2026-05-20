@@ -5,27 +5,57 @@
     xmlns:core="sap.ui.core"
     displayBlock="true">
 
-    <Page title="Movie Ticket App" class="homePage">
+    <Page class="homePage" showHeader="false">
 
-        <subHeader>
+        <customHeader>
             <Toolbar class="homeToolbar">
 
-                <Title
-                    text="Recommended Movies"
-                    level="H2" />
+                <HBox alignItems="Center" renderType="Bare">
+                    <core:Icon src="sap-icon://video" size="1.6rem" />
+                    <Title text="Movie Ticket App" level="H2" class="sapUiSmallMarginBegin" />
+                </HBox>
 
                 <ToolbarSpacer />
 
+                <HBox
+                    alignItems="Center"
+                    renderType="Bare"
+                    visible="{= ${/user/loggedIn} }">
+
+                    <Avatar
+                        initials="{/user/initials}"
+                        displaySize="S"
+                        class="sapUiTinyMarginEnd" />
+
+                    <VBox class="sapUiTinyMarginEnd">
+                        <Text text="Welcome, {/user/displayName}" class="sapUiTinyMarginBottom" />
+                        <Text text="{/user/email}" class="sapUiSmallFontSize" wrapping="false" />
+                    </VBox>
+
+                    <MenuButton icon="sap-icon://slim-arrow-down" type="Transparent">
+                        <menu>
+                            <Menu>
+                                <MenuItem text="Logout" icon="sap-icon://log" press="onLogout" />
+                            </Menu>
+                        </menu>
+                    </MenuButton>
+                </HBox>
+
+            </Toolbar>
+        </customHeader>
+
+        <subHeader>
+            <Toolbar class="homeToolbar">
+                <Title text="Recommended Movies" level="H2" />
+                <ToolbarSpacer />
                 <SearchField
                     width="18rem"
                     placeholder="Search movie"
                     liveChange="onSearch" />
-
             </Toolbar>
         </subHeader>
 
         <content>
-
             <VBox class="movieWrapper">
 
                 <Button
@@ -54,7 +84,6 @@
                         class="movieRow">
 
                         <items>
-
                             <VBox class="movieCard">
 
                                 <Image
@@ -68,31 +97,27 @@
                                     class="moviePoster" />
 
                                 <VBox class="movieInfo">
-
                                     <Title
                                         text="{title}"
                                         level="H4"
-                                        class="movieTitle" />
+                                        class="movieTitleBold" />
 
                                     <Text
-                                        text="{genre}"
+                                        text="{
+                                            path: 'genre',
+                                            formatter: '.formatGenre'
+                                        }"
                                         class="movieGenre"
                                         wrapping="true" />
-
                                 </VBox>
 
                             </VBox>
-
                         </items>
 
                     </HBox>
 
                 </ScrollContainer>
-
             </VBox>
-
         </content>
-
     </Page>
-
 </mvc:View>

@@ -622,3 +622,28 @@
         font-size: 0.82rem !important;
     }
 }
+.movieTitleBold {
+
+    font-size: 1.45rem !important;
+
+    font-weight: 800 !important;
+
+    color: #ffffff !important;
+
+    margin-top: 0.55rem !important;
+
+    line-height: 1.5rem !important;
+
+    letter-spacing: 0.01rem;
+}
+
+.movieGenre {
+
+    font-size: 1rem !important;
+
+    color: #d1d5db !important;
+
+    margin-top: 0.25rem !important;
+
+    line-height: 1.2rem !important;
+}

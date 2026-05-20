@@ -201,6 +201,12 @@ sap.ui.define([
                     sPassword
                 );
 
+                if (oFB.auth.currentUser) {
+                    await oFB.authMod.updateProfile(oFB.auth.currentUser, {
+                        displayName: sName
+                    });
+                }
+
                 MessageToast.show(
                     "Account created successfully"
                 );

@@ -15,7 +15,7 @@
                         <!-- Poster -->
                         <VBox width="550px" class="sapUiSmallMarginEnd">
                             <Image
-                                src="{app>/selectedMovie/poster}"
+                                src="{= ${app>/selectedMovie/poster} || '' }"
                                 width="550px"
                                 height="650px"
                                 densityAware="false" />
@@ -25,26 +25,26 @@
                         <VBox fitContainer="true" width="100%" class="sapUiSmallMarginBegin">
 
                             <Title
-                                text="{app>/selectedMovie/title}"
+                                text="{= ${app>/selectedMovie/title} || 'N/A' }"
                                 level="H1"
                                 class="movieDetailTitle sapUiSmallMarginBottom" />
 
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Genre" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
-                                <Text text="{app>/selectedMovie/genre}" wrapping="true" class="movieDetailValue" />
+                                <Text text="{= ${app>/selectedMovie/genre} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Release Date" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
-                                <Text text="{app>/selectedMovie/release}" wrapping="true" class="movieDetailValue" />
+                                <Text text="{= ${app>/selectedMovie/release} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Duration" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
-                                <Text text="{app>/selectedMovie/duration}" wrapping="true" class="movieDetailValue" />
+                                <Text text="{= ${app>/selectedMovie/duration} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
                             <!-- Cast & Crew Heading -->
@@ -56,48 +56,48 @@
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Hero" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
-                                <Text text="{app>/selectedMovie/hero}" wrapping="true" class="movieDetailValue" />
+                                <Text text="{= ${app>/selectedMovie/hero} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Heroine" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
-                                <Text text="{app>/selectedMovie/heroine}" wrapping="true" class="movieDetailValue" />
+                                <Text text="{= ${app>/selectedMovie/heroine} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Director" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
-                                <Text text="{app>/selectedMovie/director}" wrapping="true" class="movieDetailValue" />
+                                <Text text="{= ${app>/selectedMovie/director} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Producer" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
-                                <Text text="{app>/selectedMovie/producer}" wrapping="true" class="movieDetailValue" />
+                                <Text text="{= ${app>/selectedMovie/producer} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Music Director" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
-                                <Text text="{app>/selectedMovie/musicDirector}" wrapping="true" class="movieDetailValue" />
+                                <Text text="{= ${app>/selectedMovie/musicDirector} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Cinematography" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
-                                <Text text="{app>/selectedMovie/cinematography}" wrapping="true" class="movieDetailValue" />
+                                <Text text="{= ${app>/selectedMovie/cinematography} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Editor" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
-                                <Text text="{app>/selectedMovie/editor}" wrapping="true" class="movieDetailValue" />
+                                <Text text="{= ${app>/selectedMovie/editor} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
                             <Title text="Synopsis" level="H3" class="sapUiSmallMarginTop sapUiSmallMarginBottom" />
-                            <Text text="{app>/selectedMovie/synopsis1}" wrapping="true" class="movieDetailValue" />
-                            <Text text="{app>/selectedMovie/synopsis2}" wrapping="true" class="movieDetailValue sapUiTinyMarginTop" />
+                            <Text text="{= ${app>/selectedMovie/synopsis1} || 'N/A' }" wrapping="true" class="movieDetailValue" />
+                            <Text text="{= ${app>/selectedMovie/synopsis2} || '' }" wrapping="true" class="movieDetailValue sapUiTinyMarginTop" />
 
                         </VBox>
                     </HBox>
