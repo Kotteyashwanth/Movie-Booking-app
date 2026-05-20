@@ -11,30 +11,30 @@ sap.ui.define([
 
   return Controller.extend("project1.controller.Home", {
 
-   onInit: function () {
-  var oAppModel = this.getOwnerComponent().getModel("app");
+    onInit: function () {
+      var oAppModel = this.getOwnerComponent().getModel("app");
 
-  if (!oAppModel) {
-    oAppModel = new JSONModel({
-      movies: [],
-      selectedMovie: null
-    });
-    this.getOwnerComponent().setModel(oAppModel, "app");
-  }
+      if (!oAppModel) {
+        oAppModel = new JSONModel({
+          movies: [],
+          selectedMovie: null
+        });
+        this.getOwnerComponent().setModel(oAppModel, "app");
+      }
 
-  this.getView().setModel(oAppModel);
+      this.getView().setModel(oAppModel);
 
-  // ADD THIS CODE
-  var oUserModel = sap.ui.getCore().getModel("user");
+      var oUserModel = sap.ui.getCore().getModel("user");
 
-  if (oUserModel) {
-    this.getView().setModel(oUserModel, "user");
-  }
+      if (oUserModel) {
+        this.getView().setModel(oUserModel, "user");
+      }
 
-  this.oRouter = this.getOwnerComponent().getRouter();
+      this.oRouter = this.getOwnerComponent().getRouter();
 
-  this._loadMovies();
-},
+      this._loadMovies();
+    },
+
     _getFallbackPoster: function (sTitle) {
       return "https://placehold.co/500x750/111827/ffffff?text=" + encodeURIComponent(sTitle || "Movie");
     },
@@ -104,22 +104,95 @@ sap.ui.define([
       return {
         id: oMovie.id,
         movieId: oMovie.movieId,
-
-        // real TMDB id
         tmdbId: oTmdbResult && oTmdbResult.id ? oTmdbResult.id : null,
-
         title: oMovie.title,
         genre: oMovie.genre,
         hero: oMovie.hero || "",
+        languages: oMovie.languages || "",
+        duration: oMovie.duration || "",
+        synopsis1: oMovie.synopsis1 || "",
         poster: oTmdbResult && oTmdbResult.poster_path
           ? "https://image.tmdb.org/t/p/w500" + oTmdbResult.poster_path
           : this._getFallbackPoster(oMovie.title),
-        release: oTmdbResult && oTmdbResult.release_date
-          ? oTmdbResult.release_date
-          : (oMovie.release || ""),
+        release: oMovie.release || oMovie.releaseDate || "",
         rating: oTmdbResult && oTmdbResult.vote_average ? oTmdbResult.vote_average : "",
         overview: oTmdbResult && oTmdbResult.overview ? oTmdbResult.overview : ""
       };
+    },
+
+    _parseReleaseDate: function (sRelease) {
+      if (!sRelease) {
+        return Number.POSITIVE_INFINITY;
+      }
+
+      var sValue = String(sRelease).trim();
+      if (!sValue) {
+        return Number.POSITIVE_INFINITY;
+      }
+
+      var aMonthMap = {
+        jan: 0, january: 0,
+        feb: 1, february: 1,
+        mar: 2, march: 2,
+        apr: 3, april: 3,
+        may: 4,
+        jun: 5, june: 5,
+        jul: 6, july: 6,
+        aug: 7, august: 7,
+        sep: 8, sept: 8, september: 8,
+        oct: 9, october: 9,
+        nov: 10, november: 10,
+        dec: 11, december: 11
+      };
+
+      if (/^\d{4}$/.test(sValue)) {
+        return new Date(parseInt(sValue, 10), 0, 1).getTime();
+      }
+
+      var aMatch = sValue.match(/^(\d{1,2})\s*([A-Za-z]+)\s*(\d{4})$/);
+      if (aMatch) {
+        var iDay = parseInt(aMatch[1], 10);
+        var sMonthKey = String(aMatch[2]).toLowerCase();
+        var iYear = parseInt(aMatch[3], 10);
+        var iMonth = aMonthMap[sMonthKey];
+
+        if (iMonth !== undefined && !isNaN(iDay) && !isNaN(iYear)) {
+          return new Date(iYear, iMonth, iDay).getTime();
+        }
+      }
+
+      var iTime = Date.parse(sValue);
+      if (!isNaN(iTime)) {
+        return iTime;
+      }
+
+      return Number.POSITIVE_INFINITY;
+    },
+
+    _sortMoviesByReleaseDateAndAssignIds: function (aMovies) {
+      return aMovies
+        .map(function (oMovie, iIndex) {
+          return {
+            movie: oMovie,
+            index: iIndex
+          };
+        })
+        .sort(function (a, b) {
+          var iDateA = this._parseReleaseDate(a.movie.release || a.movie.releaseDate);
+          var iDateB = this._parseReleaseDate(b.movie.release || b.movie.releaseDate);
+
+          if (iDateA !== iDateB) {
+            return iDateA - iDateB;
+          }
+
+          return a.index - b.index;
+        }.bind(this))
+        .map(function (oItem, iNewIndex) {
+          var oMovie = Object.assign({}, oItem.movie);
+          oMovie.id = iNewIndex + 1;
+          oMovie.movieId = iNewIndex + 1;
+          return oMovie;
+        });
     },
 
     formatGenre: function (sGenre) {
@@ -143,28 +216,24 @@ sap.ui.define([
         {
           id: 1,
           movieId: 1,
-          title: "Varanasi",
-          genre: "Telugu, Drama",
-          hero: "Mahesh Babu",
-          release: "2027",
-          searchTerms: ["Varanasi Mahesh Babu", "Varanasi"]
+          title: "Peddi",
+          genre: "Telugu, Action, Drama",
+          hero: "",
+          release: "4 Jun 2026",
+          duration: "2h 40min",
+          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+          searchTerms: ["Peddi"]
         },
         {
           id: 2,
           movieId: 2,
-          title: "Spirit",
-          genre: "Telugu, Action, Thriller",
-          hero: "Prabhas",
-          release: "2027",
-          searchTerms: ["Spirit Prabhas", "Spirit"]
-        },
-        {
-          id: 3,
-          movieId: 3,
           title: "Cocktail-2",
           genre: "Telugu, Romantic, Comedy",
           hero: "",
-          release: "2026",
+          release: "19 Jun 2026",
+          duration: "2h 32min",
+          languages: "Hindi",
+          synopsis1: "A fun-filled romantic comedy that follows the chaotic lives, friendships, and relationships of a lively group of youngsters.",
           searchTerms: [
             "Cocktail-2",
             "Cocktail 2",
@@ -173,12 +242,30 @@ sap.ui.define([
           ]
         },
         {
+          id: 3,
+          movieId: 3,
+          title: "Vishwambhara",
+          genre: "Telugu, Fantasy, Action",
+          hero: "Chiranjeevi",
+          release: "10 Jul 2026",
+          duration: "2h 58min",
+          languages: "Telugu, Hindi, Tamil",
+          synopsis1: "A fantasy action entertainer where a mighty warrior rises to protect the world from dark supernatural forces.",
+          searchTerms: [
+            "Vishwambhara Chiranjeevi",
+            "Vishwambhara",
+            "Viswambhara Chiranjeevi"
+          ]
+        },
+        {
           id: 4,
           movieId: 4,
           title: "Viswanth And Sons",
           genre: "Telugu, Family, Drama",
           hero: "Suriya",
-          release: "",
+          release: "23 Jul 2026",
+          duration: "2h 48min",
+          languages: "Telugu,Tamil",
           searchTerms: [
             "Viswanth And Sons Suriya",
             "Viswanath & Sons Suriya",
@@ -189,10 +276,27 @@ sap.ui.define([
         {
           id: 5,
           movieId: 5,
+          title: "Spider-Man: Brand New Day",
+          genre: "English, Superhero, Action",
+          hero: "",
+          release: "31 Jul 2026",
+          duration: "2h 35min",
+          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada, English",
+          searchTerms: [
+            "Spider-Man: Brand New Day",
+            "Spider Man Brand New Day",
+            "Spider-Man Brand New Day"
+          ]
+        },
+        {
+          id: 6,
+          movieId: 6,
           title: "The Paradise",
           genre: "Telugu, Drama, Action, Thriller",
           hero: "Nani",
           release: "28 Aug 2026",
+          duration: "2h 50min",
+          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
           searchTerms: [
             "The Paradise Nani",
             "Paradise Nani",
@@ -201,25 +305,19 @@ sap.ui.define([
           ]
         },
         {
-          id: 6,
-          movieId: 6,
-          title: "Peddi",
-          genre: "Telugu, Action, Drama",
-          hero: "",
-          release: "",
-          searchTerms: ["Peddi"]
-        },
-        {
           id: 7,
           movieId: 7,
-          title: "Spider-Man: Brand New Day",
-          genre: "English, Superhero, Action",
-          hero: "",
-          release: "",
+          title: "Ranabaali",
+          genre: "Telugu, Action",
+          hero: "Vijay Deverakonda, Rashmika Mandanna",
+          release: "11 Sep 2026",
+          duration: "2h 46min",
+          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+          synopsis1: "A gripping action drama that follows the journey of a rebellious young man caught between love, revenge, and destiny.",
           searchTerms: [
-            "Spider-Man: Brand New Day",
-            "Spider Man Brand New Day",
-            "Spider-Man Brand New Day"
+            "Ranabaali Vijay Deverakonda",
+            "Ranabaali Rashmika Mandanna",
+            "Ranabaali"
           ]
         },
         {
@@ -228,7 +326,9 @@ sap.ui.define([
           title: "Avengers: Doomsday",
           genre: "English, Superhero, Action",
           hero: "",
-          release: "",
+          release: "18 Dec 2026",
+          duration: "3h 15min",
+          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada, English",
           searchTerms: [
             "Avengers: Doomsday",
             "Avengers Doomsday",
@@ -238,42 +338,62 @@ sap.ui.define([
         {
           id: 9,
           movieId: 9,
-          title: "Vishwambhara",
-          genre: "Telugu, Fantasy, Action",
-          hero: "Chiranjeevi",
-          release: "2026",
-          searchTerms: [
-            "Vishwambhara Chiranjeevi",
-            "Vishwambhara",
-            "Viswambhara Chiranjeevi"
-          ]
-        },
-        {
-          id: 10,
-          movieId: 10,
           title: "Rowdy Janardhana",
           genre: "Telugu, Action, Drama",
           hero: "",
-          release: "2026",
+          release: "25 Dec2026",
+          duration: "2h 44min",
+          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+          synopsis1: "An action-packed rural drama centered around a fearless man who stands against injustice and corruption.",
           searchTerms: [
             "Rowdy Janardhana",
             "Rowdy Janardhana Telugu"
           ]
         },
         {
+          id: 10,
+          movieId: 10,
+          title: "Spirit",
+          genre: "Telugu, Action, Thriller",
+          hero: "Prabhas",
+          release: "5 Mar 2027",
+          duration: "2h 55min",
+          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+          synopsis1: "A fierce police officer battles a powerful criminal network while confronting his own inner demons in this intense action thriller.",
+          searchTerms: ["Spirit Prabhas", "Spirit"]
+        },
+        {
           id: 11,
           movieId: 11,
-          title: "Ranabaali",
-          genre: "Telugu, Action",
-          hero: "Vijay Deverakonda, Rashmika Mandanna",
-          release: "11 Sep 2026",
+          title: "Varanasi",
+          genre: "Telugu, Drama",
+          hero: "Mahesh Babu",
+          release: "7 Apr 2027",
+          duration: "3h 05min",
+          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+          searchTerms: ["Varanasi Mahesh Babu", "Varanasi"]
+        },
+        {
+          id: 12,
+          movieId: 12,
+          title: "Dragon",
+          genre: "Telugu, Action, Thriller",
+          hero: "Jr NTR",
+          release: "11 Jun 2027",
+          duration: "3h 10min",
+          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+          synopsis1: "A high-octane action thriller directed by Prashanth Neel featuring Jr NTR in a powerful and intense role.",
           searchTerms: [
-            "Ranabaali Vijay Deverakonda",
-            "Ranabaali Rashmika Mandanna",
-            "Ranabaali"
+            "NTR Neel",
+            "Dragon NTR",
+            "Dragon Jr NTR",
+            "Prashanth Neel NTR",
+            "NTR31"
           ]
         }
       ];
+
+      aMovies = this._sortMoviesByReleaseDateAndAssignIds(aMovies);
 
       var aRequests = aMovies.map(function (oMovie) {
         return this._searchTmdbMovie(oMovie.searchTerms, sApiKey)
@@ -324,35 +444,34 @@ sap.ui.define([
       ]);
     },
 
-  onMoviePress: function (oEvent) {
-  var oSource = oEvent.getSource();
+    onMoviePress: function (oEvent) {
+      var oSource = oEvent.getSource();
 
-  var oContext =
-    oSource.getBindingContext() ||
-    oSource.getBindingContext("app");
+      var oContext =
+        oSource.getBindingContext() ||
+        oSource.getBindingContext("app");
 
-  if (!oContext) {
-    return;
-  }
+      if (!oContext) {
+        return;
+      }
 
-  var oMovie = Object.assign({}, oContext.getObject());
+      var oMovie = Object.assign({}, oContext.getObject());
 
-  if (!oMovie) {
-    return;
-  }
+      if (!oMovie) {
+        return;
+      }
 
-  var oAppModel = this.getOwnerComponent().getModel("app");
+      var oAppModel = this.getOwnerComponent().getModel("app");
 
-  oAppModel.setProperty("/selectedMovie", null);
-  oAppModel.setProperty("/selectedMovie", oMovie);
+      oAppModel.setProperty("/selectedMovie", null);
+      oAppModel.setProperty("/selectedMovie", oMovie);
 
-  // send manual id only
-  var sMovieId = oMovie.movieId || oMovie.id;
+      var sMovieId = oMovie.movieId || oMovie.id;
 
-  this.oRouter.navTo("movieDetails", {
-    movieId: String(sMovieId)
-  });
-},
+      this.oRouter.navTo("movieDetails", {
+        movieId: String(sMovieId)
+      });
+    },
 
     onScrollLeft: function () {
       var oDom = this.byId("movieScroller").getDomRef();

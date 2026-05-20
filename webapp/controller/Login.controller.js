@@ -178,9 +178,7 @@ sap.ui.define([
                     sIdentifier
                 );
 
-                MessageBox.success(
-                    "Password reset email sent. Check Inbox or Spam folder."
-                );
+                MessageToast.show("Password reset email sent.");
 
             } catch (e) {
 

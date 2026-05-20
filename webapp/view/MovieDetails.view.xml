@@ -47,6 +47,12 @@
                                 <Text text="{= ${app>/selectedMovie/duration} || 'N/A' }" wrapping="true" class="movieDetailValue" />
                             </HBox>
 
+                            <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
+                                <Text text="Languages" width="145px" class="movieDetailLabel" />
+                                <Text text=":" width="20px" class="movieDetailColon" />
+                                <Text text="{= ${app>/selectedMovie/languages} || 'N/A' }" wrapping="true" class="movieDetailValue" />
+                            </HBox>
+
                             <!-- Cast & Crew Heading -->
                             <Title
                                 text="Cast &amp; Crew"
