@@ -1,18 +1,22 @@
 sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "project1/model/models",
-  "sap/m/MessageToast"
-], function (Controller, models, MessageToast) {
+  "sap/m/MessageToast",
+  "sap/m/Dialog",
+  "sap/m/Button",
+  "sap/m/VBox",
+  "sap/m/Text"
+], function (Controller, models, MessageToast, Dialog, Button, VBox, Text) {
   "use strict";
 
-  function pickValue(primary, fallback) {
+  function pickValue(primary, fallback, defaultValue) {
     if (primary !== undefined && primary !== null && primary !== "") {
       return primary;
     }
     if (fallback !== undefined && fallback !== null && fallback !== "") {
       return fallback;
     }
-    return "N/A";
+    return defaultValue !== undefined ? defaultValue : "N/A";
   }
 
   return Controller.extend("project1.controller.MovieDetails", {
@@ -20,6 +24,13 @@ sap.ui.define([
     onInit: function () {
       this.oRouter = this.getOwnerComponent().getRouter();
       this.oRouter.getRoute("movieDetails").attachPatternMatched(this._onMovieMatched, this);
+    },
+
+    onExit: function () {
+      if (this._oFormatDialog) {
+        this._oFormatDialog.destroy();
+        this._oFormatDialog = null;
+      }
     },
 
     _onMovieMatched: async function (oEvent) {
@@ -70,16 +81,21 @@ sap.ui.define([
 
         var oMovie = {
           tmdbId: sIdToFetch,
-          title: pickValue(oData.title, oSelectedMovie.title),
+          title: pickValue(oData.title, oSelectedMovie.title, "N/A"),
           poster: oData.poster_path
             ? "https://image.tmdb.org/t/p/w500" + oData.poster_path
             : (oSelectedMovie.poster || ""),
           genre: (oData.genres && oData.genres.length)
             ? oData.genres.map(function (g) { return g.name; }).join(", ")
             : "N/A",
-            languages: oSelectedMovie.languages || "N/A",
+          languages: oSelectedMovie.languages || "N/A",
           release: pickValue(oSelectedMovie.release, oSelectedMovie.releaseDate, "N/A"),
-duration: pickValue(oSelectedMovie.duration, oData.runtime ? String(oData.runtime) + " min" : "N/A"),
+          duration: pickValue(
+            oSelectedMovie.duration,
+            oData.runtime ? String(oData.runtime) + " min" : "N/A",
+            "N/A"
+          ),
+          displayFormat: pickValue(oSelectedMovie.displayFormat, "2D", "2D"),
           hero: aCast.length > 0 ? aCast[0].name : "N/A",
           heroine: aCast.length > 1 ? aCast[1].name : "N/A",
           director: getCrewName(["Director"]),
@@ -87,7 +103,7 @@ duration: pickValue(oSelectedMovie.duration, oData.runtime ? String(oData.runtim
           musicDirector: getCrewName(["Original Music Composer", "Music"]),
           cinematography: getCrewName(["Director of Photography", "Cinematography"]),
           editor: getCrewName(["Editor"]),
-          synopsis1: pickValue(oData.overview, oSelectedMovie.synopsis1)
+          synopsis1: pickValue(oData.overview, oSelectedMovie.synopsis1, "N/A")
         };
 
         oAppModel.setProperty("/selectedMovie", oMovie);
@@ -112,14 +128,138 @@ duration: pickValue(oSelectedMovie.duration, oData.runtime ? String(oData.runtim
         return;
       }
 
-      var oMovie = oAppModel.getProperty("/selectedMovie");
-
-      if (!oMovie) {
+      var oMovie = oAppModel.getProperty("/selectedMovie") || {};
+      if (!oMovie || !oMovie.title) {
         MessageToast.show("No movie selected");
         return;
       }
 
+      if (this._isSpecialFormatMovie(oMovie.title)) {
+        this._openFormatDialog();
+        return;
+      }
+
+      var sDefaultFormat = this._getDefaultFormat(oMovie);
+      this._applySelectedFormatAndNavigate(sDefaultFormat);
+    },
+
+    _normalizeTitle: function (sTitle) {
+      return String(sTitle || "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+    },
+
+    _isSpecialFormatMovie: function (sTitle) {
+      var s = this._normalizeTitle(sTitle);
+
+      return (
+        s.indexOf("spider man") > -1 ||
+        s.indexOf("spiderman") > -1 ||
+        s.indexOf("spider-man") > -1 ||
+        s.indexOf("avengers doomsday") > -1 ||
+        s.indexOf("doomsday") > -1
+      );
+    },
+
+    _getDefaultFormat: function (oMovie) {
+      return pickValue(oMovie && oMovie.displayFormat, "2D", "2D");
+    },
+
+    _openFormatDialog: function () {
+      if (this._oFormatDialog) {
+        this._oFormatDialog.open();
+        return;
+      }
+
+      var oView = this.getView();
+
+      this._oFormatDialog = new Dialog({
+        title: "Select language and format",
+        contentWidth: "340px",
+        draggable: true,
+        resizable: false,
+        content: [
+          new VBox({
+            width: "100%",
+            items: [
+              new Text({
+                text: "Choose one format to continue",
+                wrapping: true
+              }),
+              new Button({
+                text: "Telugu 2D",
+                width: "100%",
+                type: "Transparent",
+                press: function () {
+                  this._applySelectedFormatAndNavigate("Telugu 2D");
+                }.bind(this)
+              }),
+              new Button({
+                text: "Telugu 3D",
+                width: "100%",
+                type: "Transparent",
+                press: function () {
+                  this._applySelectedFormatAndNavigate("Telugu 3D");
+                }.bind(this)
+              }),
+              new Button({
+                text: "English 2D",
+                width: "100%",
+                type: "Transparent",
+                press: function () {
+                  this._applySelectedFormatAndNavigate("English 2D");
+                }.bind(this)
+              }),
+              new Button({
+                text: "English 3D",
+                width: "100%",
+                type: "Transparent",
+                press: function () {
+                  this._applySelectedFormatAndNavigate("English 3D");
+                }.bind(this)
+              })
+            ]
+          })
+        ],
+        endButton: new Button({
+          text: "Close",
+          press: function () {
+            this._oFormatDialog.close();
+          }.bind(this)
+        })
+      });
+
+      oView.addDependent(this._oFormatDialog);
+      this._oFormatDialog.open();
+    },
+
+    _applySelectedFormatAndNavigate: function (sDisplayFormat) {
+      var oAppModel = this.getOwnerComponent().getModel("app");
+
+      if (!oAppModel) {
+        MessageToast.show("App model not found");
+        return;
+      }
+
+      var oMovie = oAppModel.getProperty("/selectedMovie") || {};
+      oMovie.displayFormat = sDisplayFormat || "2D";
+
+      if (sDisplayFormat.indexOf("English") > -1) {
+        oMovie.language = "English";
+      } else if (sDisplayFormat.indexOf("Telugu") > -1) {
+        oMovie.language = "Telugu";
+      }
+
+      oAppModel.setProperty("/selectedMovie", oMovie);
+      oAppModel.refresh(true);
       models.saveAppModel(oAppModel);
+
+      if (this._oFormatDialog) {
+        this._oFormatDialog.close();
+      }
+
       this.getOwnerComponent().getRouter().navTo("theatreList");
     }
 

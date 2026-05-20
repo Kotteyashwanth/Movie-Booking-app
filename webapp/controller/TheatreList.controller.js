@@ -1,3 +1,4 @@
+// webapp/controller/TheatreList.controller.js
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/json/JSONModel",
@@ -42,7 +43,8 @@ sap.ui.define([
 
             var sInitialDateISO = aDates.length ? aDates[0].dateISO : "";
             var sMovieTitle = oMovie.title || oMovie.movieTitle || "";
-            var sLanguage = oMovie.languages || "Telugu";
+            var sDisplayFormat = oMovie.displayFormat || "2D";
+            var sLanguage = oMovie.language || oMovie.languages || "Telugu";
 
             var oData = {
                 movieTitle: sMovieTitle,
@@ -72,6 +74,7 @@ sap.ui.define([
                 oAppModel.setProperty("/selectedMovie/title", sMovieTitle);
                 oAppModel.setProperty("/selectedMovie/movieTitle", sMovieTitle);
                 oAppModel.setProperty("/selectedMovie/language", sLanguage);
+                oAppModel.setProperty("/selectedMovie/displayFormat", sDisplayFormat);
 
                 oAppModel.setProperty("/selectedMovie/bookingStartDate", this._formatDisplayDate(oReleaseDate));
                 oAppModel.setProperty("/selectedMovie/bookingEndDate", this._formatDisplayDate(oEndDate));
@@ -231,9 +234,23 @@ sap.ui.define([
                     oAppModel.getProperty("/selectedMovie/movieTitle") ||
                     "";
 
+                var sDisplayFormat =
+                    oAppModel.getProperty("/selectedMovie/displayFormat") || "";
+
+                var sLanguage =
+                    oAppModel.getProperty("/selectedMovie/language") ||
+                    "Telugu";
+
+                if (sDisplayFormat.indexOf("English") > -1) {
+                    sLanguage = "English";
+                } else if (sDisplayFormat.indexOf("Telugu") > -1) {
+                    sLanguage = "Telugu";
+                }
+
                 oAppModel.setProperty("/selectedMovie/title", sMovieTitle);
                 oAppModel.setProperty("/selectedMovie/movieTitle", sMovieTitle);
-                oAppModel.setProperty("/selectedMovie/language", "Telugu");
+                oAppModel.setProperty("/selectedMovie/language", sLanguage);
+                oAppModel.setProperty("/selectedMovie/displayFormat", sDisplayFormat || "2D");
 
                 oAppModel.setProperty("/selectedMovie/selectedTheatre", oTheatre.name);
                 oAppModel.setProperty("/selectedMovie/selectedArea", oTheatre.area);
