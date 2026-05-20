@@ -2,29 +2,39 @@ sap.ui.define([
   "sap/ui/core/mvc/Controller",
   "sap/ui/model/Filter",
   "sap/ui/model/FilterOperator",
-  "sap/ui/model/json/JSONModel"
-], function (Controller, Filter, FilterOperator, JSONModel) {
+  "sap/ui/model/json/JSONModel",
+  "sap/m/MessageToast",
+  "sap/m/MessageBox",
+  "project1/model/Firebase"
+], function (Controller, Filter, FilterOperator, JSONModel, MessageToast, MessageBox, Firebase) {
   "use strict";
 
   return Controller.extend("project1.controller.Home", {
 
-    onInit: function () {
-      var oAppModel = this.getOwnerComponent().getModel("app");
+   onInit: function () {
+  var oAppModel = this.getOwnerComponent().getModel("app");
 
-      if (!oAppModel) {
-        oAppModel = new JSONModel({
-          movies: [],
-          selectedMovie: null
-        });
-        this.getOwnerComponent().setModel(oAppModel, "app");
-      }
+  if (!oAppModel) {
+    oAppModel = new JSONModel({
+      movies: [],
+      selectedMovie: null
+    });
+    this.getOwnerComponent().setModel(oAppModel, "app");
+  }
 
-      this.getView().setModel(oAppModel);
-      this.oRouter = this.getOwnerComponent().getRouter();
+  this.getView().setModel(oAppModel);
 
-      this._loadMovies();
-    },
+  // ADD THIS CODE
+  var oUserModel = sap.ui.getCore().getModel("user");
 
+  if (oUserModel) {
+    this.getView().setModel(oUserModel, "user");
+  }
+
+  this.oRouter = this.getOwnerComponent().getRouter();
+
+  this._loadMovies();
+},
     _getFallbackPoster: function (sTitle) {
       return "https://placehold.co/500x750/111827/ffffff?text=" + encodeURIComponent(sTitle || "Movie");
     },
@@ -367,6 +377,35 @@ sap.ui.define([
         oDom.scrollBy({ left: 700, behavior: "smooth" });
       } else {
         oDom.scrollLeft = oDom.scrollLeft + 700;
+      }
+    },
+
+    onLogout: async function () {
+      try {
+        const oFB = await Firebase.loadFirebase();
+
+        if (oFB && oFB.auth && oFB.auth.signOut) {
+          await oFB.auth.signOut();
+        }
+
+        sap.ui.getCore().setModel(
+          new JSONModel({
+            loggedIn: false,
+            displayName: "",
+            email: "",
+            initials: "",
+            photoURL: ""
+          }),
+          "user"
+        );
+
+        MessageToast.show("Logged out successfully");
+
+        this.getOwnerComponent().getRouter().navTo("login", {}, true);
+
+      } catch (e) {
+        console.error("Logout Error:", e);
+        MessageBox.error(e.message || "Logout failed");
       }
     }
 

@@ -9,7 +9,7 @@ sap.ui.define([
     "1": {
       title: "Varanasi",
       hero: "Mahesh Babu",
-      heroine: "hemanth",
+      heroine: "N/A",
       director: "N/A",
       producer: "N/A",
       musicDirector: "N/A",

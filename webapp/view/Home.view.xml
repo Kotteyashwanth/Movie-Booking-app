@@ -5,7 +5,7 @@
     xmlns:core="sap.ui.core"
     displayBlock="true">
 
-    <Page class="homePage" showHeader="false">
+   <Page class="homePage" showHeader="true">
 
         <customHeader>
             <Toolbar class="homeToolbar">
@@ -20,19 +20,19 @@
                 <HBox
                     alignItems="Center"
                     renderType="Bare"
-                    visible="{= ${/user/loggedIn} }">
+                    visible="{= !!${user>/loggedIn} }">
 
                     <Avatar
-                        initials="{/user/initials}"
+                        initials="{user>/initials}"
                         displaySize="S"
                         class="sapUiTinyMarginEnd" />
 
                     <VBox class="sapUiTinyMarginEnd">
-                        <Text text="Welcome, {/user/displayName}" class="sapUiTinyMarginBottom" />
-                        <Text text="{/user/email}" class="sapUiSmallFontSize" wrapping="false" />
+                        <Text text="{= 'Welcome, ' + (${user>/displayName} || '') }" class="sapUiTinyMarginBottom" />
+                        <Text text="{user>/email}" class="sapUiSmallFontSize" wrapping="false" />
                     </VBox>
 
-                    <MenuButton icon="sap-icon://slim-arrow-down" type="Transparent">
+                  <MenuButton type="Transparent">
                         <menu>
                             <Menu>
                                 <MenuItem text="Logout" icon="sap-icon://log" press="onLogout" />
