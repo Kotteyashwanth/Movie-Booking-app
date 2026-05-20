@@ -10,43 +10,27 @@
         navButtonPress="onBack">
 
         <content>
-
             <VBox class="sapUiSmallMargin">
 
-                <!-- Movie Details -->
-
-                <VBox class="sapUiMediumMarginBottom sapUiContentPadding">
+                <!-- MOVIE HEADER -->
+                <VBox class="movieHeaderSection sapUiMediumMarginBottom">
 
                     <Title
                         text="{app>/selectedMovie/title}"
                         level="H1"
                         class="theatreMovieTitle" />
 
-                    <HBox
-                        class="sapUiSmallMarginTop"
-                        alignItems="Center"
-                        wrap="Wrap">
-
-                        <Text
-                            text="{= 'Runtime: ' + ${app>/selectedMovie/duration} }"
-                            class="sapUiTinyMarginEnd" />
-
-                        <Text
-                            text="{= 'Genre: ' + ${app>/selectedMovie/genre} }"
-                            class="sapUiTinyMarginEnd" />
-
-                        <Text
-                            text="Telugu"
-                            class="sapUiTinyMarginEnd" />
-
-                        <Text text="2D" />
-
-                    </HBox>
+                    <Text
+                        text="{= 
+                            (${app>/selectedMovie/duration} || '') + ' • ' +
+                            (${app>/selectedMovie/genre} || '') + ' • ' +
+                            (${app>/selectedMovie/displayFormat} || '')
+                        }"
+                        class="movieHeaderInfo sapUiSmallMarginTop" />
 
                 </VBox>
 
-                <!-- Date Selection -->
-
+                <!-- DATE BUTTONS -->
                 <ScrollContainer
                     horizontal="true"
                     vertical="false"
@@ -57,7 +41,6 @@
                         wrap="NoWrap">
 
                         <items>
-
                             <Button
                                 text="{label}"
                                 width="110px"
@@ -65,41 +48,30 @@
                                 press="onDatePress"
                                 type="{= ${selected} ? 'Emphasized' : 'Default' }"
                                 class="sapUiTinyMarginEnd" />
-
                         </items>
 
                     </FlexBox>
 
                 </ScrollContainer>
 
-                <!-- Theatre Header -->
-
+                <!-- THEATRE HEADER -->
                 <Toolbar class="sapUiTinyMarginTop">
-
                     <Title
                         text="Tirupati Theatres"
                         level="H3" />
-
                     <ToolbarSpacer />
-
                     <Text text="{/selectedDateLabel}" />
-
                 </Toolbar>
 
-                <!-- Theatre List -->
-
+                <!-- THEATRE LIST -->
                 <List items="{/selectedTheatres}">
-
                     <CustomListItem>
-
                         <VBox class="sapUiSmallMargin theatreCard">
 
                             <HBox
                                 width="100%"
                                 justifyContent="SpaceBetween"
                                 alignItems="Start">
-
-                                <!-- Left -->
 
                                 <HBox
                                     alignItems="Start"
@@ -112,33 +84,22 @@
                                         color="{= ${favorite} ? '#d84c63' : '#bdbdbd' }"
                                         class="favIcon" />
 
-                                    <!-- UPDATED SECTION -->
-
                                     <VBox class="sapUiTinyMarginBegin">
-
-                                        <!-- Theatre Name -->
 
                                         <Text
                                             text="{name}"
                                             class="theatreName" />
 
-                                        <!-- Format -->
-
                                         <Text
                                             text="{format}"
                                             class="theatreFormat" />
-
-                                        <!-- Area -->
 
                                         <Text
                                             text="{area}"
                                             class="theatreArea" />
 
                                     </VBox>
-
                                 </HBox>
-
-                                <!-- Right -->
 
                                 <VBox
                                     class="theatreRight"
@@ -150,7 +111,6 @@
                                         items="{timings}">
 
                                         <items>
-
                                             <Button
                                                 text="{time}"
                                                 press="onTimePress"
@@ -158,23 +118,18 @@
                                                 class="showTimeBtn sapUiTinyMarginBegin sapUiTinyMarginBottom">
 
                                                 <customData>
-
                                                     <core:CustomData
                                                         key="theatreName"
-                                                        value="{../name}" />
-
+                                                        value="{name}" />
                                                     <core:CustomData
                                                         key="movieTitle"
                                                         value="{app>/selectedMovie/title}" />
-
                                                     <core:CustomData
                                                         key="showTime"
                                                         value="{time}" />
-
                                                 </customData>
 
                                             </Button>
-
                                         </items>
 
                                     </FlexBox>
@@ -190,19 +145,14 @@
                                         class="bookTicketsBtn sapUiTinyMarginTop" />
 
                                 </VBox>
-
                             </HBox>
 
                         </VBox>
-
                     </CustomListItem>
-
                 </List>
 
             </VBox>
-
         </content>
 
     </Page>
-
 </mvc:View>
