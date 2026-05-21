@@ -116,7 +116,8 @@ sap.ui.define([
           : this._getFallbackPoster(oMovie.title),
         release: oMovie.release || oMovie.releaseDate || "",
         rating: oTmdbResult && oTmdbResult.vote_average ? oTmdbResult.vote_average : "",
-        overview: oTmdbResult && oTmdbResult.overview ? oTmdbResult.overview : ""
+        overview: oTmdbResult && oTmdbResult.overview ? oTmdbResult.overview : "",
+        trailers: oMovie.trailers || []
       };
     },
 
@@ -213,17 +214,46 @@ sap.ui.define([
       var oAppModel = this.getOwnerComponent().getModel("app");
       var sApiKey = "d78a3b2a132ae5fa67e1745e9d4e458f";
       var aMovies = [
-        {
-          id: 1,
-          movieId: 1,
-          title: "Peddi",
-          genre: "Telugu, Action, Drama",
-          hero: "",
-          release: "4 Jun 2026",
-          duration: "2h 40min",
-          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
-          searchTerms: ["Peddi"]
-        },
+       {
+  id: 1,
+  movieId: 1,
+  title: "Peddi",
+  genre: "Telugu, Action, Drama",
+  hero: "",
+  release: "4 Jun 2026",
+  duration: "2h 40min",
+  languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+
+  trailers: [
+    {
+      language: "Telugu",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/sF2dj7ycZvA"
+    },
+    {
+      language: "Tamil",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/qu3tPDCMNeU"
+    },
+    {
+      language: "Hindi",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/noatJVfA22U"
+    },
+    {
+      language: "Kannada",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/zSmcPoEk5UM"
+    },
+    {
+      language: "Malayalam",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/KhsWkRS0xxQ"
+    }
+  ],
+
+  searchTerms: ["Peddi"]
+},
         {
           id: 2,
           movieId: 2,
@@ -241,85 +271,192 @@ sap.ui.define([
             "Cocktail-2 Telugu"
           ]
         },
+       {
+  id: 3,
+  movieId: 3,
+  title: "Vishwambhara",
+  genre: "Telugu, Fantasy, Action",
+  hero: "Chiranjeevi",
+  release: "10 Jul 2026",
+  duration: "2h 58min",
+  languages: "Telugu, Hindi, Tamil",
+
+  trailers: [
+    {
+      language: "Telugu",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/WPWNt8qhx94"
+    },
+    {
+      language: "Hindi",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/kpqMN2hoQBU"
+    },
+    {
+      language: "Tamil",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/5RcJKmrdDZg"
+    }
+  ],
+
+  synopsis1: "A fantasy action entertainer where a mighty warrior rises to protect the world from dark supernatural forces.",
+
+  searchTerms: [
+    "Vishwambhara Chiranjeevi",
+    "Vishwambhara",
+    "Viswambhara Chiranjeevi"
+  ]
+},
+       {
+  id: 4,
+  movieId: 4,
+  title: "Viswanth And Sons",
+  genre: "Telugu, Family, Drama",
+  hero: "Suriya",
+  release: "23 Jul 2026",
+  duration: "2h 48min",
+  languages: "Telugu,Tamil",
+
+  trailers: [
+    {
+      language: "Telugu",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/7XwRok2JhJM"
+    },
+    {
+      language: "Tamil",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/glU1Xc7dTKk"
+    }
+  ],
+
+  searchTerms: [
+    "Viswanth And Sons Suriya",
+    "Viswanath & Sons Suriya",
+    "Vishwanath & Sons Suriya",
+    "Viswanth And Sons"
+  ]
+},
+      {
+  id: 5,
+  movieId: 5,
+  title: "Spider-Man: Brand New Day",
+  genre: "English, Superhero, Action",
+  hero: "",
+  release: "31 Jul 2026",
+  duration: "2h 35min",
+  languages: "Telugu, Hindi, Tamil, Malayalam, Kannada, English",
+
+  trailers: [
+    {
+      language: "Telugu",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/-tAMIDt9MyY"
+    },
+    {
+      language: "Hindi",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/mJtuYWRQrEE"
+    },
+    {
+      language: "Tamil",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/vEhLoO4SM6g"
+    },
+    {
+      language: "Malayalam",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/vqdU5y2m_NU"
+    },
+    {
+      language: "Kannada",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/vnqZwdvJSXg"
+    },
+    {
+      language: "English",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/3PzKNC1jqkI"
+    }
+  ],
+
+  searchTerms: [
+    "Spider-Man: Brand New Day",
+    "Spider Man Brand New Day",
+    "Spider-Man Brand New Day"
+  ]
+},
+       {
+  id: 6,
+  movieId: 6,
+  title: "The Paradise",
+  genre: "Telugu, Drama, Action, Thriller",
+  hero: "Nani",
+  release: "28 Aug 2026",
+  duration: "2h 50min",
+  languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+
+  trailers: [
+    {
+      language: "Telugu",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/NkZFnpDhdCk"
+    },
+    {
+      language: "Hindi",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/namFQ8wFdIA"
+    },
+    {
+      language: "Tamil",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/r2Yf6LLewuc"
+    },
+    {
+      language: "Malayalam",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/4rXvKsrbSAQ"
+    },
+    {
+      language: "Kannada",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/ETIky7mX2pw"
+    }
+  ],
+
+  searchTerms: [
+    "The Paradise Nani",
+    "Paradise Nani",
+    "The Paradise",
+    "Paradise"
+  ]
+},
         {
-          id: 3,
-          movieId: 3,
-          title: "Vishwambhara",
-          genre: "Telugu, Fantasy, Action",
-          hero: "Chiranjeevi",
-          release: "10 Jul 2026",
-          duration: "2h 58min",
-          languages: "Telugu, Hindi, Tamil",
-          synopsis1: "A fantasy action entertainer where a mighty warrior rises to protect the world from dark supernatural forces.",
-          searchTerms: [
-            "Vishwambhara Chiranjeevi",
-            "Vishwambhara",
-            "Viswambhara Chiranjeevi"
-          ]
-        },
-        {
-          id: 4,
-          movieId: 4,
-          title: "Viswanth And Sons",
-          genre: "Telugu, Family, Drama",
-          hero: "Suriya",
-          release: "23 Jul 2026",
-          duration: "2h 48min",
-          languages: "Telugu,Tamil",
-          searchTerms: [
-            "Viswanth And Sons Suriya",
-            "Viswanath & Sons Suriya",
-            "Vishwanath & Sons Suriya",
-            "Viswanth And Sons"
-          ]
-        },
-        {
-          id: 5,
-          movieId: 5,
-          title: "Spider-Man: Brand New Day",
-          genre: "English, Superhero, Action",
-          hero: "",
-          release: "31 Jul 2026",
-          duration: "2h 35min",
-          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada, English",
-          searchTerms: [
-            "Spider-Man: Brand New Day",
-            "Spider Man Brand New Day",
-            "Spider-Man Brand New Day"
-          ]
-        },
-        {
-          id: 6,
-          movieId: 6,
-          title: "The Paradise",
-          genre: "Telugu, Drama, Action, Thriller",
-          hero: "Nani",
-          release: "28 Aug 2026",
-          duration: "2h 50min",
-          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
-          searchTerms: [
-            "The Paradise Nani",
-            "Paradise Nani",
-            "The Paradise",
-            "Paradise"
-          ]
-        },
-        {
-          id: 7,
-          movieId: 7,
-          title: "Ranabaali",
-          genre: "Telugu, Action",
-          hero: "Vijay Deverakonda, Rashmika Mandanna",
-          release: "11 Sep 2026",
-          duration: "2h 46min",
-          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
-          synopsis1: "A gripping action drama that follows the journey of a rebellious young man caught between love, revenge, and destiny.",
-          searchTerms: [
-            "Ranabaali Vijay Deverakonda",
-            "Ranabaali Rashmika Mandanna",
-            "Ranabaali"
-          ]
-        },
+  id: 7,
+  movieId: 7,
+  title: "Ranabaali",
+  genre: "Telugu, Action",
+  hero: "Vijay Deverakonda, Rashmika Mandanna",
+  release: "11 Sep 2026",
+  duration: "2h 46min",
+  languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+
+  trailers: [
+    {
+      language: "Telugu",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/9Ik0Y8Pr3l0"
+    }
+  ],
+
+  synopsis1: "A gripping action drama that follows the journey of a rebellious young man caught between love, revenge, and destiny.",
+
+  searchTerms: [
+    "Ranabaali Vijay Deverakonda",
+    "Ranabaali Rashmika Mandanna",
+    "Ranabaali"
+  ]
+},
         {
           id: 8,
           movieId: 8,
@@ -336,32 +473,92 @@ sap.ui.define([
           ]
         },
         {
-          id: 9,
-          movieId: 9,
-          title: "Rowdy Janardhana",
-          genre: "Telugu, Action, Drama",
-          hero: "",
-          release: "25 Dec2026",
-          duration: "2h 44min",
-          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
-          synopsis1: "An action-packed rural drama centered around a fearless man who stands against injustice and corruption.",
-          searchTerms: [
-            "Rowdy Janardhana",
-            "Rowdy Janardhana Telugu"
-          ]
-        },
-        {
-          id: 10,
-          movieId: 10,
-          title: "Spirit",
-          genre: "Telugu, Action, Thriller",
-          hero: "Prabhas",
-          release: "5 Mar 2027",
-          duration: "2h 55min",
-          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
-          synopsis1: "A fierce police officer battles a powerful criminal network while confronting his own inner demons in this intense action thriller.",
-          searchTerms: ["Spirit Prabhas", "Spirit"]
-        },
+  id: 9,
+  movieId: 9,
+  title: "Rowdy Janardhana",
+  genre: "Telugu, Action, Drama",
+  hero: "",
+  release: "25 Dec2026",
+  duration: "2h 44min",
+  languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+
+  trailers: [
+    {
+      language: "Telugu",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/Q1s_CWfGAHk"
+    },
+    {
+      language: "Hindi",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/UYWQSBchZ2o"
+    },
+    {
+      language: "Tamil",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/UB2g35dJRu0"
+    },
+    {
+      language: "Malayalam",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/lZUdglwUYQk"
+    },
+    {
+      language: "Kannada",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/5PxxrOMOL5o"
+    }
+  ],
+
+  synopsis1: "An action-packed rural drama centered around a fearless man who stands against injustice and corruption.",
+
+  searchTerms: [
+    "Rowdy Janardhana",
+    "Rowdy Janardhana Telugu"
+  ]
+},
+       {
+  id: 10,
+  movieId: 10,
+  title: "Spirit",
+  genre: "Telugu, Action, Thriller",
+  hero: "Prabhas",
+  release: "5 Mar 2027",
+  duration: "2h 55min",
+  languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+
+  trailers: [
+    {
+      language: "Telugu",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/VCGVPiD4BP0"
+    },
+    {
+      language: "Hindi",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/_YhSSfXmr9c"
+    },
+    {
+      language: "Tamil",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/pDWqMwAG6Fg"
+    },
+    {
+      language: "Malayalam",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/6_2X8FLFSno"
+    },
+    {
+      language: "Kannada",
+      title: "Official Trailer",
+      url: "https://www.youtube.com/embed/0c9JurcvhA0"
+    }
+  ],
+
+  synopsis1: "A fierce police officer battles a powerful criminal network while confronting his own inner demons in this intense action thriller.",
+
+  searchTerms: ["Spirit Prabhas", "Spirit"]
+},
         {
           id: 11,
           movieId: 11,

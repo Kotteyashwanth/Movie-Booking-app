@@ -20,7 +20,6 @@
   },
 
   "sap.ui5": {
-
     "rootView": {
       "viewName": "project1.view.App",
       "type": "XML",
@@ -42,7 +41,6 @@
     },
 
     "routing": {
-
       "config": {
         "routerClass": "sap.m.routing.Router",
         "viewType": "XML",
@@ -54,75 +52,71 @@
       },
 
       "routes": [
-
         {
           "pattern": "",
           "name": "login",
           "target": "login"
         },
-
         {
           "pattern": "register",
           "name": "register",
           "target": "register"
         },
-
         {
           "pattern": "home",
           "name": "home",
           "target": "home"
         },
-
         {
           "pattern": "movieDetails",
           "name": "movieDetails",
           "target": "movieDetails"
         },
-
         {
           "pattern": "theatreList",
           "name": "theatreList",
           "target": "theatreList"
         },
-
         {
           "pattern": "seatSelection/{theatreName}/{seats}",
           "name": "seatSelection",
           "target": "seatSelection"
+        },
+        {
+          "pattern": "movieTrailer/{movieId}",
+          "name": "movieTrailer",
+          "target": "movieTrailer"
         }
-
       ],
 
       "targets": {
-
         "login": {
           "viewName": "Login",
           "viewLevel": 1
         },
-
         "register": {
           "viewName": "Register",
           "viewLevel": 2
         },
-
         "home": {
           "viewName": "Home",
           "viewLevel": 3
         },
-
         "movieDetails": {
           "viewName": "MovieDetails",
           "viewLevel": 4
         },
-
         "theatreList": {
           "viewName": "TheatreList",
           "viewLevel": 5
         },
-
         "seatSelection": {
           "viewName": "SeatSelection",
           "viewLevel": 6
+        },
+        "movieTrailer": {
+          "viewName": "MovieTrailer",
+          "viewLevel": 7
         }
       }
     }

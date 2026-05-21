@@ -13,12 +13,20 @@
                     <HBox width="100%" alignItems="Start" justifyContent="Start" wrap="NoWrap">
 
                         <!-- Poster -->
-                        <VBox width="550px" class="sapUiSmallMarginEnd">
+                        <VBox width="550px" height="650px" class="sapUiSmallMarginEnd moviePosterWrapper">
                             <Image
                                 src="{= ${app>/selectedMovie/poster} || '' }"
                                 width="550px"
                                 height="650px"
-                                densityAware="false" />
+                                densityAware="false"
+                                press="onOpenTrailers"
+                                class="moviePosterImage" />
+
+                            <Button
+                                icon="sap-icon://media-play"
+                                type="Transparent"
+                                press="onOpenTrailers"
+                                class="moviePlayButton" />
                         </VBox>
 
                         <!-- Details -->

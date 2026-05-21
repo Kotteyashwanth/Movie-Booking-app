@@ -27,6 +27,26 @@ sap.ui.define([
       this.oRouter = this.getOwnerComponent().getRouter();
       this.oRouter.getRoute("movieDetails").attachPatternMatched(this._onMovieMatched, this);
     },
+     
+  onOpenTrailers: function () {
+  var oAppModel = this.getOwnerComponent().getModel("app");
+  if (!oAppModel) {
+    MessageToast.show("App model not found");
+    return;
+  }
+
+  var oMovie = oAppModel.getProperty("/selectedMovie") || {};
+  if (!oMovie || (!oMovie.tmdbId && !oMovie.title)) {
+    MessageToast.show("No movie selected");
+    return;
+  }
+
+  // Move to trailer page
+  this.getOwnerComponent().getRouter().navTo("movieTrailer", {
+    movieId: oMovie.tmdbId || ""
+  });
+},
+    
 
     onExit: function () {
       if (this._oFormatDialog) {
@@ -35,7 +55,7 @@ sap.ui.define([
       }
     },
 
-    _onMovieMatched: async function (oEvent) {
+       _onMovieMatched: async function (oEvent) {
       var sMovieId = String(oEvent.getParameter("arguments").movieId || "");
       var oAppModel = this.getOwnerComponent().getModel("app");
 
@@ -105,7 +125,9 @@ sap.ui.define([
           musicDirector: getCrewName(["Original Music Composer", "Music"]),
           cinematography: getCrewName(["Director of Photography", "Cinematography"]),
           editor: getCrewName(["Editor"]),
-          synopsis1: pickValue(oData.overview, oSelectedMovie.synopsis1, "N/A")
+          synopsis1: pickValue(oData.overview, oSelectedMovie.synopsis1, "N/A"),
+          trailers: oSelectedMovie.trailers || [],
+          trailerUrl: oSelectedMovie.trailerUrl || ""
         };
 
         oAppModel.setProperty("/selectedMovie", oMovie);

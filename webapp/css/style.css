@@ -665,3 +665,28 @@
 
     margin-bottom: 1.2rem !important;
 }
+.moviePosterWrapper {
+    position: relative;
+}
+
+.moviePosterImage {
+    display: block;
+}
+
+.moviePlayButton .sapMBtnInner {
+    width: 90px !important;
+    height: 90px !important;
+    border-radius: 50% !important;
+    background: rgba(0,0,0,0.65) !important;
+    border: 3px solid white !important;
+}
+
+.moviePlayButton .sapUiIcon {
+    color: white !important;
+    font-size: 38px !important;
+    line-height: 84px !important;
+}
+
+.moviePlayButton:hover .sapMBtnInner {
+    background: rgba(255,0,0,0.8) !important;
+}
