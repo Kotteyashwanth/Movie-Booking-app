@@ -24,11 +24,10 @@
                         <!-- Details -->
                         <VBox fitContainer="true" width="100%" class="sapUiSmallMarginBegin">
 
-                            <Title
+                           <Title
                                 text="{= ${app>/selectedMovie/title} || 'N/A' }"
                                 level="H1"
-                                class="movieDetailTitle sapUiSmallMarginBottom" />
-
+                                class="movieDetailTitleBig sapUiSmallMarginBottom" />
                             <HBox width="100%" class="sapUiTinyMarginBottom" alignItems="Center">
                                 <Text text="Genre" width="145px" class="movieDetailLabel" />
                                 <Text text=":" width="20px" class="movieDetailColon" />
