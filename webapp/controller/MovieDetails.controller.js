@@ -5,8 +5,10 @@ sap.ui.define([
   "sap/m/Dialog",
   "sap/m/Button",
   "sap/m/VBox",
-  "sap/m/Text"
-], function (Controller, models, MessageToast, Dialog, Button, VBox, Text) {
+  "sap/m/HBox",
+  "sap/m/Text",
+  "sap/m/Title"
+], function (Controller, models, MessageToast, Dialog, Button, VBox, HBox, Text, Title) {
   "use strict";
 
   function pickValue(primary, fallback, defaultValue) {
@@ -135,7 +137,7 @@ sap.ui.define([
       }
 
       if (this._isSpecialFormatMovie(oMovie.title)) {
-        this._openFormatDialog();
+        this._openFormatDialog(oMovie);
         return;
       }
 
@@ -155,11 +157,11 @@ sap.ui.define([
       var s = this._normalizeTitle(sTitle);
 
       return (
-        s.indexOf("spider man") > -1 ||
-        s.indexOf("spiderman") > -1 ||
-        s.indexOf("spider-man") > -1 ||
+        s.indexOf("spider man brand new day") > -1 ||
+        s.indexOf("spiderman brand new day") > -1 ||
+        s.indexOf("spider-man brand new day") > -1 ||
         s.indexOf("avengers doomsday") > -1 ||
-        s.indexOf("doomsday") > -1
+        s.indexOf("avengers dooms day") > -1
       );
     },
 
@@ -167,58 +169,72 @@ sap.ui.define([
       return pickValue(oMovie && oMovie.displayFormat, "2D", "2D");
     },
 
-    _openFormatDialog: function () {
+    _createFormatButton: function (sText, sFormat, sWidth) {
+      return new Button({
+        text: sText,
+        width: sWidth,
+        type: "Default",
+        press: function () {
+          this._applySelectedFormatAndNavigate(sFormat);
+        }.bind(this)
+      });
+    },
+
+    _openFormatDialog: function (oMovie) {
+      var sMovieTitle = (oMovie && oMovie.title) ? oMovie.title : "Select language and format";
+
       if (this._oFormatDialog) {
+        this._oFormatDialog.setTitle(sMovieTitle);
         this._oFormatDialog.open();
         return;
       }
 
       var oView = this.getView();
+      var sBtnWidth = "5.8rem";
 
       this._oFormatDialog = new Dialog({
-        title: "Select language and format",
-        contentWidth: "340px",
+        title: sMovieTitle,
+        contentWidth: "31rem",
         draggable: true,
         resizable: false,
         content: [
           new VBox({
             width: "100%",
+            class: "sapUiSmallMargin",
             items: [
+              new Title({
+                text: "Select language and format",
+                level: "H3"
+              }),
+
               new Text({
-                text: "Choose one format to continue",
-                wrapping: true
+                text: "Telugu",
+                class: "sapUiSmallMarginTop sapUiTinyMarginBottom"
               }),
-              new Button({
-                text: "Telugu 2D",
+
+              new HBox({
                 width: "100%",
-                type: "Transparent",
-                press: function () {
-                  this._applySelectedFormatAndNavigate("Telugu 2D");
-                }.bind(this)
+                alignItems: "Center",
+                justifyContent: "Start",
+                items: [
+                  this._createFormatButton("2D", "Telugu 2D", sBtnWidth),
+                  this._createFormatButton("3D", "Telugu 3D", sBtnWidth).addStyleClass("sapUiSmallMarginBegin")
+                ]
               }),
-              new Button({
-                text: "Telugu 3D",
-                width: "100%",
-                type: "Transparent",
-                press: function () {
-                  this._applySelectedFormatAndNavigate("Telugu 3D");
-                }.bind(this)
+
+              new Text({
+                text: "English",
+                class: "sapUiMediumMarginTop sapUiTinyMarginBottom"
               }),
-              new Button({
-                text: "English 2D",
+
+              new HBox({
                 width: "100%",
-                type: "Transparent",
-                press: function () {
-                  this._applySelectedFormatAndNavigate("English 2D");
-                }.bind(this)
-              }),
-              new Button({
-                text: "English 3D",
-                width: "100%",
-                type: "Transparent",
-                press: function () {
-                  this._applySelectedFormatAndNavigate("English 3D");
-                }.bind(this)
+                alignItems: "Center",
+                justifyContent: "Start",
+                items: [
+                  this._createFormatButton("2D", "English 2D", sBtnWidth),
+                  this._createFormatButton("3D", "English 3D", sBtnWidth).addStyleClass("sapUiSmallMarginBegin")
+                ]
               })
             ]
           })
@@ -246,9 +262,9 @@ sap.ui.define([
       var oMovie = oAppModel.getProperty("/selectedMovie") || {};
       oMovie.displayFormat = sDisplayFormat || "2D";
 
-      if (sDisplayFormat.indexOf("English") > -1) {
+      if (sDisplayFormat && sDisplayFormat.indexOf("English") > -1) {
         oMovie.language = "English";
-      } else if (sDisplayFormat.indexOf("Telugu") > -1) {
+      } else if (sDisplayFormat && sDisplayFormat.indexOf("Telugu") > -1) {
         oMovie.language = "Telugu";
       }
 
