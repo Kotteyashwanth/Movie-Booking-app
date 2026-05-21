@@ -445,33 +445,46 @@ sap.ui.define([
     },
 
     onMoviePress: function (oEvent) {
-      var oSource = oEvent.getSource();
+    var oSource = oEvent.getSource();
 
-      var oContext =
+    var oContext =
         oSource.getBindingContext() ||
         oSource.getBindingContext("app");
 
-      if (!oContext) {
+    if (!oContext) {
         return;
-      }
+    }
 
-      var oMovie = Object.assign({}, oContext.getObject());
+    var oMovie = Object.assign({}, oContext.getObject());
 
-      if (!oMovie) {
+    if (!oMovie) {
         return;
-      }
+    }
 
-      var oAppModel = this.getOwnerComponent().getModel("app");
+    var oAppModel = this.getOwnerComponent().getModel("app");
 
-      oAppModel.setProperty("/selectedMovie", null);
-      oAppModel.setProperty("/selectedMovie", oMovie);
+    // Clear old selected movie
+    oAppModel.setProperty("/selectedMovie", null);
 
-      var sMovieId = oMovie.movieId || oMovie.id;
+    // Save newly clicked movie
+    oAppModel.setProperty("/selectedMovie", oMovie);
 
-      this.oRouter.navTo("movieDetails", {
+    // Save instantly to localStorage
+    try {
+        window.localStorage.setItem(
+            "movieTicketAppState",
+            JSON.stringify(oAppModel.getData())
+        );
+    } catch (e) {
+
+    }
+
+    var sMovieId = oMovie.movieId || oMovie.id;
+
+    this.oRouter.navTo("movieDetails", {
         movieId: String(sMovieId)
-      });
-    },
+    });
+},
 
     onScrollLeft: function () {
       var oDom = this.byId("movieScroller").getDomRef();
