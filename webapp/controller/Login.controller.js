@@ -19,14 +19,9 @@ sap.ui.define([
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     }
 
-    function isValidPhone(value) {
-        return /^[0-9]{10}$/.test(value);
-    }
-
     return Controller.extend("project1.controller.Login", {
 
         onInit: function () {
-
             var oModel = new JSONModel({
                 identifier: "",
                 password: "",
@@ -37,30 +32,25 @@ sap.ui.define([
         },
 
         onTogglePassword: function () {
-
             var oInput = this.byId("passwordInput");
 
             if (oInput.getType() === "Password") {
-
                 oInput.setType("Text");
                 oInput.setValueHelpIconSrc("sap-icon://show");
-
             } else {
-
                 oInput.setType("Password");
                 oInput.setValueHelpIconSrc("sap-icon://hide");
             }
         },
 
         onLogin: async function () {
-
             var oModel = this.getView().getModel();
 
             var sIdentifier = (oModel.getProperty("/identifier") || "").trim();
             var sPassword = (oModel.getProperty("/password") || "").trim();
 
             if (!sIdentifier) {
-                oModel.setProperty("/message", "Please enter email or phone number");
+                oModel.setProperty("/message", "Please enter email");
                 return;
             }
 
@@ -69,72 +59,59 @@ sap.ui.define([
                 return;
             }
 
-            if (sIdentifier.indexOf("@") !== -1 && !isValidEmail(sIdentifier)) {
+            if (!isValidEmail(sIdentifier)) {
                 oModel.setProperty("/message", "Please enter valid email address");
                 return;
             }
 
-            if (sIdentifier.indexOf("@") === -1 && !isValidPhone(sIdentifier)) {
-                oModel.setProperty("/message", "Phone number must be exactly 10 digits");
-                return;
-            }
-
             try {
-
                 const oFB = await Firebase.loadFirebase();
 
-                if (sIdentifier.indexOf("@") !== -1) {
-
-                    const oUserCredential =
-                        await oFB.authMod.signInWithEmailAndPassword(
-                            oFB.auth,
-                            sIdentifier,
-                            sPassword
-                        );
-
-                    var oUser = oUserCredential.user;
-
-                    var oUserData = {
-                        loggedIn: true,
-                        uid: oUser.uid,
-                        displayName: oUser.displayName || "User",
-                        email: oUser.email || sIdentifier,
-                        phoneNumber: oUser.phoneNumber || "",
-                        photoURL: oUser.photoURL || "",
-                        initials: (
-                            (oUser.displayName || "U")
-                                .charAt(0)
-                                .toUpperCase()
-                        )
-                    };
-
-                    var oUserModel = new JSONModel(oUserData);
-
-                    sap.ui.getCore().setModel(oUserModel, "user");
-
-                    this.getOwnerComponent().setModel(
-                        oUserModel,
-                        "user"
+                const oUserCredential =
+                    await oFB.authMod.signInWithEmailAndPassword(
+                        oFB.auth,
+                        sIdentifier,
+                        sPassword
                     );
 
-                    oModel.setProperty("/message", "");
+                var oUser = oUserCredential.user;
 
-                    MessageToast.show("Login successful");
+                var oUserData = {
+                    loggedIn: true,
+                    uid: oUser.uid,
+                    displayName: oUser.displayName || "User",
+                    email: oUser.email || sIdentifier,
+                    phoneNumber: oUser.phoneNumber || "",
+                    photoURL: oUser.photoURL || "",
+                    initials: (
+                        (oUser.displayName || "U")
+                            .charAt(0)
+                            .toUpperCase()
+                    )
+                };
 
-                    this.getOwnerComponent()
-                        .getRouter()
-                        .navTo("home", {}, true);
+                var oUserModel = new JSONModel(oUserData);
 
-                    return;
+                sap.ui.getCore().setModel(oUserModel, "user");
+                this.getOwnerComponent().setModel(oUserModel, "user");
+
+                try {
+                    window.localStorage.setItem(
+                        "movieTicketUserState",
+                        JSON.stringify(oUserData)
+                    );
+                } catch (e) {
                 }
 
-                oModel.setProperty(
-                    "/message",
-                    "Phone login with password is not supported. Use OTP flow for phone users."
-                );
+                oModel.setProperty("/message", "");
+
+                MessageToast.show("Login successful");
+
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("home", {}, true);
 
             } catch (e) {
-
                 console.error("Login error:", e);
 
                 oModel.setProperty(
@@ -145,32 +122,26 @@ sap.ui.define([
         },
 
         onForgotPassword: async function () {
-
             var oModel = this.getView().getModel();
 
             var sIdentifier =
                 (oModel.getProperty("/identifier") || "").trim();
 
             if (!sIdentifier) {
-
                 MessageBox.information(
                     "Please enter your email first."
                 );
-
                 return;
             }
 
-            if (sIdentifier.indexOf("@") === -1) {
-
+            if (!isValidEmail(sIdentifier)) {
                 MessageBox.information(
-                    "Phone reset needs OTP screen. Email reset works here."
+                    "Please enter a valid email address."
                 );
-
                 return;
             }
 
             try {
-
                 const oFB = await Firebase.loadFirebase();
 
                 await oFB.authMod.sendPasswordResetEmail(
@@ -181,7 +152,6 @@ sap.ui.define([
                 MessageToast.show("Password reset email sent.");
 
             } catch (e) {
-
                 console.error(
                     "Reset password error:",
                     e
@@ -194,23 +164,39 @@ sap.ui.define([
         },
 
         onCreateAccount: function () {
-
             var oRouter = UIComponent.getRouterFor(this);
-
             oRouter.navTo("register");
         },
 
         onLogout: async function () {
-
             try {
-
                 const oFB = await Firebase.loadFirebase();
 
                 await oFB.auth.signOut();
 
+                try {
+                    window.localStorage.removeItem("movieTicketUserState");
+                } catch (e) {
+                }
+
                 sap.ui.getCore().setModel(
                     new JSONModel({
-                        loggedIn: false
+                        loggedIn: false,
+                        displayName: "",
+                        email: "",
+                        initials: "",
+                        photoURL: ""
+                    }),
+                    "user"
+                );
+
+                this.getOwnerComponent().setModel(
+                    new JSONModel({
+                        loggedIn: false,
+                        displayName: "",
+                        email: "",
+                        initials: "",
+                        photoURL: ""
                     }),
                     "user"
                 );
@@ -222,7 +208,6 @@ sap.ui.define([
                     .navTo("login", {}, true);
 
             } catch (e) {
-
                 MessageBox.error(
                     e.message || "Logout failed"
                 );

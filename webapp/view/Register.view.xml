@@ -22,7 +22,6 @@
                     width="22rem"
                     alignItems="Stretch">
 
-                    <!-- TITLE -->
                     <Text
                         text="CREATE ACCOUNT"
                         class="appTitle"
@@ -33,7 +32,6 @@
                         class="appSubTitle"
                         textAlign="Center" />
 
-                    <!-- FULL NAME -->
                     <Label
                         text="Full Name"
                         required="true"
@@ -45,7 +43,6 @@
                         placeholder="Enter full name"
                         width="100%" />
 
-                    <!-- EMAIL -->
                     <Label
                         text="Email"
                         required="true"
@@ -58,22 +55,6 @@
                         width="100%"
                         type="Email" />
 
-                    <!-- PHONE -->
-                    <Label
-                        text="Phone Number"
-                        required="true"
-                        class="formLabel" />
-
-                    <Input
-                        id="phoneInput"
-                        value="{/phone}"
-                        placeholder="Enter 10-digit phone number"
-                        width="100%"
-                        type="Tel"
-                        maxLength="10"
-                        liveChange="onPhoneLiveChange" />
-
-                    <!-- PASSWORD -->
                     <Label
                         text="Password"
                         required="true"
@@ -89,7 +70,6 @@
                         valueHelpIconSrc="sap-icon://hide"
                         valueHelpRequest="onTogglePassword" />
 
-                    <!-- CONFIRM PASSWORD -->
                     <Label
                         text="Confirm Password"
                         required="true"
@@ -105,7 +85,6 @@
                         valueHelpIconSrc="sap-icon://hide"
                         valueHelpRequest="onToggleConfirmPassword" />
 
-                    <!-- SIGN UP -->
                     <Button
                         text="Sign Up"
                         type="Emphasized"
@@ -113,13 +92,11 @@
                         press="onSignUp"
                         class="signupButton" />
 
-                    <!-- BACK -->
                     <Link
                         text="Back to Login"
                         press="onBack"
                         class="smallLink" />
 
-                    <!-- MESSAGE -->
                     <Text
                         text="{/message}"
                         class="messageText" />

@@ -1,7 +1,8 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
+    "sap/ui/model/json/JSONModel",
     "project1/model/models"
-], function (UIComponent, models) {
+], function (UIComponent, JSONModel, models) {
     "use strict";
 
     return UIComponent.extend("project1.Component", {
@@ -16,19 +17,17 @@ sap.ui.define([
             this.setModel(models.createLoginModel());
 
             var oAppModel = models.createAppModel();
-            var oDefaultData = oAppModel.getData() || {};
-            var oSavedData = {};
+            var oDefaultAppData = oAppModel.getData() || {};
+            var oSavedAppData = {};
 
             try {
-                oSavedData = JSON.parse(window.localStorage.getItem("movieTicketAppState") || "{}") || {};
+                oSavedAppData = JSON.parse(window.localStorage.getItem("movieTicketAppState") || "{}") || {};
             } catch (e) {
-                oSavedData = {};
+                oSavedAppData = {};
             }
 
-            // Restore saved app state after refresh
-            oAppModel.setData(Object.assign({}, oDefaultData, oSavedData));
+            oAppModel.setData(Object.assign({}, oDefaultAppData, oSavedAppData));
 
-            // Auto-save app state whenever anything changes in the model
             oAppModel.attachPropertyChange(function () {
                 try {
                     window.localStorage.setItem(
@@ -42,9 +41,31 @@ sap.ui.define([
 
             this.setModel(oAppModel, "app");
 
+            var oSavedUserData = {};
+            try {
+                oSavedUserData = JSON.parse(window.localStorage.getItem("movieTicketUserState") || "{}") || {};
+            } catch (e) {
+                oSavedUserData = {};
+            }
+
+            var oUserModel = new JSONModel(oSavedUserData);
+
+            oUserModel.attachPropertyChange(function () {
+                try {
+                    window.localStorage.setItem(
+                        "movieTicketUserState",
+                        JSON.stringify(oUserModel.getData())
+                    );
+                } catch (e) {
+                    // ignore storage errors
+                }
+            });
+
+            sap.ui.getCore().setModel(oUserModel, "user");
+            this.setModel(oUserModel, "user");
+
             this.getRouter().initialize();
         }
 
     });
-
 });

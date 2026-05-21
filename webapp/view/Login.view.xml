@@ -22,7 +22,6 @@
                     width="22rem"
                     alignItems="Stretch">
 
-                    <!-- TITLE -->
                     <Text
                         text="MOVIE TICKET APP"
                         class="appTitle"
@@ -33,9 +32,8 @@
                         class="appSubTitle"
                         textAlign="Center" />
 
-                    <!-- EMAIL / PHONE -->
                     <Label
-                        text="Email / Phone Number"
+                        text="Email"
                         required="true"
                         class="formLabel" />
 
@@ -43,9 +41,8 @@
                         id="identifierInput"
                         value="{/identifier}"
                         width="100%"
-                        placeholder="Enter email or 10-digit phone number" />
+                        placeholder="Enter your email" />
 
-                    <!-- PASSWORD -->
                     <Label
                         text="Password"
                         required="true"
@@ -61,7 +58,6 @@
                         valueHelpIconSrc="sap-icon://hide"
                         valueHelpRequest="onTogglePassword" />
 
-                    <!-- LOGIN BUTTON -->
                     <Button
                         text="Login"
                         type="Emphasized"
@@ -69,13 +65,11 @@
                         press="onLogin"
                         class="signupButton" />
 
-                    <!-- FORGOT PASSWORD -->
                     <Link
                         text="Forgot Password?"
                         press="onForgotPassword"
                         class="smallLink" />
 
-                    <!-- CREATE ACCOUNT -->
                     <HBox
                         justifyContent="Center"
                         class="signupRow">
@@ -88,7 +82,6 @@
 
                     </HBox>
 
-                    <!-- MESSAGE -->
                     <Text
                         text="{/message}"
                         class="messageText" />
