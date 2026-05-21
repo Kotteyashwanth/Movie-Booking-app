@@ -428,38 +428,91 @@ sap.ui.define([
             return mImages[iCount] || (sBasePath + "bicycle.png");
         },
 
-        _getTheatresByMovieRuntime: function (oMovie, sDateISO) {
-            var iDuration = this._parseDurationToMinutes(oMovie.duration);
+       _getTheatresByMovieRuntime: function (oMovie, sDateISO) {
+    var iDuration = this._parseDurationToMinutes(oMovie.duration);
 
-            var aTheatres = [
-                { name: "PGR Cinemas", area: "Tata Nagar, Tirupati", format: "4K Dolby Atmos", offset: 0 },
-                { name: "NVR Jayasyam", area: "Tata Nagar, Tirupati", format: "4K Dolby Atmos", offset: 5 },
-                { name: "NVR Sandhya", area: "Jayasyam Road, Tirupati", format: "4K Dolby Atmos", offset: 10 },
-                { name: "SV Cineplex", area: "Dr. Mahal Road, Tirupati", format: "4K Dolby Atmos", offset: 15 },
-                { name: "CS Cinemas (Devendra)", area: "Leela Mahal Road, Tirupati", format: "4K Dolby Atmos", offset: 20 },
-                { name: "Palani Cinemas", area: "Royal Nagar, Tirupati", format: "2K, 7.1 Dolby Digital", offset: 25 },
-                { name: "Krishna Teja", area: "Tata Nagar, Tirupati", format: "4K Dolby (Newly Renovated)", offset: 30 },
-                { name: "Pratap Theater", area: "Jayasyam Road, Tirupati", format: "4K Dolby Atmos", offset: 35 }
+    var sTitle = String(oMovie.title || oMovie.movieTitle || "").toLowerCase();
+    var sLanguage = String(oMovie.language || oMovie.languages || "").toLowerCase();
+    var sFormat = String(oMovie.displayFormat || "").toLowerCase();
+
+    var bSpecialMovie =
+        sTitle.indexOf("spider-man") > -1 ||
+        sTitle.indexOf("avengers") > -1 ||
+        sTitle.indexOf("doomsday") > -1;
+
+    var aTheatres = [];
+
+    if (bSpecialMovie) {
+        // TELUGU 2D
+        if (sLanguage.indexOf("telugu") > -1 && sFormat.indexOf("2d") > -1) {
+            aTheatres = [
+                { name: "Pratap Theater", area: "Jayasyam Road, Tirupati", format: "Telugu 2D • 4K Dolby Atmos", offset: 0 }
             ];
+        }
 
-            this._favoriteTheatres = this._favoriteTheatres || {};
+        // TELUGU 3D
+        else if (sLanguage.indexOf("telugu") > -1 && sFormat.indexOf("3d") > -1) {
+            aTheatres = [
+                { name: "Krishna Teja", area: "Tata Nagar, Tirupati", format: "Telugu 3D • 4K Dolby (Newly Renovated)", offset: 0 },
+                { name: "CS Cinemas (Devendra)", area: "Leela Mahal Road, Tirupati", format: "Telugu 3D • 4K Dolby Atmos", offset: 10 },
+                { name: "PGR Cinemas", area: "Tata Nagar, Tirupati", format: "Telugu 3D • 4K Dolby Atmos", offset: 20 },
+                { name: "NVR Sandhya", area: "Jayasyam Road, Tirupati", format: "Telugu 3D • 4K Dolby Atmos", offset: 30 },
+                { name: "Palani Cinemas", area: "Royal Nagar, Tirupati", format: "Telugu 3D • 2K, 7.1 Dolby Digital", offset: 40 }
+            ];
+        }
 
-            return aTheatres.map(function (oTheatre, iIndex) {
-                return {
-                    name: oTheatre.name,
-                    area: oTheatre.area,
-                    format: oTheatre.format,
-                    favorite: !!this._favoriteTheatres[oTheatre.name],
-                    timings: this._generateFourShowTimings(
-                        iDuration,
-                        oTheatre.offset,
-                        oTheatre.name,
-                        oTheatre.area,
-                        iIndex
-                    )
-                };
-            }.bind(this));
-        },
+        // ENGLISH 2D
+        else if (sLanguage.indexOf("english") > -1 && sFormat.indexOf("2d") > -1) {
+            aTheatres = [
+                { name: "SV Cineplex", area: "Dr. Mahal Road, Tirupati", format: "English 2D • 4K Dolby Atmos", offset: 0 }
+            ];
+        }
+
+        // ENGLISH 3D
+        else if (sLanguage.indexOf("english") > -1 && sFormat.indexOf("3d") > -1) {
+            aTheatres = [
+                { name: "NVR Jayasyam", area: "Tata Nagar, Tirupati", format: "English 3D • 4K Dolby Atmos", offset: 0 }
+            ];
+        }
+
+        // fallback for special movies
+        else {
+            aTheatres = [
+                { name: "Pratap Theater", area: "Jayasyam Road, Tirupati", format: "4K Dolby Atmos", offset: 0 }
+            ];
+        }
+    } else {
+        // all other movies keep your normal full list
+        aTheatres = [
+            { name: "PGR Cinemas", area: "Tata Nagar, Tirupati", format: "4K Dolby Atmos", offset: 0 },
+            { name: "NVR Jayasyam", area: "Tata Nagar, Tirupati", format: "4K Dolby Atmos", offset: 5 },
+            { name: "NVR Sandhya", area: "Jayasyam Road, Tirupati", format: "4K Dolby Atmos", offset: 10 },
+            { name: "SV Cineplex", area: "Dr. Mahal Road, Tirupati", format: "4K Dolby Atmos", offset: 15 },
+            { name: "CS Cinemas (Devendra)", area: "Leela Mahal Road, Tirupati", format: "4K Dolby Atmos", offset: 20 },
+            { name: "Palani Cinemas", area: "Royal Nagar, Tirupati", format: "2K, 7.1 Dolby Digital", offset: 25 },
+            { name: "Krishna Teja", area: "Tata Nagar, Tirupati", format: "4K Dolby (Newly Renovated)", offset: 30 },
+            { name: "Pratap Theater", area: "Jayasyam Road, Tirupati", format: "4K Dolby Atmos", offset: 35 }
+        ];
+    }
+
+    this._favoriteTheatres = this._favoriteTheatres || {};
+
+    return aTheatres.map(function (oTheatre, iIndex) {
+        return {
+            name: oTheatre.name,
+            area: oTheatre.area,
+            format: oTheatre.format,
+            favorite: !!this._favoriteTheatres[oTheatre.name],
+            timings: this._generateFourShowTimings(
+                iDuration,
+                oTheatre.offset,
+                oTheatre.name,
+                oTheatre.area,
+                iIndex
+            )
+        };
+    }.bind(this));
+},
 
         _generateFourShowTimings: function (iDurationMinutes, iOffsetMinutes, sTheatreName, sTheatreArea, iTheatreIndex) {
             var iGapMinutes = 30;
