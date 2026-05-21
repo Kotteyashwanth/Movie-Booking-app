@@ -560,34 +560,64 @@ sap.ui.define([
   searchTerms: ["Spirit Prabhas", "Spirit"]
 },
         {
-          id: 11,
-          movieId: 11,
-          title: "Varanasi",
-          genre: "Telugu, Drama",
-          hero: "Mahesh Babu",
-          release: "7 Apr 2027",
-          duration: "3h 05min",
-          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
-          searchTerms: ["Varanasi Mahesh Babu", "Varanasi"]
-        },
-        {
-          id: 12,
-          movieId: 12,
-          title: "Dragon",
-          genre: "Telugu, Action, Thriller",
-          hero: "Jr NTR",
-          release: "11 Jun 2027",
-          duration: "3h 10min",
-          languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
-          synopsis1: "A high-octane action thriller directed by Prashanth Neel featuring Jr NTR in a powerful and intense role.",
-          searchTerms: [
-            "NTR Neel",
-            "Dragon NTR",
-            "Dragon Jr NTR",
-            "Prashanth Neel NTR",
-            "NTR31"
-          ]
-        }
+  id: 11,
+  movieId: 11,
+  title: "Varanasi",
+  genre: "Telugu, Drama",
+  hero: "Mahesh Babu",
+  release: "7 Apr 2027",
+  duration: "3h 05min",
+  languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+  trailers: [
+    {
+      language: "Telugu",
+      url: "https://www.youtube.com/watch?v=DMD2uthghWE"
+    }
+  ],
+  searchTerms: ["Varanasi Mahesh Babu", "Varanasi"]
+},
+       {
+  id: 12,
+  movieId: 12,
+  title: "Dragon",
+  genre: "Telugu, Action, Thriller",
+  hero: "Jr NTR",
+  release: "11 Jun 2027",
+  duration: "3h 10min",
+  languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
+  synopsis1: "A high-octane action thriller directed by Prashanth Neel featuring Jr NTR in a powerful and intense role.",
+
+  trailers: [
+    {
+      language: "Telugu",
+      url: "https://www.youtube.com/watch?v=bedocP4nRAo"
+    },
+    {
+      language: "Hindi",
+      url: "https://www.youtube.com/watch?v=DZ9lpup4VZ0"
+    },
+    {
+      language: "Tamil",
+      url: "https://www.youtube.com/watch?v=3bxrl9k-kn4"
+    },
+    {
+      language: "Malayalam",
+      url: "https://www.youtube.com/watch?v=X5Ytvu0gxAA"
+    },
+    {
+      language: "Kannada",
+      url: "https://www.youtube.com/watch?v=y0jHSknxFaw"
+    }
+  ],
+
+  searchTerms: [
+    "NTR Neel",
+    "Dragon NTR",
+    "Dragon Jr NTR",
+    "Prashanth Neel NTR",
+    "NTR31"
+  ]
+}
       ];
 
       aMovies = this._sortMoviesByReleaseDateAndAssignIds(aMovies);
