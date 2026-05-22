@@ -690,3 +690,46 @@
 .moviePlayButton:hover .sapMBtnInner {
     background: rgba(255,0,0,0.8) !important;
 }
+.termsDialog.sapMDialog {
+    width: 70rem !important;
+    max-width: 92vw !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+    background: #1b1f2a !important;
+}
+
+/* header */
+.termsDialog .sapMDialogTitle {
+    font-size: 2.2rem !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+}
+
+/* body */
+.termsDialog .sapMDialogSection {
+    background: #1b1f2a !important;
+    padding: 1rem 1.25rem !important;
+}
+
+/* remove extra blank flex space */
+.termsDialog .sapMDialogScrollCont {
+    height: auto !important;
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+    padding: 0 !important;
+}
+
+/* text */
+.termsDialog .sapMText,
+.termsDialog .sapMFormattedText {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    line-height: 2rem !important;
+    color: #ffffff !important;
+    white-space: normal !important;
+}
+
+/* footer */
+.termsDialog .sapMDialogFooter {
+    padding: 0.75rem 1rem 1rem !important;
+}

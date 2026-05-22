@@ -953,11 +953,49 @@ onCloseTermsDialog: function () {
 },
 
 onAcceptTerms: function () {
-    if (this._oTermsDialog) {
-        this._oTermsDialog.close();
+    if (!this._oConfirmDialog) {
+        this._oConfirmDialog = new sap.m.Dialog({
+            showHeader: false,
+            contentWidth: "500px",
+            contentHeight: "300px",
+            verticalScrolling: false,
+            horizontalScrolling: false,
+            draggable: false,
+            resizable: false,
+            content: new sap.m.VBox({
+                width: "100%",
+                height: "100%",
+                justifyContent: "Center",
+                alignItems: "Center",
+                items: [
+                    new sap.m.Image({
+                        src: sap.ui.require.toUrl("project1/images/ticket-loading.png"),
+                        width: "260px",
+                        densityAware: false
+                    }).addStyleClass("sapUiSmallMarginBottom"),
+                    new sap.m.Text({
+                        text: "Confirming your seats!"
+                    }).addStyleClass("sapUiTinyMarginTop sapUiSmallMarginBottom"),
+                    new sap.m.BusyIndicator({
+                        size: "1rem"
+                    })
+                ]
+            }).addStyleClass("sapUiContentPadding")
+        });
+
+        this.getView().addDependent(this._oConfirmDialog);
     }
 
-    sap.m.MessageToast.show("Terms Accepted");
+    this._oConfirmDialog.open();
+
+    setTimeout(function () {
+        if (this._oConfirmDialog) {
+            this._oConfirmDialog.close();
+        }
+        // temporary test only
+        // this.getOwnerComponent().getRouter().navTo("payment");
+        sap.m.MessageToast.show("Accepted");
+    }.bind(this), 3000);
 },
     _createLegend: function () {
             var oLegend = new HBox({
