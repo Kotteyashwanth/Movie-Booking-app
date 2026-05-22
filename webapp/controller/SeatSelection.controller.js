@@ -45,6 +45,29 @@ sap.ui.define([
         .getRoute("seatSelection")
         .attachPatternMatched(this._onRouteMatched, this);
 },
+_getMovieMeta: function (oMovie) {
+    oMovie = oMovie || {};
+
+    var sTitle = oMovie.title || oMovie.movieTitle || "";
+    var sLanguage = oMovie.language || oMovie.languages || "Telugu";
+    var sFormat = oMovie.displayFormat || oMovie.format || "2D";
+
+    sFormat = String(sFormat).toUpperCase();
+
+    var sType = "2D";
+
+    if (sFormat.indexOf("3D") > -1 || oMovie.is3D === true) {
+        sType = "3D";
+    }
+
+    return {
+        title: sTitle,
+        language: sLanguage,
+        format: sType,
+        displayLine: sLanguage + " (" + sType + ")",
+        isThreeD: sType === "3D"
+    };
+},
     _onRouteMatched: function (oEvent) {
 
     var oArgs = oEvent.getParameter("arguments") || {};
@@ -242,17 +265,44 @@ var sDateLine = this._formatHeaderDateLine(
         sSelectedTime
     );
 
-  var oSeatModel = new JSONModel({
+ var oMeta = this._getMovieMeta(oMovie);
+
+var oSeatModel = new JSONModel({
+
     movieTitle: sMovieTitle,
-    language: sLanguage,
+
+    movieDisplayTitle: sMovieTitle,
+
+    language: oMeta.language,
+
+    languageFormatLine: oMeta.displayLine,
+
+    isThreeD: oMeta.isThreeD,
     theatreLine: sTheatreLine,
     dateLine: sDateLine,
     baseDateLine: sDateLine,
     selectedShowTime: sSelectedTime,
     tickets: iSeats + " Tickets",
-    selectedCategory: "platinum",
-    selectedRate: 145,
-    totalAmount: 0,
+  selectedCategory: "platinum",
+selectedRate: 145,
+
+ticketAmount: iSeats * 145,
+
+threeDGlassAmount: oMeta.isThreeD ? (iSeats * 20) : 0,
+
+convenienceBaseAmount: iSeats * 17,
+
+convenienceGstAmount: parseFloat(((iSeats * 17) * 0.18).toFixed(2)),
+
+convenienceFeeAmount: parseFloat(((iSeats * 17) * 1.18).toFixed(2)),
+
+totalAmount: iSeats * 145,
+
+orderTotal: parseFloat((
+    (iSeats * 145) +
+    (oMeta.isThreeD ? (iSeats * 20) : 0) +
+    ((iSeats * 17) * 1.18)
+).toFixed(2)),
     footerVisible: false,
     showTimes: aShowTimes
 });
@@ -925,6 +975,7 @@ var sDateLine = this._formatHeaderDateLine(
         this._updateTotalAmount(sCategory);
     } else if (oSeatModel) {
         oSeatModel.setProperty("/totalAmount", 0);
+        oSeatModel.setProperty("/orderTotal", 0);
     }
 },
 onPayPress: function () {
@@ -992,10 +1043,134 @@ onAcceptTerms: function () {
         if (this._oConfirmDialog) {
             this._oConfirmDialog.close();
         }
-        // temporary test only
-        // this.getOwnerComponent().getRouter().navTo("payment");
-        sap.m.MessageToast.show("Accepted");
-    }.bind(this), 3000);
+
+        var oAppModel = this.getOwnerComponent().getModel("app");
+        var oSeatModel = this.getView().getModel("seat");
+
+            var iSeatCount = this._iSelectedTicketCount || 1;
+            var iRate = parseFloat(oSeatModel.getProperty("/selectedRate")) || 145;
+            var iTicketAmount = iSeatCount * iRate;
+
+           var bThreeD = !!oSeatModel.getProperty("/isThreeD");
+
+var iThreeDGlassAmount =
+    bThreeD ? (iSeatCount * 20) : 0;
+
+var iConvenienceBaseAmount =
+    iSeatCount * 17;
+
+var iConvenienceGstAmount =
+    parseFloat(
+        (
+            iConvenienceBaseAmount * 0.18
+        ).toFixed(2)
+    );
+
+var iConvenienceFeeAmount =
+    parseFloat(
+        (
+            iConvenienceBaseAmount +
+            iConvenienceGstAmount
+        ).toFixed(2)
+    );
+
+var iOrderTotal =
+    parseFloat(
+        (
+            iTicketAmount +
+            iThreeDGlassAmount +
+            iConvenienceFeeAmount
+        ).toFixed(2)
+    );
+
+oAppModel.setProperty(
+    "/booking/movieTitle",
+    oSeatModel.getProperty("/movieTitle") || ""
+);
+
+oAppModel.setProperty(
+    "/booking/movieDisplayTitle",
+    oSeatModel.getProperty("/movieDisplayTitle") || ""
+);
+
+oAppModel.setProperty(
+    "/booking/language",
+    oSeatModel.getProperty("/language") || ""
+);
+
+oAppModel.setProperty(
+    "/booking/languageFormatLine",
+    oSeatModel.getProperty("/languageFormatLine") || ""
+);
+
+oAppModel.setProperty(
+    "/booking/isThreeD",
+    bThreeD
+);
+
+oAppModel.setProperty(
+    "/booking/theatreLine",
+    oSeatModel.getProperty("/theatreLine") || ""
+);
+
+oAppModel.setProperty(
+    "/booking/dateLine",
+    oSeatModel.getProperty("/dateLine") || ""
+);
+
+oAppModel.setProperty(
+    "/booking/showTime",
+    oSeatModel.getProperty("/selectedShowTime") || ""
+);
+
+oAppModel.setProperty(
+    "/booking/seatCount",
+    iSeatCount
+);
+
+oAppModel.setProperty(
+    "/booking/selectedCategory",
+    oSeatModel.getProperty("/selectedCategory") || "platinum"
+);
+
+oAppModel.setProperty(
+    "/booking/selectedSeats",
+    (this.selectedSeats || []).join(", ")
+);
+
+oAppModel.setProperty(
+    "/booking/ticketAmount",
+    iTicketAmount
+);
+
+oAppModel.setProperty(
+    "/booking/threeDGlassAmount",
+    iThreeDGlassAmount
+);
+
+oAppModel.setProperty(
+    "/booking/convenienceBaseAmount",
+    iConvenienceBaseAmount
+);
+
+oAppModel.setProperty(
+    "/booking/convenienceGstAmount",
+    iConvenienceGstAmount
+);
+
+oAppModel.setProperty(
+    "/booking/convenienceFeeAmount",
+    iConvenienceFeeAmount
+);
+
+oAppModel.setProperty(
+    "/booking/orderTotal",
+    iOrderTotal
+);
+
+this.getOwnerComponent().getRouter().navTo("payment");
+
+}.bind(this), 3000);
 },
     _createLegend: function () {
             var oLegend = new HBox({

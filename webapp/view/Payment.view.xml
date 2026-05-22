@@ -1,0 +1,220 @@
+<mvc:View
+    controllerName="project1.controller.Payment"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page class="paymentPage" showNavButton="true" navButtonPress="onBack" title="Payment">
+        <content>
+            <HBox width="100%" class="sapUiSmallMarginTop sapUiSmallMarginBeginEnd" renderType="Bare">
+
+                <VBox width="65%" class="sapUiSmallMarginEnd">
+
+                    <Panel headerText="Payment Options" class="sapUiSmallMarginBottom">
+                        <content>
+                            <VBox class="sapUiSmallMargin">
+
+                                <RadioButtonGroup
+                                    id="paymentMethodGroup"
+                                    columns="1"
+                                    selectedIndex="{payment>/selectedMethodIndex}"
+                                    select="onPaymentMethodChange">
+                                    <buttons>
+                                        <RadioButton text="Pay by UPI" />
+                                        <RadioButton text="Debit / Credit Card" />
+                                        <RadioButton text="Net Banking" />
+                                    </buttons>
+                                </RadioButtonGroup>
+
+                                <VBox class="sapUiSmallMarginTop" visible="{= ${payment>/selectedMethod} === 'UPI' }">
+                                    <Text text="UPI ID" class="sapUiTinyMarginBottom" />
+                                    <Input
+                                        id="upiInput"
+                                        name="upi_random_1"
+                                        value="{payment>/upiId}"
+                                        placeholder="Enter UPI ID"
+                                        autocomplete="off"
+                                        width="100%" />
+                                </VBox>
+
+                                <VBox class="sapUiSmallMarginTop" visible="{= ${payment>/selectedMethod} === 'CARD' }">
+                                    <Text text="Card Number" class="sapUiTinyMarginBottom" />
+                                    <Input
+                                        id="cardNumberInput"
+                                        name="card_random_1"
+                                        value="{payment>/cardNumber}"
+                                        placeholder="1234 5678 9012 3456"
+                                        autocomplete="off"
+                                        width="100%" />
+
+                                    <HBox class="sapUiSmallMarginTop" width="100%" justifyContent="SpaceBetween">
+                                        <VBox width="48%">
+                                            <Text text="Card Holder Name" class="sapUiTinyMarginBottom" />
+                                            <Input
+                                                id="cardHolderInput"
+                                                name="card_random_2"
+                                                value="{payment>/cardHolder}"
+                                                placeholder="Name on card"
+                                                autocomplete="off"
+                                                width="100%" />
+                                        </VBox>
+
+                                        <VBox width="22%">
+                                            <Text text="Expiry" class="sapUiTinyMarginBottom" />
+                                            <Input
+                                                id="cardExpiryInput"
+                                                name="card_random_3"
+                                                value="{payment>/cardExpiry}"
+                                                placeholder="MM/YY"
+                                                autocomplete="off"
+                                                width="100%" />
+                                        </VBox>
+
+                                        <VBox width="22%">
+                                            <Text text="CVV" class="sapUiTinyMarginBottom" />
+                                            <Input
+                                                id="cardCvvInput"
+                                                name="card_random_4"
+                                                value="{payment>/cardCvv}"
+                                                placeholder="123"
+                                                type="Password"
+                                                autocomplete="new-password"
+                                                width="100%" />
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+
+                                <VBox class="sapUiSmallMarginTop" visible="{= ${payment>/selectedMethod} === 'NETBANKING' }">
+                                    <Text text="Bank Name" class="sapUiTinyMarginBottom" />
+                                    <Select
+                                        id="bankSelect"
+                                        selectedKey="{payment>/bankName}"
+                                        width="100%">
+                                        <items>
+                                            <core:Item key="" text="Select Bank" />
+                                            <core:Item key="SBI" text="State Bank of India" />
+                                            <core:Item key="HDFC" text="HDFC Bank" />
+                                            <core:Item key="ICICI" text="ICICI Bank" />
+                                            <core:Item key="AXIS" text="Axis Bank" />
+                                            <core:Item key="PNB" text="Punjab National Bank" />
+                                        </items>
+                                    </Select>
+
+                                    <HBox class="sapUiSmallMarginTop" width="100%" justifyContent="SpaceBetween">
+                                        <VBox width="48%">
+                                            <Text text="User ID" class="sapUiTinyMarginBottom" />
+                                            <Input
+                                                id="netUserIdInput"
+                                                name="net_random_1"
+                                                value="{payment>/netBankUserId}"
+                                                placeholder="User ID"
+                                                autocomplete="off"
+                                                width="100%" />
+                                        </VBox>
+
+                                        <VBox width="48%">
+                                            <Text text="Password" class="sapUiTinyMarginBottom" />
+                                            <Input
+                                                id="netPasswordInput"
+                                                name="net_random_2"
+                                                value="{payment>/netBankPassword}"
+                                                placeholder="Password"
+                                                type="Password"
+                                                autocomplete="new-password"
+                                                width="100%" />
+                                        </VBox>
+                                    </HBox>
+                                </VBox>
+
+                                <Button
+                                    text="Pay Now"
+                                    type="Emphasized"
+                                    press="onPayNow"
+                                    class="sapUiSmallMarginTop" />
+
+                            </VBox>
+                        </content>
+                    </Panel>
+
+                </VBox>
+
+                <VBox width="35%">
+                    <Panel headerText="Booking Summary">
+                        <content>
+                            <VBox class="sapUiSmallMargin">
+
+                                <Title
+                                    text="{payment>/movieTitle}"
+                                    level="H2"
+                                    class="sapUiSmallMarginBottom" />
+
+                                <Text
+                                    text="{payment>/languageFormatText}"
+                                    class="sapUiTinyMarginBottom" />
+
+                                <Text
+                                    text="{payment>/dateTimeLine}"
+                                    class="sapUiTinyMarginBottom" />
+
+                                <Text
+                                    text="{payment>/theatreLine}"
+                                    wrapping="true"
+                                    class="sapUiSmallMarginBottom" />
+
+                                <Text
+                                    text="{payment>/categoryRowLine}"
+                                    wrapping="true"
+                                    class="sapUiTinyMarginBottom" />
+
+                                <Text
+                                    text="{payment>/seatSummary}"
+                                    wrapping="true"
+                                    class="sapUiSmallMarginBottom" />
+
+                                <HBox justifyContent="SpaceBetween" width="100%">
+                                    <Text text="Tickets" />
+                                    <Text text="{payment>/seatCount}" />
+                                </HBox>
+
+                                <HBox justifyContent="SpaceBetween" width="100%" class="sapUiSmallMarginTop">
+                                    <Text text="Ticket(s) price" />
+                                    <Text text="{payment>/ticketAmountFormatted}" />
+                                </HBox>
+
+                                <HBox justifyContent="SpaceBetween" width="100%" class="sapUiTinyMarginTop">
+                                    <Text text="Convenience fee base" />
+                                    <Text text="{payment>/convenienceBaseFormatted}" />
+                                </HBox>
+
+                                <HBox justifyContent="SpaceBetween" width="100%">
+                                    <Text text="IGST @ 18%" />
+                                    <Text text="{payment>/convenienceGstFormatted}" />
+                                </HBox>
+
+                                <HBox justifyContent="SpaceBetween" width="100%">
+                                    <Text text="Total convenience fee" />
+                                    <Text text="{payment>/convenienceFeeFormatted}" />
+                                </HBox>
+
+                                <HBox
+                                    justifyContent="SpaceBetween"
+                                    width="100%"
+                                    visible="{payment>/glassesFeeVisible}">
+                                    <Text text="3D glasses fee" />
+                                    <Text text="{payment>/glassesFeeFormatted}" />
+                                </HBox>
+
+                                <HBox justifyContent="SpaceBetween" width="100%" class="sapUiSmallMarginTop">
+                                    <Label text="Order total" design="Bold" />
+                                    <Label text="{payment>/grandTotalFormatted}" design="Bold" />
+                                </HBox>
+
+                            </VBox>
+                        </content>
+                    </Panel>
+                </VBox>
+
+            </HBox>
+        </content>
+    </Page>
+</mvc:View>
