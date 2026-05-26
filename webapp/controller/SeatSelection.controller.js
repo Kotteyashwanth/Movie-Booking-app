@@ -1008,14 +1008,13 @@ onAcceptTerms: function () {
         this._oConfirmDialog = new sap.m.Dialog({
             showHeader: false,
             contentWidth: "500px",
-            contentHeight: "300px",
+            contentHeight: "220px",
             verticalScrolling: false,
             horizontalScrolling: false,
             draggable: false,
             resizable: false,
             content: new sap.m.VBox({
                 width: "100%",
-                height: "100%",
                 justifyContent: "Center",
                 alignItems: "Center",
                 items: [
@@ -1036,7 +1035,7 @@ onAcceptTerms: function () {
 
         this.getView().addDependent(this._oConfirmDialog);
     }
-
+    this._oTermsDialog.close();
     this._oConfirmDialog.open();
 
     setTimeout(function () {

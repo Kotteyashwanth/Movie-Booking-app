@@ -12,28 +12,43 @@ sap.ui.define([
   return Controller.extend("project1.controller.Home", {
 
     onInit: function () {
-      var oAppModel = this.getOwnerComponent().getModel("app");
 
-      if (!oAppModel) {
-        oAppModel = new JSONModel({
-          movies: [],
-          selectedMovie: null
-        });
+    var oAppModel = this.getOwnerComponent().getModel("app");
+
+    if (!oAppModel) {
+
+       oAppModel = new JSONModel({
+    movies: [],
+    selectedMovie: null,
+    featuredMovie: null,
+    heroIndex: 0
+});
         this.getOwnerComponent().setModel(oAppModel, "app");
-      }
+    }
 
-      this.getView().setModel(oAppModel);
+    this.getView().setModel(oAppModel);
 
-      var oUserModel = sap.ui.getCore().getModel("user");
+    var oUserModel = sap.ui.getCore().getModel("user");
 
-      if (oUserModel) {
+    if (oUserModel) {
         this.getView().setModel(oUserModel, "user");
-      }
+    }
 
-      this.oRouter = this.getOwnerComponent().getRouter();
+    this.oRouter = this.getOwnerComponent().getRouter();
 
-      this._loadMovies();
-    },
+    this._loadMovies();
+},
+onAfterRendering: function () {
+
+    var oCarousel = this.byId("heroCarousel");
+
+    setInterval(function () {
+
+        oCarousel.next();
+
+    }, 4000);
+
+},
 
     _getFallbackPoster: function (sTitle) {
       return "https://placehold.co/500x750/111827/ffffff?text=" + encodeURIComponent(sTitle || "Movie");
@@ -629,16 +644,21 @@ sap.ui.define([
           }.bind(this));
       }.bind(this));
 
-      Promise.all(aRequests)
-        .then(function (aFinalMovies) {
-          oAppModel.setProperty("/movies", aFinalMovies);
-          oAppModel.refresh(true);
-        })
-        .catch(function (error) {
-          console.error("TMDB Error:", error);
-          oAppModel.setProperty("/movies", []);
-          oAppModel.refresh(true);
-        });
+    Promise.all(aRequests)
+  .then(function (aFinalMovies) {
+
+    oAppModel.setProperty("/movies", aFinalMovies);
+
+   var oFeaturedMovie =
+  aFinalMovies.find(function (m) {
+    return m.title === "Spirit";
+  }) || aFinalMovies[0] || null;
+
+    oAppModel.setProperty("/featuredMovie", oFeaturedMovie);
+
+    oAppModel.refresh(true);
+
+  })
     },
 
     onSearch: function (oEvent) {
@@ -738,6 +758,153 @@ sap.ui.define([
         oDom.scrollLeft = oDom.scrollLeft + 700;
       }
     },
+    onBookNow: function () {
+
+  var oAppModel = this.getView().getModel();
+  var oMovie = oAppModel.getProperty("/featuredMovie");
+
+  if (!oMovie) {
+    MessageToast.show("No featured movie found");
+    return;
+  }
+
+  oAppModel.setProperty("/selectedMovie", oMovie);
+
+  try {
+    window.localStorage.setItem(
+      "movieTicketAppState",
+      JSON.stringify(oAppModel.getData())
+    );
+  } catch (e) {}
+
+  this.oRouter.navTo("movieDetails", {
+    movieId: String(oMovie.movieId || oMovie.id)
+  });
+},
+onAdScrollLeft: function () {
+  var oDom = this.byId("adScroller").getDomRef();
+  if (!oDom) {
+    return;
+  }
+
+  if (oDom.scrollBy) {
+    oDom.scrollBy({ left: -300, behavior: "smooth" });
+  } else {
+    oDom.scrollLeft = Math.max(0, oDom.scrollLeft - 300);
+  }
+},
+
+onAdScrollRight: function () {
+  var oDom = this.byId("adScroller").getDomRef();
+  if (!oDom) {
+    return;
+  }
+
+  if (oDom.scrollBy) {
+    oDom.scrollBy({ left: 300, behavior: "smooth" });
+  } else {
+    oDom.scrollLeft = oDom.scrollLeft + 300;
+  }
+},
+
+onWatchTrailer: function () {
+
+  var oAppModel = this.getView().getModel();
+  var oMovie = oAppModel.getProperty("/featuredMovie");
+
+  if (!oMovie || !oMovie.trailers || !oMovie.trailers.length) {
+    MessageToast.show("Trailer not available");
+    return;
+  }
+
+  var sUrl = oMovie.trailers[0].url || "";
+
+  window.open(sUrl, "_blank");
+},
+_getMovieByTitle: function (sTitle) {
+  var oAppModel = this.getView().getModel();
+  var aMovies = oAppModel.getProperty("/movies") || [];
+
+  return aMovies.find(function (m) {
+    return m.title === sTitle;
+  }) || null;
+},
+
+_openMovieDetails: function (oMovie) {
+  if (!oMovie) {
+    MessageToast.show("Movie not found");
+    return;
+  }
+
+  var oAppModel = this.getView().getModel();
+
+  oAppModel.setProperty("/selectedMovie", oMovie);
+
+  try {
+    window.localStorage.setItem(
+      "movieTicketAppState",
+      JSON.stringify(oAppModel.getData())
+    );
+  } catch (e) {}
+
+  this.oRouter.navTo("movieDetails", {
+    movieId: String(oMovie.movieId || oMovie.id)
+  });
+},
+
+_openMovieTrailer: function (oMovie) {
+  if (!oMovie || !oMovie.trailers || !oMovie.trailers.length) {
+    MessageToast.show("Trailer not available");
+    return;
+  }
+
+  var sUrl = oMovie.trailers[0].url || "";
+  window.open(sUrl, "_blank");
+},
+
+onSpiritBookNow: function () {
+  var oMovie = this._getMovieByTitle("Spirit");
+  this._openMovieDetails(oMovie);
+},
+
+onSpiritWatchTrailer: function () {
+  var oMovie = this._getMovieByTitle("Spirit");
+  this._openMovieTrailer(oMovie);
+},
+
+onDragonBookNow: function () {
+  var oMovie = this._getMovieByTitle("Dragon");
+  this._openMovieDetails(oMovie);
+},
+
+onDragonWatchTrailer: function () {
+  var oMovie = this._getMovieByTitle("Dragon");
+  this._openMovieTrailer(oMovie);
+},
+onWatchGTATrailer: function () {
+  window.open("https://www.youtube.com/watch?v=QdBZY2fkU-0", "_blank");
+},
+
+onGamingLeft: function () {
+  var oDom = this.byId("gamingScroller") && this.byId("gamingScroller").getDomRef();
+  if (!oDom) { return; }
+  if (oDom.scrollBy) {
+    oDom.scrollBy({ left: -600, behavior: "smooth" });
+  } else {
+    oDom.scrollLeft = Math.max(0, oDom.scrollLeft - 600);
+  }
+},
+
+onGamingRight: function () {
+  var oDom = this.byId("gamingScroller") && this.byId("gamingScroller").getDomRef();
+  if (!oDom) { return; }
+  if (oDom.scrollBy) {
+    oDom.scrollBy({ left: 600, behavior: "smooth" });
+  } else {
+    oDom.scrollLeft = oDom.scrollLeft + 600;
+  }
+},
+
 
     onLogout: async function () {
       try {
@@ -746,7 +913,7 @@ sap.ui.define([
         if (oFB && oFB.auth && oFB.auth.signOut) {
           await oFB.auth.signOut();
         }
-
+        
         sap.ui.getCore().setModel(
           new JSONModel({
             loggedIn: false,
@@ -766,6 +933,15 @@ sap.ui.define([
         console.error("Logout Error:", e);
         MessageBox.error(e.message || "Logout failed");
       }
+    },
+    onWatchGTATrailer: function () {
+        window.open("https://youtu.be/VQRLujxTm3c", "_blank");
+    },
+    onAxisCardPress: function () {
+        window.open(
+            "https://www.axis.bank.in/cards/credit-card/lic-axis-bank-signature-credit-card",
+            "_blank"
+        );
     }
 
   });

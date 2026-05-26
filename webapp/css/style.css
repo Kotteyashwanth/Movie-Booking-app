@@ -733,3 +733,446 @@
 .termsDialog .sapMDialogFooter {
     padding: 0.75rem 1rem 1rem !important;
 }
+/* =========================================================
+   HERO BANNER
+========================================================= */
+
+.heroBanner {
+
+    margin: 1.5rem 1.5rem 2.5rem 1.5rem;
+
+    padding: 2rem;
+
+    border-radius: 28px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(7, 12, 22, 0.96),
+            rgba(20, 28, 45, 0.96)
+        );
+
+    box-shadow:
+        0 20px 45px rgba(0,0,0,0.45);
+
+    position: relative;
+}
+
+.heroBannerInner {
+
+    min-height: 430px;
+
+    gap: 3rem;
+}
+
+.heroTextBox {
+
+    max-width: 55%;
+
+    justify-content: center;
+}
+
+.heroTag {
+
+    color: #ff4d8d;
+
+    font-size: 1rem;
+
+    font-weight: 800;
+
+    letter-spacing: 0.15rem;
+}
+
+.heroTitle {
+
+    color: #ffffff !important;
+
+    font-size: 4rem !important;
+
+    font-weight: 900 !important;
+
+    line-height: 4.2rem !important;
+
+    margin-top: 0.8rem !important;
+
+    margin-bottom: 1rem !important;
+}
+
+.heroSubText {
+
+    color: #d1d5db !important;
+
+    font-size: 1.1rem !important;
+
+    line-height: 1.8rem !important;
+
+    margin-top: 0.4rem !important;
+}
+
+.heroPoster {
+
+    border-radius: 22px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,0.45);
+
+    transition: all 0.35s ease;
+}
+
+.heroPoster:hover {
+
+    transform:
+        scale(1.04)
+        translateY(-6px);
+}
+
+/* =========================================================
+   MOVIE CARD HOVER EFFECT
+========================================================= */
+
+.movieCard {
+
+    width: 250px;
+
+    flex-shrink: 0;
+
+    position: relative;
+
+    transition: all 0.35s ease;
+}
+
+.movieCard:hover {
+
+    transform:
+        translateY(-10px)
+        scale(1.04);
+
+}
+
+.moviePoster {
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    cursor: pointer;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 12px 26px rgba(0,0,0,0.22);
+
+    transition: all 0.35s ease;
+}
+
+.movieCard:hover .moviePoster {
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.42);
+
+}
+
+/* =========================================================
+   DARK BACKGROUND
+========================================================= */
+
+.homePage {
+
+    background:
+        linear-gradient(
+            to bottom,
+            #0b1020,
+            #111827
+        ) !important;
+}
+
+.homeToolbar {
+
+    background: #111827 !important;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08) !important;
+}
+/* =========================================================
+   GAMING ADS
+========================================================= */
+
+.gamingSection {
+    margin: 0 1.5rem 2rem 1.5rem;
+}
+
+.gamingHeader {
+    margin-bottom: 1rem;
+}
+
+.gamingScroll {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none;
+}
+
+.gamingScroll::-webkit-scrollbar {
+    display: none;
+}
+
+.gamingRow {
+    gap: 1.5rem;
+    width: max-content;
+    align-items: stretch;
+}
+
+.gamingCard {
+    position: relative;
+    flex-shrink: 0;
+    border-radius: 24px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    background: #0f172a;
+}
+
+.gtaCard {
+    width: 700px;
+    height: 260px;
+}
+
+.bankCard {
+    width: 520px;
+    height: 260px;
+}
+
+.gamingBanner {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* IMPORTANT: make SAP image fill the card */
+.gamingBanner .sapMImg {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+.gamingOverlay {
+    position: absolute;
+    bottom: 22px;
+    left: 24px;
+    z-index: 2;
+}
+
+.gamingTitle {
+    color: #ffffff !important;
+    font-size: 2rem !important;
+    font-weight: 900 !important;
+}
+
+.gamingSubtitle {
+    color: #d1d5db !important;
+    margin-top: 0.35rem !important;
+    margin-bottom: 1rem !important;
+    font-size: 1rem !important;
+}
+
+.gamingBtns {
+    gap: 1rem;
+}
+
+.trailerBtn .sapMBtnInner {
+    background: #4f6df5 !important;
+    border: none !important;
+    border-radius: 12px !important;
+}
+
+.trailerBtn .sapMBtnContent {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+}
+
+.gamingArrow {
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 50% !important;
+    background: rgba(0,0,0,0.65) !important;
+}
+
+.gamingArrow .sapMBtnInner {
+    border-radius: 50% !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+.gamingArrow .sapMBtnContent {
+    color: white !important;
+    font-size: 1.5rem !important;
+}
+/* TOP ADS */
+
+.topAdsRow {
+
+    gap: 1rem;
+}
+
+.topAdCard {
+
+    position: relative;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,0.35);
+}
+
+.topAdImage {
+
+    border-radius: 18px;
+}
+
+.topAdImage .sapMImg {
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+    object-fit: cover !important;
+}
+
+.topAdOverlay {
+
+    position: absolute;
+
+    left: 15px;
+
+    bottom: 12px;
+}
+
+.topAdTitle {
+
+    color: white !important;
+
+    font-size: 1.1rem !important;
+
+    font-weight: 800 !important;
+
+    margin-bottom: 0.4rem !important;
+}
+
+.topAdBtn .sapMBtnInner {
+
+    background: #4f6df5 !important;
+
+    border-radius: 10px !important;
+
+    border: none !important;
+}
+
+.topAdBtn .sapMBtnContent {
+
+    color: white !important;
+
+    font-size: 0.9rem !important;
+
+    font-weight: 700 !important;
+}
+.adScroll {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none;
+}
+
+.adScroll::-webkit-scrollbar {
+    display: none;
+}
+
+.adRow {
+    gap: 1rem;
+    width: max-content;
+}
+
+.adCard {
+    position: relative;
+    width: 250px;
+    flex-shrink: 0;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 26px rgba(0,0,0,0.35);
+    background: #0f172a;
+}
+
+.adImage {
+    border-radius: 18px;
+}
+
+.adImage .sapMImg {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+.adOverlay {
+    position: absolute;
+    left: 14px;
+    bottom: 12px;
+}
+
+.adTitle {
+    color: white !important;
+    font-size: 1rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.4rem !important;
+}
+
+.adBtn .sapMBtnInner {
+    background: #4f6df5 !important;
+    border: none !important;
+    border-radius: 10px !important;
+}
+
+.adBtn .sapMBtnContent {
+    color: white !important;
+    font-weight: 700 !important;
+}
+
+.adArrow {
+    width: 42px !important;
+    height: 42px !important;
+    border-radius: 50% !important;
+    background: rgba(0,0,0,0.65) !important;
+}
+
+.adArrow .sapMBtnInner {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 50% !important;
+}
+
+.adArrow .sapMBtnContent {
+    color: white !important;
+    font-size: 1.2rem !important;
+}
+.gtaBannerWrapper{
+    position: relative;
+    width: 100%;
+    height: 520px;
+}
+
+.gtaTrailerBtn{
+    position: absolute !important;
+    right: 30px !important;
+    bottom: 30px !important;
+    left: auto !important;
+    z-index: 9999;
+}
+
+.movieScroll::-webkit-scrollbar {
+    display: none;
+}
+
+.movieScroll {
+    scrollbar-width: none;
+}
