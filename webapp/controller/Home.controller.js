@@ -41,10 +41,19 @@ sap.ui.define([
 onAfterRendering: function () {
 
     var oCarousel = this.byId("heroCarousel");
+    var that = this;
 
-    setInterval(function () {
+    this._syncHeroDots();
+
+    if (this._heroTimer) {
+        clearInterval(this._heroTimer);
+    }
+
+    this._heroTimer = setInterval(function () {
 
         oCarousel.next();
+
+        that._syncHeroDots();
 
     }, 4000);
 
@@ -492,8 +501,8 @@ onAfterRendering: function () {
   movieId: 9,
   title: "Rowdy Janardhana",
   genre: "Telugu, Action, Drama",
-  hero: "",
-  release: "25 Dec2026",
+  hero: "Vijay Deverakonda",
+  release: "25 Dec 2026",
   duration: "2h 44min",
   languages: "Telugu, Hindi, Tamil, Malayalam, Kannada",
 
@@ -651,7 +660,7 @@ onAfterRendering: function () {
 
    var oFeaturedMovie =
   aFinalMovies.find(function (m) {
-    return m.title === "Spirit";
+    return m.title === "Rowdy Janardhana";
   }) || aFinalMovies[0] || null;
 
     oAppModel.setProperty("/featuredMovie", oFeaturedMovie);
@@ -903,6 +912,61 @@ onGamingRight: function () {
   } else {
     oDom.scrollLeft = oDom.scrollLeft + 600;
   }
+},
+onHeroDotPress: function (oEvent) {
+
+    var iIndex = parseInt(
+        oEvent.getSource().data("index"),
+        10
+    );
+
+    var oCarousel = this.byId("heroCarousel");
+
+    var aPages = oCarousel.getPages();
+
+    oCarousel.setActivePage(aPages[iIndex]);
+
+    this._syncHeroDots();
+},
+
+_syncHeroDots: function () {
+
+    var oCarousel = this.byId("heroCarousel");
+
+    var sActivePage = oCarousel.getActivePage();
+
+    var aPages = oCarousel.getPages();
+
+    var iActiveIndex = 0;
+
+    for (var i = 0; i < aPages.length; i++) {
+
+        if (aPages[i].getId() === sActivePage) {
+
+            iActiveIndex = i;
+
+            break;
+        }
+    }
+
+    var aDotIds = [
+        "heroDot0",
+        "heroDot1",
+        "heroDot2"
+    ];
+
+    for (var j = 0; j < aDotIds.length; j++) {
+
+        var oDot = this.byId(aDotIds[j]);
+
+        if (oDot) {
+
+            oDot.toggleStyleClass(
+                "heroDotActive",
+                j === iActiveIndex
+            );
+        }
+    }
 },
 
 

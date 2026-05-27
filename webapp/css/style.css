@@ -1176,3 +1176,184 @@
 .movieScroll {
     scrollbar-width: none;
 }
+.heroSliderWrapper {
+    position: relative;
+}
+
+.rowdyBannerWrapper {
+    position: relative;
+    width: 100%;
+    height: 460px;
+    overflow: hidden;
+    border-radius: 28px;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+}
+
+.rowdyBannerImage {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.rowdyBannerImage .sapMImg {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
+}
+
+.rowdyOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 3rem 4rem;
+    max-width: 60%;
+}
+
+.rowdyMainTitle {
+    color: #ffffff !important;
+    font-size: 2rem !important;
+    font-weight: 900 !important;
+    line-height: 4.1rem !important;
+    margin: 0.4rem 0 0.7rem 0 !important;
+}
+
+.rowdyOverlay .heroTag {
+    color: #dbeafe !important;
+    letter-spacing: 0.18rem;
+    font-weight: 800;
+    font-size: 0.9rem;
+}
+
+.rowdyOverlay .heroSubText {
+    color: rgba(255,255,255,0.92) !important;
+    font-size: 1rem;
+    margin-top: 0.2rem;
+}
+
+.detailRow {
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.detailChip {
+    min-width: 120px;
+    padding: 0.65rem 0.9rem;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.14);
+    backdrop-filter: blur(8px);
+}
+
+.detailLabel {
+    color: rgba(255,255,255,0.72) !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+}
+
+.detailValue {
+    color: #ffffff !important;
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+}
+
+.heroDots {
+    position: absolute !important;
+    left: 50% !important;
+    bottom: 18px !important;
+    transform: translateX(-50%) !important;
+    z-index: 999 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: max-content !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.heroDot {
+    min-width: 10px !important;
+    width: 10px !important;
+    height: 10px !important;
+    padding: 0 !important;
+}
+
+.heroDot .sapMBtnInner {
+    width: 10px !important;
+    min-width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+    background: rgba(255,255,255,0.45) !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+.heroDot .sapMBtnContent {
+    display: none !important;
+}
+
+.heroDotActive .sapMBtnInner {
+    background: #4f8cff !important;
+    box-shadow: 0 0 12px rgba(79,140,255,0.95) !important;
+    transform: scale(1.2);
+}
+.gtaBannerWrapper{
+    position: relative;
+    width: 100%;
+    height: 460px;
+    overflow: hidden;
+    border-radius: 24px;
+}
+
+.gtaButtonWrapper{
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    z-index: 9999;
+}
+
+.trailerBtn .sapMBtnInner{
+    background: #2563eb !important;
+    border: none !important;
+    color: white !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+}
+
+.trailerBtn .sapMBtnContent,
+.trailerBtn .sapMBtnIcon{
+    color: white !important;
+}
+.gtaBottomBtn{
+    position: absolute !important;
+    right: 30px !important;
+    bottom: 30px !important;
+    z-index: 9999 !important;
+}
+.heroBtnRow{
+    display: flex;
+    align-items: center;
+    gap: 18px !important;
+    margin-top: 18px;
+}
+.bookBtn .sapMBtnInner{
+    background: #2563eb!important;
+    border: none !important;
+    color: white !important;
+    border-radius: 14px !important;
+    font-weight: 700 !important;
+    padding: 0.2rem 1rem !important;
+}
+
+.bookBtn .sapMBtnContent,
+.bookBtn .sapMBtnIcon{
+    color: white !important;
+}

@@ -5,7 +5,7 @@
     xmlns:core="sap.ui.core"
     displayBlock="true">
 
-    <Page class="homePage" showHeader="true" enableScrolling="true" >
+    <Page class="homePage" showHeader="true" enableScrolling="true">
 
         <!-- HEADER -->
         <customHeader>
@@ -46,18 +46,14 @@
                     </VBox>
 
                     <MenuButton type="Transparent">
-
                         <menu>
                             <Menu>
-
                                 <MenuItem
                                     text="Logout"
                                     icon="sap-icon://log"
                                     press="onLogout" />
-
                             </Menu>
                         </menu>
-
                     </MenuButton>
 
                 </HBox>
@@ -67,7 +63,6 @@
 
         <!-- SEARCH -->
         <subHeader>
-
             <Toolbar class="homeToolbar">
 
                 <Title
@@ -82,7 +77,6 @@
                     liveChange="onSearch" />
 
             </Toolbar>
-
         </subHeader>
 
         <content>
@@ -90,42 +84,43 @@
             <!-- HERO SLIDER -->
             <VBox class="heroSliderWrapper">
 
-            <Carousel
-                id="heroCarousel"
-                loop="true"
-                showPageIndicator="false"
-                width="100%"
-                height="520px"
-                class="heroCarousel">
+                <Carousel
+                    id="heroCarousel"
+                    loop="true"
+                    showPageIndicator="false"
+                    width="100%"
+                    height="460px"
+                    class="heroCarousel">
 
                     <pages>
 
-                        <!-- SPIRIT -->
+                        <!-- ROWDY JANARDHANA -->
                         <VBox class="heroSlide">
+                            <VBox class="bannerWrapper rowdyBannerWrapper">
 
-                            <HBox
-                                class="heroBanner"
-                                justifyContent="SpaceBetween"
-                                alignItems="Center">
+                                <Image
+                                    src="images/vijay movie.png"
+                                    width="100%"
+                                    height="460px"
+                                    densityAware="false"
+                                    decorative="false"
+                                    active="true"
+                                    press="onBookNow"
+                                    class="heroFullImage rowdyBannerImage" />
 
-                                <!-- LEFT TEXT -->
-                                <VBox class="heroTextBox">
+                                <VBox class="rowdyOverlay">
 
                                     <Text
                                         text="ACTION THRILLER"
                                         class="heroTag" />
 
                                     <Title
-                                        text="{/featuredMovie/title}"
+                                        text="ROWDY JANARDHANA"
                                         level="H1"
-                                        class="heroTitle" />
+                                        class="rowdyMainTitle" />
 
                                     <Text
                                         text="The rage begins."
-                                        class="heroSubText" />
-
-                                    <Text
-                                        text="{= 'Starring ' + ${/featuredMovie/hero} }"
                                         class="heroSubText" />
 
                                     <Text
@@ -136,145 +131,196 @@
                                         text="{/featuredMovie/languages}"
                                         class="heroSubText" />
 
-                                    <HBox class="sapUiMediumMarginTop">
+                                    <HBox class="detailRow sapUiMediumMarginTop">
 
+                                        <VBox class="detailChip">
+                                            <Text text="Release" class="detailLabel" />
+                                            <Text text="{/featuredMovie/release}" class="detailValue" />
+                                        </VBox>
+
+                                        <VBox class="detailChip">
+                                            <Text text="Hero" class="detailLabel" />
+                                            <Text text="{= ${/featuredMovie/hero} || 'N/A' }" class="detailValue" />
+                                        </VBox>
+
+                                        <VBox class="detailChip">
+                                            <Text text="Runtime" class="detailLabel" />
+                                            <Text text="{/featuredMovie/duration}" class="detailValue" />
+                                        </VBox>
+
+                                        <VBox class="detailChip">
+                                            <Text text="Language" class="detailLabel" />
+                                            <Text text="{/featuredMovie/languages}" class="detailValue" />
+                                        </VBox>
+
+                                    </HBox>
+
+                                    <HBox class="heroBtnRow">
                                         <Button
-                                            text="Book Now"
-                                            type="Emphasized"
-                                            press="onBookNow" />
+                                            text="Book Tickets"
+                                            press="onBookNow"
+                                            class="bookBtn" />
 
                                         <Button
                                             text="Watch Trailer"
                                             icon="sap-icon://media-play"
-                                            class="sapUiTinyMarginBegin"
-                                            press="onWatchTrailer" />
-
+                                            press="onWatchTrailer"
+                                            class="trailerBtn" />
                                     </HBox>
 
                                 </VBox>
 
-                                <!-- POSTER -->
-                                <Image
-                                    src="{/featuredMovie/poster}"
-                                    width="360px"
-                                    height="460px"
-                                    densityAware="false"
-                                    decorative="false"
-                                    class="heroPoster" />
-
-                            </HBox>
-
+                            </VBox>
                         </VBox>
 
-                        <!-- GTA -->
-                        <VBox class="heroSlide">
+                    <!-- GTA -->
+<VBox class="heroSlide">
+    <VBox class="gtaBannerWrapper">
 
-                            <Image
-                                src="images/GTA-6.png"
-                                width="100%"
-                                height="520px"
-                                densityAware="false"
-                                decorative="false"
-                                class="heroFullImage" />
-                                    <!-- WATCH TRAILER BUTTON -->
-                                <Button
-                                    text="Watch Trailer"
-                                    icon="sap-icon://media-play"
-                                    press="onWatchGTATrailer"
-                                    type="Emphasized"
-                                    class="gtaTrailerBtn" />
+        <Image
+            src="images/GTA-6.png"
+            width="100%"
+            height="460px"
+            densityAware="false"
+            decorative="false"
+            active="true"
+            press="onWatchGTATrailer"
+            class="heroFullImage" />
 
-                        </VBox>
+        <Button
+            text="Watch Trailer"
+            icon="sap-icon://media-play"
+            press="onWatchGTATrailer"
+            class="trailerBtn gtaBottomBtn" />
 
-                        <!-- BANK OFFER -->
-                        <VBox class="heroSlide">
+ 
+</VBox>
 
-                            <Image
-                                src="images/Axis card.jpg"
-                                width="100%"
-                                height="520px"
-                                densityAware="false"
-                                decorative="false"
-                                press="onAxisCardPress"
-                                class="heroFullImage" />
+</VBox>
+<!-- BANK OFFER -->
+<VBox class="heroSlide">
+    <VBox class="bannerWrapper rowdyBannerWrapper">
 
-                        </VBox>
+        <Image
+            src="images/Axis card.jpg"
+            width="100%"
+            height="460px"
+            densityAware="false"
+            decorative="false"
+            active="true"
+            press="onAxisCardPress"
+            class="heroFullImage rowdyBannerImage" />
+
+    </VBox>
+</VBox>
 
                     </pages>
 
                 </Carousel>
 
+                <!-- SHARED DOTS -->
+                <HBox class="heroDots">
+                    <Button
+                        id="heroDot0"
+                        type="Transparent"
+                        press="onHeroDotPress"
+                        class="heroDot heroDotActive">
+                        <customData>
+                            <core:CustomData key="index" value="0" />
+                        </customData>
+                    </Button>
+
+                    <Button
+                        id="heroDot1"
+                        type="Transparent"
+                        press="onHeroDotPress"
+                        class="heroDot">
+                        <customData>
+                            <core:CustomData key="index" value="1" />
+                        </customData>
+                    </Button>
+
+                    <Button
+                        id="heroDot2"
+                        type="Transparent"
+                        press="onHeroDotPress"
+                        class="heroDot">
+                        <customData>
+                            <core:CustomData key="index" value="2" />
+                        </customData>
+                    </Button>
+                </HBox>
+
             </VBox>
 
             <!-- MOVIES -->
-<VBox class="movieWrapper">
+            <VBox class="movieWrapper">
 
-    <Button
-        icon="sap-icon://slim-arrow-left"
-        press="onScrollLeft"
-        class="scrollArrow leftArrow" />
+                <Button
+                    icon="sap-icon://slim-arrow-left"
+                    press="onScrollLeft"
+                    class="scrollArrow leftArrow" />
 
-    <Button
-        icon="sap-icon://slim-arrow-right"
-        press="onScrollRight"
-        class="scrollArrow rightArrow" />
+                <Button
+                    icon="sap-icon://slim-arrow-right"
+                    press="onScrollRight"
+                    class="scrollArrow rightArrow" />
 
-    <ScrollContainer
-        id="movieScroller"
-        horizontal="true"
-        vertical="false"
-        width="100%"
-        height="420px"
-        focusable="false"
-        class="movieScroll">
+                <ScrollContainer
+                    id="movieScroller"
+                    horizontal="true"
+                    vertical="false"
+                    width="100%"
+                    height="420px"
+                    focusable="false"
+                    class="movieScroll">
 
-        <HBox
-            id="movieStrip"
-            items="{/movies}"
-            wrap="NoWrap" 
-            
-            class="movieRow">
+                    <HBox
+                        id="movieStrip"
+                        items="{/movies}"
+                        wrap="NoWrap"
+                        class="movieRow">
 
-            <items>
+                        <items>
 
-                <VBox class="movieCard">
+                            <VBox class="movieCard">
 
-                    <Image
-                        src="{poster}"
-                        width="250px"
-                        height="360px"
-                        decorative="false"
-                        densityAware="false"
-                        active="true"
-                        press="onMoviePress"
-                        class="moviePoster" />
+                                <Image
+                                    src="{poster}"
+                                    width="250px"
+                                    height="360px"
+                                    decorative="false"
+                                    densityAware="false"
+                                    active="true"
+                                    press="onMoviePress"
+                                    class="moviePoster" />
 
-                    <VBox class="movieInfo">
+                                <VBox class="movieInfo">
 
-                        <Title
-                            text="{title}"
-                            level="H4"
-                            class="movieTitleBold" />
+                                    <Title
+                                        text="{title}"
+                                        level="H4"
+                                        class="movieTitleBold" />
 
-                        <Text
-                            text="{
-                                path: 'genre',
-                                formatter: '.formatGenre'
-                            }"
-                            class="movieGenre"
-                            wrapping="true" />
+                                    <Text
+                                        text="{
+                                            path: 'genre',
+                                            formatter: '.formatGenre'
+                                        }"
+                                        class="movieGenre"
+                                        wrapping="true" />
 
-                    </VBox>
+                                </VBox>
 
-                </VBox>
+                            </VBox>
 
-            </items>
+                        </items>
 
-        </HBox>
+                    </HBox>
 
-    </ScrollContainer>
+                </ScrollContainer>
 
-</VBox>
+            </VBox>
 
         </content>
 
