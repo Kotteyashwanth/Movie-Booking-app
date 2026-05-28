@@ -11,6 +11,7 @@ sap.ui.define([
 
   return Controller.extend("project1.controller.Home", {
 
+
     onInit: function () {
 
     var oAppModel = this.getOwnerComponent().getModel("app");
@@ -786,9 +787,12 @@ onAfterRendering: function () {
     );
   } catch (e) {}
 
-  this.oRouter.navTo("movieDetails", {
-    movieId: String(oMovie.movieId || oMovie.id)
-  });
+ var sMovieId = oMovie.movieId || oMovie.id;
+
+this.oRouter.navTo("movieDetails", {
+    movieId: String(sMovieId),
+    from: "home"
+});
 },
 onAdScrollLeft: function () {
   var oDom = this.byId("adScroller").getDomRef();
@@ -857,7 +861,10 @@ _openMovieDetails: function (oMovie) {
   } catch (e) {}
 
   this.oRouter.navTo("movieDetails", {
-    movieId: String(oMovie.movieId || oMovie.id)
+    movieId: String(oMovie.movieId || oMovie.id),
+    query: {
+      from: "home"
+    }
   });
 },
 
@@ -967,6 +974,21 @@ _syncHeroDots: function () {
             );
         }
     }
+},
+onHomePress: function () {
+    this.getOwnerComponent().getRouter().navTo("home");
+},
+
+onMoviesPress: function () {
+    this.getOwnerComponent().getRouter().navTo("movies");
+},
+
+onTicketsPress: function () {
+    this.getOwnerComponent().getRouter().navTo("tickets");
+},
+
+onOffersPress: function () {
+    this.getOwnerComponent().getRouter().navTo("offers");
 },
 
 

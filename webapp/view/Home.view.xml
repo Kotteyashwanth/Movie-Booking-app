@@ -9,41 +9,83 @@
 
         <!-- HEADER -->
         <customHeader>
-            <Toolbar class="homeToolbar">
 
-                <HBox alignItems="Center" renderType="Bare">
-                    <core:Icon
-                        src="sap-icon://video"
-                        size="1.5rem" />
+            <Toolbar class="homeToolbar navbar">
 
-                    <Title
-                        text="Movie Ticket App"
-                        level="H2"
-                        class="sapUiSmallMarginBegin" />
+                <!-- LOGO -->
+                <HBox alignItems="Center" class="logoSection">
+
+                    <Image
+                        src="images/cineverse-logo.png"
+                        width="90px"
+                        height="90px"
+                        class="logoImage" />
+
+                    <Text
+                        text="CineVerse"
+                        class="logoText" />
+
                 </HBox>
 
                 <ToolbarSpacer />
 
+                <!-- MENU -->
+                <HBox
+                    alignItems="Center"
+                    class="menuSection">
+
+                    <Button
+                        text="Home"
+                        type="Transparent"
+                        press="onHomePress"
+                        class="menuItemBtn" />
+
+                    <Button
+                        text="Movies"
+                        type="Transparent"
+                        press="onMoviesPress"
+                        class="menuItemBtn" />
+
+                    <Button
+                        text="My Tickets"
+                        type="Transparent"
+                        press="onTicketsPress"
+                        class="menuItemBtn" />
+
+                    <Button
+                        text="Offers"
+                        type="Transparent"
+                        press="onOffersPress"
+                        class="menuItemBtn" />
+
+                </HBox>
+
+                <ToolbarSpacer />
+
+                <!-- SEARCH -->
+                <SearchField
+                    width="16rem"
+                    placeholder="Search movies"
+                    liveChange="onSearch"
+                    class="headerSearch" />
+
+                <!-- NOTIFICATION -->
+                <Button
+                    icon="sap-icon://bell"
+                    type="Transparent"
+                    class="headerBellBtn sapUiSmallMarginBegin" />
+
+                <!-- PROFILE -->
                 <HBox
                     alignItems="Center"
                     renderType="Bare"
-                    visible="{= !!${user>/loggedIn} }">
+                    visible="{= !!${user>/loggedIn} }"
+                    class="sapUiSmallMarginBegin">
 
                     <Avatar
                         initials="{user>/initials}"
                         displaySize="S"
                         class="sapUiTinyMarginEnd" />
-
-                    <VBox class="sapUiTinyMarginEnd">
-
-                        <Text
-                            text="{= 'Welcome, ' + (${user>/displayName} || '') }" />
-
-                        <Text
-                            text="{user>/email}"
-                            class="sapUiSmallFontSize" />
-
-                    </VBox>
 
                     <MenuButton type="Transparent">
                         <menu>
@@ -59,6 +101,7 @@
                 </HBox>
 
             </Toolbar>
+
         </customHeader>
 
         <!-- SEARCH -->
@@ -66,15 +109,9 @@
             <Toolbar class="homeToolbar">
 
                 <Title
-                    text="Recommended Movies"
-                    level="H2" />
-
-                <ToolbarSpacer />
-
-                <SearchField
-                    width="18rem"
-                    placeholder="Search movie"
-                    liveChange="onSearch" />
+                    text="SPOTLIGHT"
+                    level="H2"
+                    class="sectionTitle" />
 
             </Toolbar>
         </subHeader>
@@ -173,46 +210,46 @@
                             </VBox>
                         </VBox>
 
-                    <!-- GTA -->
-<VBox class="heroSlide">
-    <VBox class="gtaBannerWrapper">
+                        <!-- GTA -->
+                        <VBox class="heroSlide">
+                            <VBox class="gtaBannerWrapper">
 
-        <Image
-            src="images/GTA-6.png"
-            width="100%"
-            height="460px"
-            densityAware="false"
-            decorative="false"
-            active="true"
-            press="onWatchGTATrailer"
-            class="heroFullImage" />
+                                <Image
+                                    src="images/GTA-6.png"
+                                    width="100%"
+                                    height="460px"
+                                    densityAware="false"
+                                    decorative="false"
+                                    active="true"
+                                    press="onWatchGTATrailer"
+                                    class="heroFullImage" />
 
-        <Button
-            text="Watch Trailer"
-            icon="sap-icon://media-play"
-            press="onWatchGTATrailer"
-            class="trailerBtn gtaBottomBtn" />
+                                <Button
+                                    text="Watch Trailer"
+                                    icon="sap-icon://media-play"
+                                    press="onWatchGTATrailer"
+                                    class="trailerBtn gtaBottomBtn" />
 
- 
-</VBox>
+                            </VBox>
 
-</VBox>
-<!-- BANK OFFER -->
-<VBox class="heroSlide">
-    <VBox class="bannerWrapper rowdyBannerWrapper">
+                        </VBox>
 
-        <Image
-            src="images/Axis card.jpg"
-            width="100%"
-            height="460px"
-            densityAware="false"
-            decorative="false"
-            active="true"
-            press="onAxisCardPress"
-            class="heroFullImage rowdyBannerImage" />
+                        <!-- BANK OFFER -->
+                        <VBox class="heroSlide">
+                            <VBox class="bannerWrapper rowdyBannerWrapper">
 
-    </VBox>
-</VBox>
+                                <Image
+                                    src="images/Axis card.jpg"
+                                    width="100%"
+                                    height="460px"
+                                    densityAware="false"
+                                    decorative="false"
+                                    active="true"
+                                    press="onAxisCardPress"
+                                    class="heroFullImage rowdyBannerImage" />
+
+                            </VBox>
+                        </VBox>
 
                     </pages>
 
@@ -220,14 +257,17 @@
 
                 <!-- SHARED DOTS -->
                 <HBox class="heroDots">
+
                     <Button
                         id="heroDot0"
                         type="Transparent"
                         press="onHeroDotPress"
                         class="heroDot heroDotActive">
+
                         <customData>
                             <core:CustomData key="index" value="0" />
                         </customData>
+
                     </Button>
 
                     <Button
@@ -235,9 +275,11 @@
                         type="Transparent"
                         press="onHeroDotPress"
                         class="heroDot">
+
                         <customData>
                             <core:CustomData key="index" value="1" />
                         </customData>
+
                     </Button>
 
                     <Button
@@ -245,15 +287,27 @@
                         type="Transparent"
                         press="onHeroDotPress"
                         class="heroDot">
+
                         <customData>
                             <core:CustomData key="index" value="2" />
                         </customData>
+
                     </Button>
+
                 </HBox>
 
             </VBox>
 
             <!-- MOVIES -->
+            <VBox class="movieHeading">
+
+                <Title
+                    text="RECOMMENDED MOVIES"
+                    level="H2"
+                    class="sectionTitle" />
+
+            </VBox>
+
             <VBox class="movieWrapper">
 
                 <Button

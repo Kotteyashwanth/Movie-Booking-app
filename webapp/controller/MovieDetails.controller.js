@@ -23,10 +23,12 @@ sap.ui.define([
 
   return Controller.extend("project1.controller.MovieDetails", {
 
-    onInit: function () {
-      this.oRouter = this.getOwnerComponent().getRouter();
-      this.oRouter.getRoute("movieDetails").attachPatternMatched(this._onMovieMatched, this);
-    },
+   onInit: function () {
+  this.oRouter = this.getOwnerComponent().getRouter();
+  this.oRouter.getRoute("movieDetails").attachPatternMatched(this._onMovieMatched, this);
+
+  this._sBackRoute = "home";
+},
      
   onOpenTrailers: function () {
   var oAppModel = this.getOwnerComponent().getModel("app");
@@ -54,9 +56,15 @@ sap.ui.define([
         this._oFormatDialog = null;
       }
     },
+_onMovieMatched: async function (oEvent) {
 
-       _onMovieMatched: async function (oEvent) {
-      var sMovieId = String(oEvent.getParameter("arguments").movieId || "");
+  var oArgs = oEvent.getParameter("arguments") || {};
+
+  var oQuery = oArgs.query || {};
+
+  this._sBackRoute = oQuery.from || "home";
+
+  var sMovieId = String(oArgs.movieId || "");
       var oAppModel = this.getOwnerComponent().getModel("app");
 
       if (!oAppModel) {
@@ -140,10 +148,9 @@ sap.ui.define([
       }
     },
 
-    onBack: function () {
-      this.getOwnerComponent().getRouter().navTo("home");
-    },
-
+ onBack: function () {
+  this.getOwnerComponent().getRouter().navTo(this._sBackRoute || "home");
+},
     onBookTickets: function () {
       var oAppModel = this.getOwnerComponent().getModel("app");
 

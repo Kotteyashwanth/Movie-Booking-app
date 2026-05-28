@@ -1,0 +1,129 @@
+<mvc:View
+    controllerName="project1.controller.Movies"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+
+    <Page class="moviesPage" showHeader="true" enableScrolling="true">
+
+        <customHeader>
+            <Toolbar class="moviesToolbar">
+                <HBox alignItems="Center" class="logoSection">
+                    <Image
+                        src="images/cineverse-logo.png"
+                        width="55px"
+                        height="55px"
+                        class="logoImage" />
+
+                    <Text
+                        text="CineVerse"
+                        class="logoText" />
+                </HBox>
+
+                <ToolbarSpacer />
+
+                <HBox alignItems="Center" class="menuSection">
+                    <Button text="Home" type="Transparent" press="onHomePress" class="menuItemBtn" />
+                    <Button text="Movies" type="Transparent" press="onMoviesPress" class="menuItemBtn" />
+                    <Button text="My Tickets" type="Transparent" press="onTicketsPress" class="menuItemBtn" />
+                    <Button text="Offers" type="Transparent" press="onOffersPress" class="menuItemBtn" />
+                </HBox>
+
+                <ToolbarSpacer />
+
+                <SearchField
+                    width="16rem"
+                    placeholder="Search movies"
+                    liveChange="onSearch"
+                    class="headerSearch" />
+
+                <Button
+                    icon="sap-icon://bell"
+                    type="Transparent"
+                    class="headerBellBtn sapUiSmallMarginBegin" />
+
+                <HBox
+                    alignItems="Center"
+                    renderType="Bare"
+                    visible="{= !!${user>/loggedIn} }"
+                    class="sapUiSmallMarginBegin">
+
+                    <Avatar
+                        initials="{user>/initials}"
+                        displaySize="S"
+                        class="sapUiTinyMarginEnd" />
+
+                    <MenuButton type="Transparent">
+                        <menu>
+                            <Menu>
+                                <MenuItem
+                                    text="Logout"
+                                    icon="sap-icon://log"
+                                    press="onLogout" />
+                            </Menu>
+                        </menu>
+                    </MenuButton>
+
+                </HBox>
+
+            </Toolbar>
+        </customHeader>
+
+        <content>
+
+            <VBox class="movieHeading">
+                <Title
+                    text="ALL MOVIES"
+                    level="H2"
+                    class="sectionTitle" />
+            </VBox>
+
+            <VBox class="movieWrapper">
+
+                <FlexBox
+                    id="movieStrip"
+                    items="{/movies}"
+                    wrap="Wrap"
+                    direction="Row"
+                    renderType="Div"
+                    class="movieRow">
+
+                    <items>
+
+                        <VBox class="movieCard">
+                            <Image
+                                src="{poster}"
+                                width="100%"
+                                height="360px"
+                                decorative="false"
+                                densityAware="false"
+                                press="onMoviePress"
+                                class="moviePoster" />
+
+                            <VBox class="movieInfo">
+                                <Title
+                                    text="{title}"
+                                    level="H4"
+                                    class="movieTitleBold" />
+
+                                <Text
+                                    text="{
+                                        path: 'genre',
+                                        formatter: '.formatGenre'
+                                    }"
+                                    class="movieGenre"
+                                    wrapping="true" />
+                            </VBox>
+                        </VBox>
+
+                    </items>
+
+                </FlexBox>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+</mvc:View>

@@ -60,6 +60,11 @@
     width: 250px;
     flex-shrink: 0;
     position: relative;
+    transition: all 0.35s ease;
+}
+
+.movieCard:hover {
+    transform: translateY(-10px) scale(1.04);
 }
 
 /* POSTER */
@@ -69,8 +74,12 @@
     overflow: hidden;
     cursor: pointer;
     background: #ffffff;
-    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
-    transition: all 0.25s ease;
+    box-shadow: 0 12px 26px rgba(0,0,0,0.22);
+    transition: all 0.35s ease;
+}
+
+.movieCard:hover .moviePoster {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.42);
 }
 
 .moviePoster:hover {
@@ -96,11 +105,27 @@
     color: #111827;
 }
 
+.movieTitleBold {
+    font-size: 1.45rem !important;
+    font-weight: 800 !important;
+    color: #ffffff !important;
+    margin-top: 0.55rem !important;
+    line-height: 1.5rem !important;
+    letter-spacing: 0.01rem;
+}
+
 .movieGenre {
     font-size: 0.92rem;
     color: #6b7280;
     margin-top: 0.35rem;
     line-height: 1.3rem;
+}
+
+.movieGenre {
+    font-size: 1rem !important;
+    color: #d1d5db !important;
+    margin-top: 0.25rem !important;
+    line-height: 1.2rem !important;
 }
 
 /* ROUND ARROWS */
@@ -338,14 +363,10 @@
     align-items: center;
 }
 
-/* SECTION */
-
 .seatSection {
     margin-bottom: 2.8rem;
     width: 100%;
 }
-
-/* TITLE */
 
 .sectionTitle {
     font-size: 1.2rem;
@@ -355,8 +376,6 @@
     text-align: center;
 }
 
-/* ROW */
-
 .seatRow {
     width: 100%;
     margin-bottom: 1rem;
@@ -364,8 +383,6 @@
     align-items: center;
     justify-content: center;
 }
-
-/* ROW LABEL */
 
 .rowLabel {
     font-size: 1rem;
@@ -376,20 +393,14 @@
     margin-right: 0.9rem;
 }
 
-/* BLOCKS */
-
 .rowBlocks {
     display: flex;
     align-items: center;
 }
 
-/* CENTER GAP */
-
 .blockGap {
     width: 2rem;
 }
-
-/* SEAT BLOCK */
 
 .seatBlock {
     display: flex;
@@ -405,11 +416,9 @@
 .selectedSeat .sapMBtnInner,
 .seatSold .sapMBtnInner,
 .seatSelected .sapMBtnInner {
-
     width: 3.2rem !important;
     min-width: 3.2rem !important;
     height: 3.2rem !important;
-
     border-radius: 0.75rem !important;
 }
 
@@ -421,11 +430,9 @@
     background: #222c39 !important;
     border: 1px solid #4b5a70 !important;
     background-image: none !important;
-
     box-shadow:
         0 2px 6px rgba(0,0,0,0.18),
         inset 0 1px 0 rgba(255,255,255,0.04);
-
     transition: all 0.22s ease;
 }
 
@@ -448,30 +455,20 @@
 
 .selectedSeat .sapMBtnInner,
 .seatSelected .sapMBtnInner {
-
     background: #4f6df5 !important;
-
     border: 2px solid #a8bbff !important;
-
     border-radius: 0.75rem !important;
-
     box-shadow:
         0 0 10px rgba(120, 150, 255, 0.35);
-
     background-image: none !important;
-
     transform: scale(1.02);
 }
 
 .selectedSeat .sapMBtnContent,
 .seatSelected .sapMBtnContent {
-
     color: #ffffff !important;
-
     font-weight: 800 !important;
-
     font-size: 1rem !important;
-
     line-height: 3.2rem !important;
 }
 
@@ -551,17 +548,14 @@
     height: 0.8rem;
     margin: 0 auto;
     border-radius: 100%;
-
     background: linear-gradient(
         to right,
         rgba(255,255,255,0.1),
         rgba(255,255,255,0.95),
         rgba(255,255,255,0.1)
     );
-
     box-shadow:
         0 0 35px rgba(255,255,255,0.18);
-
     filter: blur(0.4px);
 }
 
@@ -589,7 +583,6 @@
 ========================================================= */
 
 @media screen and (max-width: 768px) {
-
     .seatLayoutMain {
         padding: 1rem 0.6rem 6rem 0.6rem;
     }
@@ -606,7 +599,6 @@
     .selectedSeat .sapMBtnInner,
     .seatSold .sapMBtnInner,
     .seatSelected .sapMBtnInner {
-
         width: 2.5rem !important;
         min-width: 2.5rem !important;
         height: 2.5rem !important;
@@ -617,54 +609,40 @@
     .selectedSeat .sapMBtnContent,
     .seatSold .sapMBtnContent,
     .seatSelected .sapMBtnContent {
-
         line-height: 2.5rem !important;
         font-size: 0.82rem !important;
     }
 }
+
 .movieTitleBold {
-
     font-size: 1.45rem !important;
-
     font-weight: 800 !important;
-
     color: #ffffff !important;
-
     margin-top: 0.55rem !important;
-
     line-height: 1.5rem !important;
-
     letter-spacing: 0.01rem;
 }
 
 .movieGenre {
-
     font-size: 1rem !important;
-
     color: #d1d5db !important;
-
     margin-top: 0.25rem !important;
-
     line-height: 1.2rem !important;
 }
+
 /* =========================================================
    MOVIE DETAILS PAGE TITLE
 ========================================================= */
 
 .movieDetailTitleBig {
-
     font-size: 2.8rem !important;
-
     font-weight: 900 !important;
-
     color: #ffffff !important;
-
     letter-spacing: 0.03rem !important;
-
     line-height: 3.2rem !important;
-
     margin-bottom: 1.2rem !important;
 }
+
 .moviePosterWrapper {
     position: relative;
 }
@@ -690,6 +668,11 @@
 .moviePlayButton:hover .sapMBtnInner {
     background: rgba(255,0,0,0.8) !important;
 }
+
+/* =========================================================
+   TERMS DIALOG
+========================================================= */
+
 .termsDialog.sapMDialog {
     width: 70rem !important;
     max-width: 92vw !important;
@@ -698,20 +681,17 @@
     background: #1b1f2a !important;
 }
 
-/* header */
 .termsDialog .sapMDialogTitle {
     font-size: 2.2rem !important;
     font-weight: 900 !important;
     color: #ffffff !important;
 }
 
-/* body */
 .termsDialog .sapMDialogSection {
     background: #1b1f2a !important;
     padding: 1rem 1.25rem !important;
 }
 
-/* remove extra blank flex space */
 .termsDialog .sapMDialogScrollCont {
     height: auto !important;
     max-height: 60vh !important;
@@ -719,7 +699,6 @@
     padding: 0 !important;
 }
 
-/* text */
 .termsDialog .sapMText,
 .termsDialog .sapMFormattedText {
     font-size: 1.35rem !important;
@@ -729,102 +708,72 @@
     white-space: normal !important;
 }
 
-/* footer */
 .termsDialog .sapMDialogFooter {
     padding: 0.75rem 1rem 1rem !important;
 }
+
 /* =========================================================
    HERO BANNER
 ========================================================= */
 
 .heroBanner {
-
     margin: 1.5rem 1.5rem 2.5rem 1.5rem;
-
     padding: 2rem;
-
     border-radius: 28px;
-
     overflow: hidden;
-
     background:
         linear-gradient(
             135deg,
             rgba(7, 12, 22, 0.96),
             rgba(20, 28, 45, 0.96)
         );
-
     box-shadow:
         0 20px 45px rgba(0,0,0,0.45);
-
     position: relative;
 }
 
 .heroBannerInner {
-
     min-height: 430px;
-
     gap: 3rem;
 }
 
 .heroTextBox {
-
     max-width: 55%;
-
     justify-content: center;
 }
 
 .heroTag {
-
     color: #ff4d8d;
-
     font-size: 1rem;
-
     font-weight: 800;
-
     letter-spacing: 0.15rem;
 }
 
 .heroTitle {
-
     color: #ffffff !important;
-
     font-size: 4rem !important;
-
     font-weight: 900 !important;
-
     line-height: 4.2rem !important;
-
     margin-top: 0.8rem !important;
-
     margin-bottom: 1rem !important;
 }
 
 .heroSubText {
-
     color: #d1d5db !important;
-
     font-size: 1.1rem !important;
-
     line-height: 1.8rem !important;
-
     margin-top: 0.4rem !important;
 }
 
 .heroPoster {
-
     border-radius: 22px;
-
     overflow: hidden;
-
     box-shadow:
         0 18px 40px rgba(0,0,0,0.45);
-
     transition: all 0.35s ease;
 }
 
 .heroPoster:hover {
-
     transform:
         scale(1.04)
         translateY(-6px);
@@ -835,45 +784,31 @@
 ========================================================= */
 
 .movieCard {
-
     width: 250px;
-
     flex-shrink: 0;
-
     position: relative;
-
     transition: all 0.35s ease;
 }
 
 .movieCard:hover {
-
     transform:
         translateY(-10px)
         scale(1.04);
-
 }
 
 .moviePoster {
-
     border-radius: 18px;
-
     overflow: hidden;
-
     cursor: pointer;
-
     background: #ffffff;
-
     box-shadow:
         0 12px 26px rgba(0,0,0,0.22);
-
     transition: all 0.35s ease;
 }
 
 .movieCard:hover .moviePoster {
-
     box-shadow:
         0 20px 40px rgba(0,0,0,0.42);
-
 }
 
 /* =========================================================
@@ -881,7 +816,6 @@
 ========================================================= */
 
 .homePage {
-
     background:
         linear-gradient(
             to bottom,
@@ -891,11 +825,10 @@
 }
 
 .homeToolbar {
-
     background: #111827 !important;
-
     border-bottom: 1px solid rgba(255,255,255,0.08) !important;
 }
+
 /* =========================================================
    GAMING ADS
 ========================================================= */
@@ -950,6 +883,7 @@
 }
 
 /* IMPORTANT: make SAP image fill the card */
+
 .gamingBanner .sapMImg {
     width: 100% !important;
     height: 100% !important;
@@ -1009,76 +943,56 @@
     color: white !important;
     font-size: 1.5rem !important;
 }
+
 /* TOP ADS */
 
 .topAdsRow {
-
     gap: 1rem;
 }
 
 .topAdCard {
-
     position: relative;
-
     border-radius: 18px;
-
     overflow: hidden;
-
     box-shadow:
         0 10px 25px rgba(0,0,0,0.35);
 }
 
 .topAdImage {
-
     border-radius: 18px;
 }
 
 .topAdImage .sapMImg {
-
     width: 100% !important;
-
     height: 100% !important;
-
     object-fit: cover !important;
 }
 
 .topAdOverlay {
-
     position: absolute;
-
     left: 15px;
-
     bottom: 12px;
 }
 
 .topAdTitle {
-
     color: white !important;
-
     font-size: 1.1rem !important;
-
     font-weight: 800 !important;
-
     margin-bottom: 0.4rem !important;
 }
 
 .topAdBtn .sapMBtnInner {
-
     background: #4f6df5 !important;
-
     border-radius: 10px !important;
-
     border: none !important;
 }
 
 .topAdBtn .sapMBtnContent {
-
     color: white !important;
-
     font-size: 0.9rem !important;
-
     font-weight: 700 !important;
 }
+
 .adScroll {
     overflow-x: auto !important;
     overflow-y: hidden !important;
@@ -1155,13 +1069,14 @@
     color: white !important;
     font-size: 1.2rem !important;
 }
-.gtaBannerWrapper{
+
+.gtaBannerWrapper {
     position: relative;
     width: 100%;
     height: 520px;
 }
 
-.gtaTrailerBtn{
+.gtaTrailerBtn {
     position: absolute !important;
     right: 30px !important;
     bottom: 30px !important;
@@ -1176,6 +1091,7 @@
 .movieScroll {
     scrollbar-width: none;
 }
+
 .heroSliderWrapper {
     position: relative;
 }
@@ -1305,7 +1221,8 @@
     box-shadow: 0 0 12px rgba(79,140,255,0.95) !important;
     transform: scale(1.2);
 }
-.gtaBannerWrapper{
+
+.gtaBannerWrapper {
     position: relative;
     width: 100%;
     height: 460px;
@@ -1313,14 +1230,14 @@
     border-radius: 24px;
 }
 
-.gtaButtonWrapper{
+.gtaButtonWrapper {
     position: absolute;
     right: 30px;
     bottom: 30px;
     z-index: 9999;
 }
 
-.trailerBtn .sapMBtnInner{
+.trailerBtn .sapMBtnInner {
     background: #2563eb !important;
     border: none !important;
     color: white !important;
@@ -1329,23 +1246,26 @@
 }
 
 .trailerBtn .sapMBtnContent,
-.trailerBtn .sapMBtnIcon{
+.trailerBtn .sapMBtnIcon {
     color: white !important;
 }
-.gtaBottomBtn{
+
+.gtaBottomBtn {
     position: absolute !important;
     right: 30px !important;
     bottom: 30px !important;
     z-index: 9999 !important;
 }
-.heroBtnRow{
+
+.heroBtnRow {
     display: flex;
     align-items: center;
     gap: 18px !important;
     margin-top: 18px;
 }
-.bookBtn .sapMBtnInner{
-    background: #2563eb!important;
+
+.bookBtn .sapMBtnInner {
+    background: #2563eb !important;
     border: none !important;
     color: white !important;
     border-radius: 14px !important;
@@ -1354,6 +1274,258 @@
 }
 
 .bookBtn .sapMBtnContent,
-.bookBtn .sapMBtnIcon{
+.bookBtn .sapMBtnIcon {
     color: white !important;
+}
+.sectionTitle{
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-left: 20px;
+    margin-top: 18px;
+    margin-bottom: 14px;
+    display: block;
+}
+
+.movieSectionTitle{
+    padding-left: 8px;
+}
+
+.movieWrapper{
+    margin-top: 10px;
+}
+.movieHeading{
+    padding-left: 12px;
+    padding-top: 10px;
+}
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar{
+    background: linear-gradient(to right, #03152d, #081f45) !important;
+    padding: 6px 20px !important;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.logoSection{
+    gap: 10px;
+}
+
+.logoImage{
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px #3fa9ff);
+}
+
+.logoText{
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #3fa9ff;
+}
+
+.menuSection{
+    gap: 24px;
+}
+
+.menuItem{
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.menuItem:hover{
+    color: #4db8ff;
+    text-shadow: 0 0 8px #4db8ff;
+}
+
+.headerSearch{
+    margin-left: 18px;
+}
+
+.headerBellBtn .sapMBtnInner{
+    background: transparent !important;
+    border: none !important;
+}
+
+.headerBellBtn .sapUiIcon{
+    color: white !important;
+    font-size: 1.2rem !important;
+}
+.movieGrid{
+    display: grid !important;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+
+    column-gap: 1rem !important;
+    row-gap: 2rem !important;
+
+    width: 100% !important;
+    align-items: start;
+
+    padding-top: 1rem;
+}
+.movieGrid {
+    gap: 24px;
+    padding: 0 24px;
+}
+
+.movieCard {
+    width: calc(25% - 18px);
+    min-width: 220px;
+    max-width: 260px;
+}
+
+.moviePoster {
+    border-radius: 18px;
+    overflow: hidden;
+}
+.movieGrid{
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+
+    column-gap: 3rem !important;
+    row-gap: 3.5rem !important;
+
+    width: 100% !important;
+    align-items: start;
+
+    padding-top: 1rem;
+}
+.movieGridCard{
+    padding: 0.5rem;
+}
+/* =========================
+   MOVIES PAGE GRID
+========================= */
+
+.moviesGrid {
+    display: grid !important;
+
+    /* 4 movies in one row */
+    grid-template-columns: repeat(4, 1fr);
+
+    /* gap between movies */
+    column-gap: 30px;
+    row-gap: 40px;
+
+    padding: 20px 40px;
+}
+
+/* Each movie card */
+.movieCard {
+    width: 100%;
+}
+
+/* Poster Image */
+.moviePoster {
+    width: 100%;
+    height: 360px;
+
+    border-radius: 18px;
+
+    object-fit: cover;
+
+    transition: 0.3s ease;
+}
+
+/* Hover Effect */
+.moviePoster:hover {
+    transform: scale(1.03);
+}
+
+/* Movie Title */
+.movieTitle {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+
+    margin-top: 12px;
+}
+
+/* Movie Genre */
+.movieGenre {
+    color: #c7c7c7;
+    font-size: 14px;
+
+    margin-top: 4px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+
+    .moviesGrid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+
+    .moviesGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .moviesGrid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.moviePoster {
+    width: 100%;
+    border-radius: 18px;
+}
+.moviesPage .moviesToolbar {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+.moviesPage .navbar {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+.moviesPage .moviesToolbar {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+.moviesPage .moviesToolbar.sapMTB,
+.moviesPage .sapMPageHeader {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+/* =========================
+   MOVIES PAGE FIX
+========================= */
+
+.movieRow {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.movieCard {
+    width: calc((100% - 72px) / 4);
+    flex: 0 0 calc((100% - 72px) / 4);
+    box-sizing: border-box;
+    margin-bottom: 24px;
+}
+
+.moviePoster {
+    width: 100%;
+    border-radius: 18px;
+}
+
+.moviesPage .moviesToolbar {
+    border-bottom: none !important;
+    box-shadow: none !important;
+    background: linear-gradient(to right, #03152d, #081f45) !important;
 }

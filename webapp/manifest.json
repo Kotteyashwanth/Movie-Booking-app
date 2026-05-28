@@ -62,6 +62,21 @@
           "target": "home"
         },
         {
+          "pattern": "movies",
+          "name": "movies",
+          "target": "movies"
+        },
+        {
+          "pattern": "tickets",
+          "name": "tickets",
+          "target": "tickets"
+        },
+        {
+          "pattern": "offers",
+          "name": "offers",
+          "target": "offers"
+        },
+        {
           "pattern": "movieDetails",
           "name": "movieDetails",
           "target": "movieDetails"
@@ -100,25 +115,37 @@
           "viewName": "Home",
           "viewLevel": 3
         },
+        "movies": {
+          "viewName": "Movies",
+          "viewLevel": 4
+        },
+        "tickets": {
+          "viewName": "Tickets",
+          "viewLevel": 5
+        },
+        "offers": {
+          "viewName": "Offers",
+          "viewLevel": 6
+        },
         "movieDetails": {
           "viewName": "MovieDetails",
-          "viewLevel": 4
+          "viewLevel": 7
         },
         "theatreList": {
           "viewName": "TheatreList",
-          "viewLevel": 5
+          "viewLevel": 8
         },
         "seatSelection": {
           "viewName": "SeatSelection",
-          "viewLevel": 6
+          "viewLevel": 9
         },
         "payment": {
           "viewName": "Payment",
-          "viewLevel": 7
+          "viewLevel": 10
         },
         "movieTrailer": {
           "viewName": "MovieTrailer",
-          "viewLevel": 8
+          "viewLevel": 11
         }
       }
     }
